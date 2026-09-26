@@ -646,6 +646,10 @@ For custom, atelier, brand, launch, or hero work, read `skills/meta/taste-direct
 
 For any brief that wants a **hand-drawn ink doodle** look — "a sketch that comes to life", "a pencil / stick figure that walks or dances", "a little character that acts out the idea", whiteboard-doodle explainers — use the **Ink Theater** engine + **Ink Puppet** mocap system (`skills/creative/ink-theater.md`, `ink-theater/README.md`). It is a **style + reusable engine, not a new pipeline**: illustration / contraption pieces run on the `animation` pipeline; a mocap character (draws itself → walks / dances / waves via `InkPuppet.choreograph([...])`) runs on `character-animation`. Cross-tool entry points: **`/ink-art`** (create a vector doodle from scratch) and **`/animated-drawing`** (animate a *supplied* drawing with mocap — raster; `skills/creative/animated-drawing.md`). Never hand-tune character motion — the agent only chooses named mocap clips.
 
+### History Shorts from real artwork → `/history-short`
+
+For the recurring vertical history Shorts (a pasted brief with scene prompts, a loop narration script, editing rules and title/tags), read **`.claude/skills/history-short/SKILL.md`** first. The channel owner wants **real public-domain artwork (Wikimedia Commons), never AI-generated images**. The skill covers their standing preferences, the full pipeline (ElevenLabs voice, Scribe word timings, Commons download, Pixabay music, SFX, HyperFrames render) and `scripts/build_short.py`, which builds the whole composition from one `short.json`.
+
 ## Layer Map
 
 OpenMontage has three instruction layers:
