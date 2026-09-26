@@ -1,0 +1,339 @@
+{
+ "total": 69.15,
+ "narration": "assets/audio/narration.mp3",
+ "words": "artifacts/words_raw.json",
+ "shots": [
+  [
+   0.0,
+   "roses",
+   470,
+   246,
+   470
+  ],
+  [
+   1.45,
+   "roses",
+   425,
+   160,
+   230
+  ],
+  [
+   2.85,
+   "bust2",
+   430,
+   600,
+   1150
+  ],
+  [
+   4.4,
+   "caesar",
+   390,
+   235,
+   470
+  ],
+  [
+   6.0,
+   "daniel",
+   450,
+   300,
+   400
+  ],
+  [
+   8.1,
+   "daniel_answer",
+   230,
+   250,
+   515
+  ],
+  [
+   10.05,
+   "roses",
+   560,
+   175,
+   270
+  ],
+  [
+   12.35,
+   "bust1",
+   400,
+   560,
+   820
+  ],
+  [
+   15.15,
+   "bust2",
+   460,
+   580,
+   760
+  ],
+  [
+   17.35,
+   "couture",
+   400,
+   250,
+   478
+  ],
+  [
+   19.25,
+   "couture",
+   700,
+   330,
+   300
+  ],
+  [
+   21.15,
+   "roses",
+   500,
+   185,
+   210
+  ],
+  [
+   23.85,
+   "couture",
+   230,
+   380,
+   230
+  ],
+  [
+   25.55,
+   "roses",
+   150,
+   390,
+   200
+  ],
+  [
+   28.65,
+   "claudius",
+   600,
+   210,
+   397
+  ],
+  [
+   30.85,
+   "martyrs",
+   260,
+   280,
+   400
+  ],
+  [
+   33.25,
+   "rubens_daniel",
+   410,
+   210,
+   300
+  ],
+  [
+   34.75,
+   "rubens_hunt",
+   690,
+   530,
+   200
+  ],
+  [
+   35.3,
+   "rubens_hunt",
+   520,
+   260,
+   360
+  ],
+  [
+   36.25,
+   "daniel_answer",
+   170,
+   255,
+   515
+  ],
+  [
+   38.75,
+   "lion_horse",
+   370,
+   290,
+   560
+  ],
+  [
+   40.2,
+   "rubens_daniel",
+   280,
+   330,
+   420
+  ],
+  [
+   41.15,
+   "siemiradzki",
+   430,
+   230,
+   330
+  ],
+  [
+   41.65,
+   "rubens_hunt",
+   180,
+   400,
+   420
+  ],
+  [
+   42.15,
+   "rubens_hunt",
+   430,
+   240,
+   380
+  ],
+  [
+   42.6,
+   "sardanapalus",
+   190,
+   180,
+   320
+  ],
+  [
+   43.0,
+   "caesar",
+   170,
+   330,
+   300
+  ],
+  [
+   43.75,
+   "bust1",
+   400,
+   470,
+   560
+  ],
+  [
+   45.25,
+   "daniel",
+   300,
+   300,
+   500
+  ],
+  [
+   47.4,
+   "daniel_answer",
+   560,
+   300,
+   450
+  ],
+  [
+   49.05,
+   "claudius",
+   95,
+   200,
+   397
+  ],
+  [
+   51.65,
+   "caesar",
+   190,
+   400,
+   250
+  ],
+  [
+   54.95,
+   "claudius",
+   330,
+   285,
+   300
+  ],
+  [
+   57.05,
+   "roses",
+   400,
+   246,
+   490
+  ],
+  [
+   59.65,
+   "bust2",
+   430,
+   600,
+   1150
+  ],
+  [
+   61.55,
+   "roses",
+   420,
+   140,
+   190
+  ],
+  [
+   64.15,
+   "martyrs",
+   560,
+   180,
+   400
+  ],
+  [
+   65.75,
+   "bust1",
+   400,
+   600,
+   1100
+  ]
+ ],
+ "chaos_window": [
+  41.0,
+  43.5
+ ],
+ "highlights": {
+  "lock you inside": "#ffd21f",
+  "unhinged": "#ff2a2a",
+  "release wild predators": "#ff2a2a",
+  "apex killers": "#ff2a2a",
+  "pure terror": "#ffd21f",
+  "hit subscribe": "#ffd21f"
+ },
+ "nametag": {
+  "start": 15.2,
+  "duration": 2.1,
+  "title": "ELAGABALUS",
+  "sub": "EMPEROR OF ROME · 218–222 AD"
+ },
+ "banner": {
+  "start": 62.0,
+  "text": "Subscribe for more such interesting videos"
+ },
+ "music": {
+  "file": "assets/music/bg.mp3",
+  "gain_db": -14,
+  "gap": [
+   43.0,
+   45.3
+  ]
+ },
+ "sfx": [
+  {
+   "file": "assets/audio/sfx_boom.mp3",
+   "at": 0.0,
+   "volume": 0.8
+  },
+  {
+   "file": "assets/audio/sfx_door.mp3",
+   "at": 4.4,
+   "volume": 0.9
+  },
+  {
+   "file": "assets/audio/sfx_growl.mp3",
+   "at": 6.7,
+   "volume": 0.45
+  },
+  {
+   "file": "assets/audio/sfx_growl.mp3",
+   "at": 30.8,
+   "volume": 1.0
+  },
+  {
+   "file": "assets/audio/sfx_chaos.mp3",
+   "at": 41.5,
+   "volume": 0.55,
+   "fade_out": [
+    3.5,
+    1.2
+   ]
+  },
+  {
+   "file": "assets/audio/sfx_boom.mp3",
+   "at": 45.2,
+   "volume": 0.8
+  }
+ ]
+}
