@@ -1,0 +1,1228 @@
+{
+  "segments": [
+    {
+      "id": 1,
+      "start": 0.0,
+      "end": 4.76,
+      "text": "This Roman emperor let lions loose at his dinner parties just to watch his guests panic.",
+      "words": [
+        {
+          "word": " This",
+          "start": 0.0,
+          "end": 0.2,
+          "probability": 0.894
+        },
+        {
+          "word": " Roman",
+          "start": 0.2,
+          "end": 0.56,
+          "probability": 0.941
+        },
+        {
+          "word": " emperor",
+          "start": 0.56,
+          "end": 0.94,
+          "probability": 0.583
+        },
+        {
+          "word": " let",
+          "start": 0.94,
+          "end": 1.3,
+          "probability": 0.873
+        },
+        {
+          "word": " lions",
+          "start": 1.3,
+          "end": 1.7,
+          "probability": 0.923
+        },
+        {
+          "word": " loose",
+          "start": 1.7,
+          "end": 2.0,
+          "probability": 0.834
+        },
+        {
+          "word": " at",
+          "start": 2.0,
+          "end": 2.22,
+          "probability": 0.999
+        },
+        {
+          "word": " his",
+          "start": 2.22,
+          "end": 2.42,
+          "probability": 0.995
+        },
+        {
+          "word": " dinner",
+          "start": 2.42,
+          "end": 2.68,
+          "probability": 0.993
+        },
+        {
+          "word": " parties",
+          "start": 2.68,
+          "end": 3.08,
+          "probability": 0.994
+        },
+        {
+          "word": " just",
+          "start": 3.08,
+          "end": 3.36,
+          "probability": 0.949
+        },
+        {
+          "word": " to",
+          "start": 3.36,
+          "end": 3.62,
+          "probability": 0.995
+        },
+        {
+          "word": " watch",
+          "start": 3.62,
+          "end": 3.86,
+          "probability": 0.998
+        },
+        {
+          "word": " his",
+          "start": 3.86,
+          "end": 4.04,
+          "probability": 0.974
+        },
+        {
+          "word": " guests",
+          "start": 4.04,
+          "end": 4.28,
+          "probability": 0.984
+        },
+        {
+          "word": " panic.",
+          "start": 4.28,
+          "end": 4.76,
+          "probability": 0.976
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "start": 5.34,
+      "end": 7.5,
+      "text": "Elagabalus became emperor at 14.",
+      "words": [
+        {
+          "word": " Elagabalus",
+          "start": 5.34,
+          "end": 5.94,
+          "probability": 0.669
+        },
+        {
+          "word": " became",
+          "start": 5.94,
+          "end": 6.3,
+          "probability": 0.995
+        },
+        {
+          "word": " emperor",
+          "start": 6.3,
+          "end": 6.8,
+          "probability": 0.826
+        },
+        {
+          "word": " at",
+          "start": 6.8,
+          "end": 7.08,
+          "probability": 0.997
+        },
+        {
+          "word": " 14.",
+          "start": 7.08,
+          "end": 7.5,
+          "probability": 0.603
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "start": 8.14,
+      "end": 11.34,
+      "text": "Drunk guests would wake up to lions and leopards lying next to them.",
+      "words": [
+        {
+          "word": " Drunk",
+          "start": 8.14,
+          "end": 8.44,
+          "probability": 0.976
+        },
+        {
+          "word": " guests",
+          "start": 8.44,
+          "end": 8.72,
+          "probability": 0.974
+        },
+        {
+          "word": " would",
+          "start": 8.72,
+          "end": 8.96,
+          "probability": 0.998
+        },
+        {
+          "word": " wake",
+          "start": 8.96,
+          "end": 9.14,
+          "probability": 0.997
+        },
+        {
+          "word": " up",
+          "start": 9.14,
+          "end": 9.32,
+          "probability": 0.993
+        },
+        {
+          "word": " to",
+          "start": 9.32,
+          "end": 9.48,
+          "probability": 0.987
+        },
+        {
+          "word": " lions",
+          "start": 9.48,
+          "end": 9.8,
+          "probability": 0.99
+        },
+        {
+          "word": " and",
+          "start": 9.8,
+          "end": 10.08,
+          "probability": 0.982
+        },
+        {
+          "word": " leopards",
+          "start": 10.08,
+          "end": 10.42,
+          "probability": 0.97
+        },
+        {
+          "word": " lying",
+          "start": 10.42,
+          "end": 10.7,
+          "probability": 0.981
+        },
+        {
+          "word": " next",
+          "start": 10.7,
+          "end": 11.0,
+          "probability": 0.998
+        },
+        {
+          "word": " to",
+          "start": 11.0,
+          "end": 11.18,
+          "probability": 0.998
+        },
+        {
+          "word": " them.",
+          "start": 11.18,
+          "end": 11.34,
+          "probability": 0.999
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "start": 11.82,
+      "end": 13.58,
+      "text": "Some reportedly died of fright.",
+      "words": [
+        {
+          "word": " Some",
+          "start": 11.82,
+          "end": 12.04,
+          "probability": 0.986
+        },
+        {
+          "word": " reportedly",
+          "start": 12.04,
+          "end": 12.6,
+          "probability": 0.969
+        },
+        {
+          "word": " died",
+          "start": 12.6,
+          "end": 13.02,
+          "probability": 0.992
+        },
+        {
+          "word": " of",
+          "start": 13.02,
+          "end": 13.3,
+          "probability": 0.982
+        },
+        {
+          "word": " fright.",
+          "start": 13.3,
+          "end": 13.58,
+          "probability": 0.991
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "start": 14.12,
+      "end": 18.62,
+      "text": "He served them fake feasts made of wax in class and expected them to keep eating.",
+      "words": [
+        {
+          "word": " He",
+          "start": 14.12,
+          "end": 14.24,
+          "probability": 0.875
+        },
+        {
+          "word": " served",
+          "start": 14.24,
+          "end": 14.58,
+          "probability": 0.817
+        },
+        {
+          "word": " them",
+          "start": 14.58,
+          "end": 14.8,
+          "probability": 0.992
+        },
+        {
+          "word": " fake",
+          "start": 14.8,
+          "end": 15.0,
+          "probability": 0.988
+        },
+        {
+          "word": " feasts",
+          "start": 15.0,
+          "end": 15.38,
+          "probability": 0.976
+        },
+        {
+          "word": " made",
+          "start": 15.38,
+          "end": 15.62,
+          "probability": 0.986
+        },
+        {
+          "word": " of",
+          "start": 15.62,
+          "end": 15.76,
+          "probability": 0.997
+        },
+        {
+          "word": " wax",
+          "start": 15.76,
+          "end": 16.06,
+          "probability": 0.995
+        },
+        {
+          "word": " in",
+          "start": 16.06,
+          "end": 16.32,
+          "probability": 0.902
+        },
+        {
+          "word": " class",
+          "start": 16.32,
+          "end": 16.7,
+          "probability": 0.963
+        },
+        {
+          "word": " and",
+          "start": 16.7,
+          "end": 17.2,
+          "probability": 0.723
+        },
+        {
+          "word": " expected",
+          "start": 17.2,
+          "end": 17.52,
+          "probability": 0.989
+        },
+        {
+          "word": " them",
+          "start": 17.52,
+          "end": 17.88,
+          "probability": 0.997
+        },
+        {
+          "word": " to",
+          "start": 17.88,
+          "end": 18.04,
+          "probability": 0.997
+        },
+        {
+          "word": " keep",
+          "start": 18.04,
+          "end": 18.28,
+          "probability": 0.998
+        },
+        {
+          "word": " eating.",
+          "start": 18.28,
+          "end": 18.62,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "start": 19.06,
+      "end": 24.02,
+      "text": "Then he dropped so many flower petals from the ceiling that guests were buried alive under them.",
+      "words": [
+        {
+          "word": " Then",
+          "start": 19.06,
+          "end": 19.24,
+          "probability": 0.993
+        },
+        {
+          "word": " he",
+          "start": 19.24,
+          "end": 19.4,
+          "probability": 0.949
+        },
+        {
+          "word": " dropped",
+          "start": 19.4,
+          "end": 19.66,
+          "probability": 0.987
+        },
+        {
+          "word": " so",
+          "start": 19.66,
+          "end": 19.98,
+          "probability": 0.994
+        },
+        {
+          "word": " many",
+          "start": 19.98,
+          "end": 20.24,
+          "probability": 0.997
+        },
+        {
+          "word": " flower",
+          "start": 20.24,
+          "end": 20.64,
+          "probability": 0.963
+        },
+        {
+          "word": " petals",
+          "start": 20.64,
+          "end": 21.02,
+          "probability": 0.996
+        },
+        {
+          "word": " from",
+          "start": 21.02,
+          "end": 21.34,
+          "probability": 0.995
+        },
+        {
+          "word": " the",
+          "start": 21.34,
+          "end": 21.5,
+          "probability": 0.998
+        },
+        {
+          "word": " ceiling",
+          "start": 21.5,
+          "end": 21.86,
+          "probability": 0.992
+        },
+        {
+          "word": " that",
+          "start": 21.86,
+          "end": 22.24,
+          "probability": 0.816
+        },
+        {
+          "word": " guests",
+          "start": 22.24,
+          "end": 22.52,
+          "probability": 0.975
+        },
+        {
+          "word": " were",
+          "start": 22.52,
+          "end": 22.76,
+          "probability": 0.997
+        },
+        {
+          "word": " buried",
+          "start": 22.76,
+          "end": 23.1,
+          "probability": 0.997
+        },
+        {
+          "word": " alive",
+          "start": 23.1,
+          "end": 23.48,
+          "probability": 0.997
+        },
+        {
+          "word": " under",
+          "start": 23.48,
+          "end": 23.78,
+          "probability": 0.993
+        },
+        {
+          "word": " them.",
+          "start": 23.78,
+          "end": 24.02,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "start": 24.36,
+      "end": 27.12,
+      "text": "By 18, his own guards had killed him.",
+      "words": [
+        {
+          "word": " By",
+          "start": 24.36,
+          "end": 24.54,
+          "probability": 0.994
+        },
+        {
+          "word": " 18,",
+          "start": 24.54,
+          "end": 24.98,
+          "probability": 0.96
+        },
+        {
+          "word": " his",
+          "start": 25.44,
+          "end": 25.54,
+          "probability": 0.995
+        },
+        {
+          "word": " own",
+          "start": 25.54,
+          "end": 25.86,
+          "probability": 0.994
+        },
+        {
+          "word": " guards",
+          "start": 25.86,
+          "end": 26.28,
+          "probability": 0.996
+        },
+        {
+          "word": " had",
+          "start": 26.28,
+          "end": 26.52,
+          "probability": 0.995
+        },
+        {
+          "word": " killed",
+          "start": 26.52,
+          "end": 26.82,
+          "probability": 0.998
+        },
+        {
+          "word": " him.",
+          "start": 26.82,
+          "end": 27.12,
+          "probability": 0.997
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "start": 27.12,
+      "end": 32.06,
+      "text": "And the guests who survived, they still had to come to dinner with this Roman emperor.",
+      "words": [
+        {
+          "word": " And",
+          "start": 27.12,
+          "end": 27.62,
+          "probability": 0.528
+        },
+        {
+          "word": " the",
+          "start": 27.62,
+          "end": 27.76,
+          "probability": 0.986
+        },
+        {
+          "word": " guests",
+          "start": 27.76,
+          "end": 28.1,
+          "probability": 0.95
+        },
+        {
+          "word": " who",
+          "start": 28.1,
+          "end": 28.48,
+          "probability": 0.684
+        },
+        {
+          "word": " survived,",
+          "start": 28.48,
+          "end": 29.06,
+          "probability": 0.987
+        },
+        {
+          "word": " they",
+          "start": 29.5,
+          "end": 29.64,
+          "probability": 0.976
+        },
+        {
+          "word": " still",
+          "start": 29.64,
+          "end": 29.92,
+          "probability": 0.969
+        },
+        {
+          "word": " had",
+          "start": 29.92,
+          "end": 30.16,
+          "probability": 0.993
+        },
+        {
+          "word": " to",
+          "start": 30.16,
+          "end": 30.28,
+          "probability": 0.99
+        },
+        {
+          "word": " come",
+          "start": 30.28,
+          "end": 30.5,
+          "probability": 0.997
+        },
+        {
+          "word": " to",
+          "start": 30.5,
+          "end": 30.68,
+          "probability": 0.957
+        },
+        {
+          "word": " dinner",
+          "start": 30.68,
+          "end": 30.88,
+          "probability": 0.994
+        },
+        {
+          "word": " with",
+          "start": 30.88,
+          "end": 31.12,
+          "probability": 0.997
+        },
+        {
+          "word": " this",
+          "start": 31.12,
+          "end": 31.38,
+          "probability": 0.98
+        },
+        {
+          "word": " Roman",
+          "start": 31.38,
+          "end": 31.7,
+          "probability": 0.98
+        },
+        {
+          "word": " emperor.",
+          "start": 31.7,
+          "end": 32.06,
+          "probability": 0.464
+        }
+      ]
+    }
+  ],
+  "word_timestamps": [
+    {
+      "word": " This",
+      "start": 0.0,
+      "end": 0.2,
+      "probability": 0.894
+    },
+    {
+      "word": " Roman",
+      "start": 0.2,
+      "end": 0.56,
+      "probability": 0.941
+    },
+    {
+      "word": " emperor",
+      "start": 0.56,
+      "end": 0.94,
+      "probability": 0.583
+    },
+    {
+      "word": " let",
+      "start": 0.94,
+      "end": 1.3,
+      "probability": 0.873
+    },
+    {
+      "word": " lions",
+      "start": 1.3,
+      "end": 1.7,
+      "probability": 0.923
+    },
+    {
+      "word": " loose",
+      "start": 1.7,
+      "end": 2.0,
+      "probability": 0.834
+    },
+    {
+      "word": " at",
+      "start": 2.0,
+      "end": 2.22,
+      "probability": 0.999
+    },
+    {
+      "word": " his",
+      "start": 2.22,
+      "end": 2.42,
+      "probability": 0.995
+    },
+    {
+      "word": " dinner",
+      "start": 2.42,
+      "end": 2.68,
+      "probability": 0.993
+    },
+    {
+      "word": " parties",
+      "start": 2.68,
+      "end": 3.08,
+      "probability": 0.994
+    },
+    {
+      "word": " just",
+      "start": 3.08,
+      "end": 3.36,
+      "probability": 0.949
+    },
+    {
+      "word": " to",
+      "start": 3.36,
+      "end": 3.62,
+      "probability": 0.995
+    },
+    {
+      "word": " watch",
+      "start": 3.62,
+      "end": 3.86,
+      "probability": 0.998
+    },
+    {
+      "word": " his",
+      "start": 3.86,
+      "end": 4.04,
+      "probability": 0.974
+    },
+    {
+      "word": " guests",
+      "start": 4.04,
+      "end": 4.28,
+      "probability": 0.984
+    },
+    {
+      "word": " panic.",
+      "start": 4.28,
+      "end": 4.76,
+      "probability": 0.976
+    },
+    {
+      "word": " Elagabalus",
+      "start": 5.34,
+      "end": 5.94,
+      "probability": 0.669
+    },
+    {
+      "word": " became",
+      "start": 5.94,
+      "end": 6.3,
+      "probability": 0.995
+    },
+    {
+      "word": " emperor",
+      "start": 6.3,
+      "end": 6.8,
+      "probability": 0.826
+    },
+    {
+      "word": " at",
+      "start": 6.8,
+      "end": 7.08,
+      "probability": 0.997
+    },
+    {
+      "word": " 14.",
+      "start": 7.08,
+      "end": 7.5,
+      "probability": 0.603
+    },
+    {
+      "word": " Drunk",
+      "start": 8.14,
+      "end": 8.44,
+      "probability": 0.976
+    },
+    {
+      "word": " guests",
+      "start": 8.44,
+      "end": 8.72,
+      "probability": 0.974
+    },
+    {
+      "word": " would",
+      "start": 8.72,
+      "end": 8.96,
+      "probability": 0.998
+    },
+    {
+      "word": " wake",
+      "start": 8.96,
+      "end": 9.14,
+      "probability": 0.997
+    },
+    {
+      "word": " up",
+      "start": 9.14,
+      "end": 9.32,
+      "probability": 0.993
+    },
+    {
+      "word": " to",
+      "start": 9.32,
+      "end": 9.48,
+      "probability": 0.987
+    },
+    {
+      "word": " lions",
+      "start": 9.48,
+      "end": 9.8,
+      "probability": 0.99
+    },
+    {
+      "word": " and",
+      "start": 9.8,
+      "end": 10.08,
+      "probability": 0.982
+    },
+    {
+      "word": " leopards",
+      "start": 10.08,
+      "end": 10.42,
+      "probability": 0.97
+    },
+    {
+      "word": " lying",
+      "start": 10.42,
+      "end": 10.7,
+      "probability": 0.981
+    },
+    {
+      "word": " next",
+      "start": 10.7,
+      "end": 11.0,
+      "probability": 0.998
+    },
+    {
+      "word": " to",
+      "start": 11.0,
+      "end": 11.18,
+      "probability": 0.998
+    },
+    {
+      "word": " them.",
+      "start": 11.18,
+      "end": 11.34,
+      "probability": 0.999
+    },
+    {
+      "word": " Some",
+      "start": 11.82,
+      "end": 12.04,
+      "probability": 0.986
+    },
+    {
+      "word": " reportedly",
+      "start": 12.04,
+      "end": 12.6,
+      "probability": 0.969
+    },
+    {
+      "word": " died",
+      "start": 12.6,
+      "end": 13.02,
+      "probability": 0.992
+    },
+    {
+      "word": " of",
+      "start": 13.02,
+      "end": 13.3,
+      "probability": 0.982
+    },
+    {
+      "word": " fright.",
+      "start": 13.3,
+      "end": 13.58,
+      "probability": 0.991
+    },
+    {
+      "word": " He",
+      "start": 14.12,
+      "end": 14.24,
+      "probability": 0.875
+    },
+    {
+      "word": " served",
+      "start": 14.24,
+      "end": 14.58,
+      "probability": 0.817
+    },
+    {
+      "word": " them",
+      "start": 14.58,
+      "end": 14.8,
+      "probability": 0.992
+    },
+    {
+      "word": " fake",
+      "start": 14.8,
+      "end": 15.0,
+      "probability": 0.988
+    },
+    {
+      "word": " feasts",
+      "start": 15.0,
+      "end": 15.38,
+      "probability": 0.976
+    },
+    {
+      "word": " made",
+      "start": 15.38,
+      "end": 15.62,
+      "probability": 0.986
+    },
+    {
+      "word": " of",
+      "start": 15.62,
+      "end": 15.76,
+      "probability": 0.997
+    },
+    {
+      "word": " wax",
+      "start": 15.76,
+      "end": 16.06,
+      "probability": 0.995
+    },
+    {
+      "word": " in",
+      "start": 16.06,
+      "end": 16.32,
+      "probability": 0.902
+    },
+    {
+      "word": " class",
+      "start": 16.32,
+      "end": 16.7,
+      "probability": 0.963
+    },
+    {
+      "word": " and",
+      "start": 16.7,
+      "end": 17.2,
+      "probability": 0.723
+    },
+    {
+      "word": " expected",
+      "start": 17.2,
+      "end": 17.52,
+      "probability": 0.989
+    },
+    {
+      "word": " them",
+      "start": 17.52,
+      "end": 17.88,
+      "probability": 0.997
+    },
+    {
+      "word": " to",
+      "start": 17.88,
+      "end": 18.04,
+      "probability": 0.997
+    },
+    {
+      "word": " keep",
+      "start": 18.04,
+      "end": 18.28,
+      "probability": 0.998
+    },
+    {
+      "word": " eating.",
+      "start": 18.28,
+      "end": 18.62,
+      "probability": 0.998
+    },
+    {
+      "word": " Then",
+      "start": 19.06,
+      "end": 19.24,
+      "probability": 0.993
+    },
+    {
+      "word": " he",
+      "start": 19.24,
+      "end": 19.4,
+      "probability": 0.949
+    },
+    {
+      "word": " dropped",
+      "start": 19.4,
+      "end": 19.66,
+      "probability": 0.987
+    },
+    {
+      "word": " so",
+      "start": 19.66,
+      "end": 19.98,
+      "probability": 0.994
+    },
+    {
+      "word": " many",
+      "start": 19.98,
+      "end": 20.24,
+      "probability": 0.997
+    },
+    {
+      "word": " flower",
+      "start": 20.24,
+      "end": 20.64,
+      "probability": 0.963
+    },
+    {
+      "word": " petals",
+      "start": 20.64,
+      "end": 21.02,
+      "probability": 0.996
+    },
+    {
+      "word": " from",
+      "start": 21.02,
+      "end": 21.34,
+      "probability": 0.995
+    },
+    {
+      "word": " the",
+      "start": 21.34,
+      "end": 21.5,
+      "probability": 0.998
+    },
+    {
+      "word": " ceiling",
+      "start": 21.5,
+      "end": 21.86,
+      "probability": 0.992
+    },
+    {
+      "word": " that",
+      "start": 21.86,
+      "end": 22.24,
+      "probability": 0.816
+    },
+    {
+      "word": " guests",
+      "start": 22.24,
+      "end": 22.52,
+      "probability": 0.975
+    },
+    {
+      "word": " were",
+      "start": 22.52,
+      "end": 22.76,
+      "probability": 0.997
+    },
+    {
+      "word": " buried",
+      "start": 22.76,
+      "end": 23.1,
+      "probability": 0.997
+    },
+    {
+      "word": " alive",
+      "start": 23.1,
+      "end": 23.48,
+      "probability": 0.997
+    },
+    {
+      "word": " under",
+      "start": 23.48,
+      "end": 23.78,
+      "probability": 0.993
+    },
+    {
+      "word": " them.",
+      "start": 23.78,
+      "end": 24.02,
+      "probability": 0.998
+    },
+    {
+      "word": " By",
+      "start": 24.36,
+      "end": 24.54,
+      "probability": 0.994
+    },
+    {
+      "word": " 18,",
+      "start": 24.54,
+      "end": 24.98,
+      "probability": 0.96
+    },
+    {
+      "word": " his",
+      "start": 25.44,
+      "end": 25.54,
+      "probability": 0.995
+    },
+    {
+      "word": " own",
+      "start": 25.54,
+      "end": 25.86,
+      "probability": 0.994
+    },
+    {
+      "word": " guards",
+      "start": 25.86,
+      "end": 26.28,
+      "probability": 0.996
+    },
+    {
+      "word": " had",
+      "start": 26.28,
+      "end": 26.52,
+      "probability": 0.995
+    },
+    {
+      "word": " killed",
+      "start": 26.52,
+      "end": 26.82,
+      "probability": 0.998
+    },
+    {
+      "word": " him.",
+      "start": 26.82,
+      "end": 27.12,
+      "probability": 0.997
+    },
+    {
+      "word": " And",
+      "start": 27.12,
+      "end": 27.62,
+      "probability": 0.528
+    },
+    {
+      "word": " the",
+      "start": 27.62,
+      "end": 27.76,
+      "probability": 0.986
+    },
+    {
+      "word": " guests",
+      "start": 27.76,
+      "end": 28.1,
+      "probability": 0.95
+    },
+    {
+      "word": " who",
+      "start": 28.1,
+      "end": 28.48,
+      "probability": 0.684
+    },
+    {
+      "word": " survived,",
+      "start": 28.48,
+      "end": 29.06,
+      "probability": 0.987
+    },
+    {
+      "word": " they",
+      "start": 29.5,
+      "end": 29.64,
+      "probability": 0.976
+    },
+    {
+      "word": " still",
+      "start": 29.64,
+      "end": 29.92,
+      "probability": 0.969
+    },
+    {
+      "word": " had",
+      "start": 29.92,
+      "end": 30.16,
+      "probability": 0.993
+    },
+    {
+      "word": " to",
+      "start": 30.16,
+      "end": 30.28,
+      "probability": 0.99
+    },
+    {
+      "word": " come",
+      "start": 30.28,
+      "end": 30.5,
+      "probability": 0.997
+    },
+    {
+      "word": " to",
+      "start": 30.5,
+      "end": 30.68,
+      "probability": 0.957
+    },
+    {
+      "word": " dinner",
+      "start": 30.68,
+      "end": 30.88,
+      "probability": 0.994
+    },
+    {
+      "word": " with",
+      "start": 30.88,
+      "end": 31.12,
+      "probability": 0.997
+    },
+    {
+      "word": " this",
+      "start": 31.12,
+      "end": 31.38,
+      "probability": 0.98
+    },
+    {
+      "word": " Roman",
+      "start": 31.38,
+      "end": 31.7,
+      "probability": 0.98
+    },
+    {
+      "word": " emperor.",
+      "start": 31.7,
+      "end": 32.06,
+      "probability": 0.464
+    }
+  ],
+  "language": "en",
+  "duration_seconds": 32.336,
+  "model_size": "small",
+  "device": "cpu",
+  "compute_type": "int8",
+  "gpu_fallback_reason": null
+}

@@ -1,0 +1,834 @@
+{
+ "pages": [
+  [
+   {
+    "text": "THIS",
+    "start": 0.15,
+    "end": 0.35,
+    "emph": false
+   },
+   {
+    "text": "ROMAN",
+    "start": 0.35,
+    "end": 0.71,
+    "emph": false
+   },
+   {
+    "text": "EMPEROR",
+    "start": 0.71,
+    "end": 1.09,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "LET",
+    "start": 1.09,
+    "end": 1.45,
+    "emph": false
+   },
+   {
+    "text": "LIONS",
+    "start": 1.45,
+    "end": 1.85,
+    "emph": true
+   },
+   {
+    "text": "LOOSE",
+    "start": 1.85,
+    "end": 2.15,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "AT",
+    "start": 2.15,
+    "end": 2.37,
+    "emph": false
+   },
+   {
+    "text": "HIS",
+    "start": 2.37,
+    "end": 2.57,
+    "emph": false
+   },
+   {
+    "text": "DINNER",
+    "start": 2.57,
+    "end": 2.83,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "PARTIES",
+    "start": 2.83,
+    "end": 3.23,
+    "emph": false
+   },
+   {
+    "text": "JUST",
+    "start": 3.23,
+    "end": 3.51,
+    "emph": false
+   },
+   {
+    "text": "TO",
+    "start": 3.51,
+    "end": 3.77,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "WATCH",
+    "start": 3.77,
+    "end": 4.01,
+    "emph": false
+   },
+   {
+    "text": "HIS",
+    "start": 4.01,
+    "end": 4.19,
+    "emph": false
+   },
+   {
+    "text": "GUESTS",
+    "start": 4.19,
+    "end": 4.43,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "PANIC.",
+    "start": 4.43,
+    "end": 4.91,
+    "emph": true
+   }
+  ],
+  [
+   {
+    "text": "ELAGABALUS",
+    "start": 5.49,
+    "end": 6.09,
+    "emph": false
+   },
+   {
+    "text": "BECAME",
+    "start": 6.09,
+    "end": 6.45,
+    "emph": false
+   },
+   {
+    "text": "EMPEROR",
+    "start": 6.45,
+    "end": 6.95,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "AT",
+    "start": 6.95,
+    "end": 7.23,
+    "emph": false
+   },
+   {
+    "text": "FOURTEEN.",
+    "start": 7.23,
+    "end": 7.65,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "DRUNK",
+    "start": 8.29,
+    "end": 8.59,
+    "emph": false
+   },
+   {
+    "text": "GUESTS",
+    "start": 8.59,
+    "end": 8.87,
+    "emph": false
+   },
+   {
+    "text": "WOULD",
+    "start": 8.87,
+    "end": 9.11,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "WAKE",
+    "start": 9.11,
+    "end": 9.29,
+    "emph": false
+   },
+   {
+    "text": "UP",
+    "start": 9.29,
+    "end": 9.47,
+    "emph": false
+   },
+   {
+    "text": "TO",
+    "start": 9.47,
+    "end": 9.63,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "LIONS",
+    "start": 9.63,
+    "end": 9.95,
+    "emph": true
+   },
+   {
+    "text": "AND",
+    "start": 9.95,
+    "end": 10.23,
+    "emph": false
+   },
+   {
+    "text": "LEOPARDS",
+    "start": 10.23,
+    "end": 10.57,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "LYING",
+    "start": 10.57,
+    "end": 10.85,
+    "emph": false
+   },
+   {
+    "text": "NEXT",
+    "start": 10.85,
+    "end": 11.15,
+    "emph": false
+   },
+   {
+    "text": "TO",
+    "start": 11.15,
+    "end": 11.33,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "THEM.",
+    "start": 11.33,
+    "end": 11.49,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "SOME",
+    "start": 11.97,
+    "end": 12.19,
+    "emph": false
+   },
+   {
+    "text": "REPORTEDLY",
+    "start": 12.19,
+    "end": 12.75,
+    "emph": false
+   },
+   {
+    "text": "DIED",
+    "start": 12.75,
+    "end": 13.17,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "OF",
+    "start": 13.17,
+    "end": 13.45,
+    "emph": false
+   },
+   {
+    "text": "FRIGHT.",
+    "start": 13.45,
+    "end": 13.73,
+    "emph": true
+   }
+  ],
+  [
+   {
+    "text": "HE",
+    "start": 14.27,
+    "end": 14.39,
+    "emph": false
+   },
+   {
+    "text": "SERVED",
+    "start": 14.39,
+    "end": 14.73,
+    "emph": false
+   },
+   {
+    "text": "THEM",
+    "start": 14.73,
+    "end": 14.95,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "FAKE",
+    "start": 14.95,
+    "end": 15.15,
+    "emph": true
+   },
+   {
+    "text": "FEASTS",
+    "start": 15.15,
+    "end": 15.53,
+    "emph": false
+   },
+   {
+    "text": "MADE",
+    "start": 15.53,
+    "end": 15.77,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "OF",
+    "start": 15.77,
+    "end": 15.91,
+    "emph": false
+   },
+   {
+    "text": "WAX",
+    "start": 15.91,
+    "end": 16.21,
+    "emph": true
+   },
+   {
+    "text": "AND",
+    "start": 16.21,
+    "end": 16.47,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "GLASS",
+    "start": 16.47,
+    "end": 16.85,
+    "emph": true
+   },
+   {
+    "text": "AND",
+    "start": 16.85,
+    "end": 17.35,
+    "emph": false
+   },
+   {
+    "text": "EXPECTED",
+    "start": 17.35,
+    "end": 17.67,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "THEM",
+    "start": 17.67,
+    "end": 18.03,
+    "emph": false
+   },
+   {
+    "text": "TO",
+    "start": 18.03,
+    "end": 18.19,
+    "emph": false
+   },
+   {
+    "text": "KEEP",
+    "start": 18.19,
+    "end": 18.43,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "EATING.",
+    "start": 18.43,
+    "end": 18.77,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "THEN",
+    "start": 19.21,
+    "end": 19.39,
+    "emph": false
+   },
+   {
+    "text": "HE",
+    "start": 19.39,
+    "end": 19.55,
+    "emph": false
+   },
+   {
+    "text": "DROPPED",
+    "start": 19.55,
+    "end": 19.81,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "SO",
+    "start": 19.81,
+    "end": 20.13,
+    "emph": false
+   },
+   {
+    "text": "MANY",
+    "start": 20.13,
+    "end": 20.39,
+    "emph": false
+   },
+   {
+    "text": "FLOWER",
+    "start": 20.39,
+    "end": 20.79,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "PETALS",
+    "start": 20.79,
+    "end": 21.17,
+    "emph": false
+   },
+   {
+    "text": "FROM",
+    "start": 21.17,
+    "end": 21.49,
+    "emph": false
+   },
+   {
+    "text": "THE",
+    "start": 21.49,
+    "end": 21.65,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "CEILING",
+    "start": 21.65,
+    "end": 22.01,
+    "emph": false
+   },
+   {
+    "text": "THAT",
+    "start": 22.01,
+    "end": 22.39,
+    "emph": false
+   },
+   {
+    "text": "GUESTS",
+    "start": 22.39,
+    "end": 22.67,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "WERE",
+    "start": 22.67,
+    "end": 22.91,
+    "emph": false
+   },
+   {
+    "text": "BURIED",
+    "start": 22.91,
+    "end": 23.25,
+    "emph": true
+   },
+   {
+    "text": "ALIVE",
+    "start": 23.25,
+    "end": 23.63,
+    "emph": true
+   }
+  ],
+  [
+   {
+    "text": "UNDER",
+    "start": 23.63,
+    "end": 23.93,
+    "emph": false
+   },
+   {
+    "text": "THEM.",
+    "start": 23.93,
+    "end": 24.17,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "BY",
+    "start": 24.51,
+    "end": 24.69,
+    "emph": false
+   },
+   {
+    "text": "EIGHTEEN,",
+    "start": 24.69,
+    "end": 25.13,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "HIS",
+    "start": 25.59,
+    "end": 25.69,
+    "emph": false
+   },
+   {
+    "text": "OWN",
+    "start": 25.69,
+    "end": 26.01,
+    "emph": false
+   },
+   {
+    "text": "GUARDS",
+    "start": 26.01,
+    "end": 26.43,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "HAD",
+    "start": 26.43,
+    "end": 26.67,
+    "emph": false
+   },
+   {
+    "text": "KILLED",
+    "start": 26.67,
+    "end": 26.97,
+    "emph": true
+   },
+   {
+    "text": "HIM.",
+    "start": 26.97,
+    "end": 27.27,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "AND",
+    "start": 27.27,
+    "end": 27.77,
+    "emph": false
+   },
+   {
+    "text": "THE",
+    "start": 27.77,
+    "end": 27.91,
+    "emph": false
+   },
+   {
+    "text": "GUESTS",
+    "start": 27.91,
+    "end": 28.25,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "WHO",
+    "start": 28.25,
+    "end": 28.63,
+    "emph": false
+   },
+   {
+    "text": "SURVIVED,",
+    "start": 28.63,
+    "end": 29.21,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "THEY",
+    "start": 29.65,
+    "end": 29.79,
+    "emph": false
+   },
+   {
+    "text": "STILL",
+    "start": 29.79,
+    "end": 30.07,
+    "emph": false
+   },
+   {
+    "text": "HAD",
+    "start": 30.07,
+    "end": 30.31,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "TO",
+    "start": 30.31,
+    "end": 30.43,
+    "emph": false
+   },
+   {
+    "text": "COME",
+    "start": 30.43,
+    "end": 30.65,
+    "emph": false
+   },
+   {
+    "text": "TO",
+    "start": 30.65,
+    "end": 30.83,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "DINNER",
+    "start": 30.83,
+    "end": 31.03,
+    "emph": false
+   },
+   {
+    "text": "WITH",
+    "start": 31.03,
+    "end": 31.27,
+    "emph": false
+   },
+   {
+    "text": "THIS",
+    "start": 31.27,
+    "end": 31.53,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "ROMAN",
+    "start": 31.53,
+    "end": 31.85,
+    "emph": false
+   },
+   {
+    "text": "EMPEROR\u2014",
+    "start": 31.85,
+    "end": 32.21,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "I\u2019M",
+    "start": 32.7,
+    "end": 32.88,
+    "emph": false
+   },
+   {
+    "text": "COVERING",
+    "start": 32.88,
+    "end": 33.2,
+    "emph": false
+   },
+   {
+    "text": "HISTORY\u2019S",
+    "start": 33.2,
+    "end": 33.8,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "MOST",
+    "start": 33.8,
+    "end": 33.96,
+    "emph": false
+   },
+   {
+    "text": "CHAOTIC",
+    "start": 33.96,
+    "end": 34.38,
+    "emph": true
+   },
+   {
+    "text": "RULERS",
+    "start": 34.38,
+    "end": 34.88,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "ALL",
+    "start": 34.88,
+    "end": 35.26,
+    "emph": false
+   },
+   {
+    "text": "WEEK.",
+    "start": 35.26,
+    "end": 35.56,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "HIT",
+    "start": 35.94,
+    "end": 36.08,
+    "emph": false
+   },
+   {
+    "text": "SUBSCRIBE",
+    "start": 36.08,
+    "end": 36.62,
+    "emph": true
+   },
+   {
+    "text": "SO",
+    "start": 36.62,
+    "end": 37.08,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "YOU",
+    "start": 37.08,
+    "end": 37.26,
+    "emph": false
+   },
+   {
+    "text": "DON\u2019T",
+    "start": 37.26,
+    "end": 37.52,
+    "emph": false
+   },
+   {
+    "text": "MISS",
+    "start": 37.52,
+    "end": 37.7,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "TOMORROW\u2019S",
+    "start": 37.7,
+    "end": 38.26,
+    "emph": false
+   },
+   {
+    "text": "VIDEO",
+    "start": 38.26,
+    "end": 38.52,
+    "emph": false
+   },
+   {
+    "text": "ON",
+    "start": 38.52,
+    "end": 38.92,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "THE",
+    "start": 38.92,
+    "end": 39.08,
+    "emph": false
+   },
+   {
+    "text": "EMPEROR",
+    "start": 39.08,
+    "end": 39.46,
+    "emph": false
+   },
+   {
+    "text": "WHO",
+    "start": 39.46,
+    "end": 39.74,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "TRIED",
+    "start": 39.74,
+    "end": 40.02,
+    "emph": false
+   },
+   {
+    "text": "TO",
+    "start": 40.02,
+    "end": 40.22,
+    "emph": false
+   },
+   {
+    "text": "MAKE",
+    "start": 40.22,
+    "end": 40.4,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "HIS",
+    "start": 40.4,
+    "end": 40.62,
+    "emph": false
+   },
+   {
+    "text": "HORSE",
+    "start": 40.62,
+    "end": 40.9,
+    "emph": true
+   },
+   {
+    "text": "A",
+    "start": 40.9,
+    "end": 41.04,
+    "emph": false
+   }
+  ],
+  [
+   {
+    "text": "POLITICIAN.",
+    "start": 41.04,
+    "end": 41.44,
+    "emph": true
+   }
+  ]
+ ]
+}
