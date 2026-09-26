@@ -38,8 +38,8 @@ const useCinzel = () => {
 export const FPS = 30;
 export const W = 1080;
 export const H = 1920;
-export const DURATION_S = 42.4;
-const LOOP_END = 32.3;
+export const DURATION_S = 42.9;
+const LOOP_END = 33.55;
 
 const CRIMSON = "#C8283F";
 const AMBER = "#F3D9A4";
@@ -108,45 +108,45 @@ const LOOP_FRAME = { fx: 0.5, fy: 0.36, s: 1.08 };
 type Shot = Move & { start: number; end: number };
 const SHOTS: Shot[] = [
   // HOOK — fast push into the marble eyes
-  { ...BUST, start: 0, end: 5.4, from: LOOP_FRAME, to: { fx: 0.5, fy: 0.35, s: 1.9 },
+  { ...BUST, start: 0, end: 5.83, from: LOOP_FRAME, to: { fx: 0.5, fy: 0.35, s: 1.9 },
     ease: Easing.out(Easing.cubic) },
   // "Elagabalus became emperor at fourteen" — the boy's face
-  { ...BUST2, start: 5.4, end: 8.2, from: { fx: 0.5, fy: 0.42, s: 1.05 }, to: { fx: 0.5, fy: 0.36, s: 1.35 } },
+  { ...BUST2, start: 5.83, end: 8.41, from: { fx: 0.5, fy: 0.42, s: 1.05 }, to: { fx: 0.5, fy: 0.36, s: 1.35 } },
   // "Drunk guests would wake up to…" — the orgy, creeping pan
-  { ...DEC, start: 8.2, end: 9.63, from: { fx: 0.38, fy: 0.62, s: 1.25 }, to: { fx: 0.5, fy: 0.62, s: 1.3 } },
+  { ...DEC, start: 8.41, end: 9.87, from: { fx: 0.38, fy: 0.62, s: 1.25 }, to: { fx: 0.5, fy: 0.62, s: 1.3 } },
   // "…lions…"
-  { ...LION, start: 9.63, end: 10.23, from: { fx: 0.52, fy: 0.45, s: 1.15 }, to: { fx: 0.52, fy: 0.42, s: 1.25 } },
+  { ...LION, start: 9.87, end: 10.47, from: { fx: 0.52, fy: 0.45, s: 1.15 }, to: { fx: 0.52, fy: 0.42, s: 1.25 } },
   // "…and leopards lying next to them."
-  { ...LEO, start: 10.23, end: 11.95, from: { fx: 0.47, fy: 0.42, s: 1.2 }, to: { fx: 0.5, fy: 0.4, s: 1.45 } },
+  { ...LEO, start: 10.47, end: 12.13, from: { fx: 0.47, fy: 0.42, s: 1.2 }, to: { fx: 0.5, fy: 0.4, s: 1.45 } },
   // "Some reportedly died of fright." — snap onto the teeth
-  { ...LION, start: 11.95, end: 14.25, from: { fx: 0.52, fy: 0.4, s: 1.6 }, to: { fx: 0.5, fy: 0.37, s: 2.7 },
+  { ...LION, start: 12.13, end: 13.99, from: { fx: 0.52, fy: 0.4, s: 1.6 }, to: { fx: 0.5, fy: 0.37, s: 2.7 },
     ease: Easing.out(Easing.cubic) },
   // Fake feasts of wax and glass — the fresco of fish
-  { ...XENIA, start: 14.25, end: 19.2, from: { fx: 0.5, fy: 0.5, s: 1.1 }, to: { fx: 0.56, fy: 0.55, s: 1.6 },
+  { ...XENIA, start: 13.99, end: 19.29, from: { fx: 0.5, fy: 0.5, s: 1.1 }, to: { fx: 0.56, fy: 0.55, s: 1.6 },
     grade: "sepia(0.08) saturate(0.75) contrast(1.2) brightness(0.85)" },
   // Roses — pan down from the emperor's couch to the drowning guests
-  { ...ROSES, start: 19.2, end: 24.45, from: { fx: 0.6, fy: 0.18, s: 1.9 }, to: { fx: 0.28, fy: 0.85, s: 1.7 },
+  { ...ROSES, start: 19.29, end: 25.15, from: { fx: 0.6, fy: 0.18, s: 1.9 }, to: { fx: 0.28, fy: 0.85, s: 1.7 },
     ease: Easing.inOut(Easing.sin), grade: "sepia(0.06) saturate(0.7) contrast(1.15) brightness(0.85)" },
   // "By eighteen, his own guards had killed him." — cold, drained
-  { ...BUST2, start: 24.45, end: 27.25, from: { fx: 0.5, fy: 0.4, s: 1.4 }, to: { fx: 0.5, fy: 0.34, s: 1.1 },
+  { ...BUST2, start: 25.15, end: 27.95, from: { fx: 0.5, fy: 0.4, s: 1.4 }, to: { fx: 0.5, fy: 0.34, s: 1.1 },
     grade: "grayscale(1) contrast(1.35) brightness(0.75)" },
   // "And the guests who survived… still had to come to dinner…"
-  { ...DEC, start: 27.25, end: 31.25, from: { fx: 0.62, fy: 0.55, s: 1.15 }, to: { fx: 0.45, fy: 0.58, s: 1.25 },
+  { ...DEC, start: 27.95, end: 31.37, from: { fx: 0.62, fy: 0.55, s: 1.15 }, to: { fx: 0.45, fy: 0.58, s: 1.25 },
     ease: Easing.linear },
   // "…with this Roman emperor—" → matches frame 0 exactly: the loop
-  { ...BUST, start: 31.25, end: LOOP_END, from: { fx: 0.5, fy: 0.37, s: 1.0 }, to: LOOP_FRAME, ease: Easing.linear },
+  { ...BUST, start: 31.37, end: LOOP_END, from: { fx: 0.5, fy: 0.37, s: 1.0 }, to: LOOP_FRAME, ease: Easing.linear },
   // CTA — "I'm covering history's most chaotic rulers all week. Hit subscribe…"
-  { ...ROSES, start: LOOP_END, end: 35.9, from: { fx: 0.35, fy: 0.6, s: 1.15 }, to: { fx: 0.6, fy: 0.45, s: 1.3 },
+  { ...ROSES, start: LOOP_END, end: 36.57, from: { fx: 0.35, fy: 0.6, s: 1.15 }, to: { fx: 0.6, fy: 0.45, s: 1.3 },
     ease: Easing.linear, grade: "sepia(0.06) saturate(0.7) contrast(1.15) brightness(0.8)" },
-  { ...BUST, start: 35.9, end: 38.5, from: { fx: 0.5, fy: 0.36, s: 1.3 }, to: { fx: 0.5, fy: 0.38, s: 1.05 },
+  { ...BUST, start: 36.57, end: 39.29, from: { fx: 0.5, fy: 0.36, s: 1.3 }, to: { fx: 0.5, fy: 0.38, s: 1.05 },
     grade: "sepia(0.1) saturate(0.6) contrast(1.2) brightness(0.76)" },
   // "…the emperor who tried to make his horse a politician." — tomorrow: Caligula
-  { ...CALIGULA, start: 38.5, end: DURATION_S, from: { fx: 0.5, fy: 0.4, s: 1.05 }, to: { fx: 0.5, fy: 0.3, s: 1.6 },
+  { ...CALIGULA, start: 39.29, end: DURATION_S, from: { fx: 0.5, fy: 0.4, s: 1.05 }, to: { fx: 0.5, fy: 0.3, s: 1.6 },
     ease: Easing.out(Easing.cubic) },
 ];
 
 // Impact flashes (seconds)
-const FLASHES = [26.67, 11.95];
+const FLASHES = [27.41, 12.13];
 
 const Flash: React.FC = () => {
   const f = useCurrentFrame();
@@ -293,7 +293,7 @@ export const Short: React.FC = () => {
       ))}
       <Grain />
       <Tag />
-      <Sequence from={Math.round(38.5 * fps)}>
+      <Sequence from={Math.round(39.29 * fps)}>
         <NextTag />
       </Sequence>
       <Captions />

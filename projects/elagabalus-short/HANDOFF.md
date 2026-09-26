@@ -1,8 +1,16 @@
 # Elagabalus Short — handoff
 
-Status: v2 rendered (42s, Piper voice). Next step: re-voice with **ElevenLabs "Daniel — Steady
-Broadcaster"** (voice_id `onwK4e9ZLuTAKqWW03F9`) and re-render with the "serious" grade already
-applied in `composition/Short.tsx`.
+Status: **v3 final rendered (42.9s, ElevenLabs Daniel)**. `renders/elagabalus_short_share.mp4` (28 MB, 1080×1920)
++ `renders/elagabalus_short.srt`. The full-quality crf-18 render is regenerable with `scripts/render.py`
+(not committed, 82 MB).
+
+## v3 notes
+- Voice: ElevenLabs Daniel `onwK4e9ZLuTAKqWW03F9`, `eleven_multilingual_v2`, stability 0.55 / similarity 0.85 /
+  style 0.2 / speed 1.12 (free tier: mp3_44100_128 only). Sentence-end pauses trimmed to 0.38s
+  (`narration_raw.mp3` / `cta_raw.mp3` are the untrimmed takes).
+- `scripts/build_timeline.py` regenerates captions.ts/json/srt, `artifacts/timeline.json` (cut cues) and
+  `public/mix.wav` (−14 LUFS, −1.5 dBTP) from the transcripts. Shot times in `Short.tsx` come from timeline.json.
+- `scripts/render.py [scale] [out]` renders via `video_compose` atelier mode.
 
 ## Decisions (approved by user)
 - Pipeline: cinematic · runtime: Remotion · composition mode: atelier (`composition/`)

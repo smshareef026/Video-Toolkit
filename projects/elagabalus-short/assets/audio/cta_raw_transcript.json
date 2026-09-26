@@ -1,360 +1,360 @@
 {
-  "segments": [
+ "segments": [
+  {
+   "id": 1,
+   "start": 0.0,
+   "end": 2.56,
+   "text": "I'm covering history's most chaotic rulers all week.",
+   "words": [
     {
-      "id": 1,
-      "start": 0.0,
-      "end": 2.86,
-      "text": "I'm covering history's most chaotic rulers all week.",
-      "words": [
-        {
-          "word": " I'm",
-          "start": 0.0,
-          "end": 0.18,
-          "probability": 0.968
-        },
-        {
-          "word": " covering",
-          "start": 0.18,
-          "end": 0.5,
-          "probability": 0.997
-        },
-        {
-          "word": " history's",
-          "start": 0.5,
-          "end": 1.1,
-          "probability": 0.974
-        },
-        {
-          "word": " most",
-          "start": 1.1,
-          "end": 1.26,
-          "probability": 0.979
-        },
-        {
-          "word": " chaotic",
-          "start": 1.26,
-          "end": 1.68,
-          "probability": 0.999
-        },
-        {
-          "word": " rulers",
-          "start": 1.68,
-          "end": 2.18,
-          "probability": 0.997
-        },
-        {
-          "word": " all",
-          "start": 2.18,
-          "end": 2.56,
-          "probability": 0.94
-        },
-        {
-          "word": " week.",
-          "start": 2.56,
-          "end": 2.86,
-          "probability": 0.992
-        }
-      ]
+     "word": " I'm",
+     "start": 0.0,
+     "end": 0.18,
+     "probability": 0.951
     },
     {
-      "id": 2,
-      "start": 3.24,
-      "end": 7.92,
-      "text": "Hit subscribe so you don't miss tomorrow's video on the Emperor who tried to make his",
-      "words": [
-        {
-          "word": " Hit",
-          "start": 3.24,
-          "end": 3.38,
-          "probability": 0.976
-        },
-        {
-          "word": " subscribe",
-          "start": 3.38,
-          "end": 3.92,
-          "probability": 0.865
-        },
-        {
-          "word": " so",
-          "start": 3.92,
-          "end": 4.38,
-          "probability": 0.929
-        },
-        {
-          "word": " you",
-          "start": 4.38,
-          "end": 4.56,
-          "probability": 0.998
-        },
-        {
-          "word": " don't",
-          "start": 4.56,
-          "end": 4.82,
-          "probability": 0.999
-        },
-        {
-          "word": " miss",
-          "start": 4.82,
-          "end": 5.0,
-          "probability": 0.999
-        },
-        {
-          "word": " tomorrow's",
-          "start": 5.0,
-          "end": 5.56,
-          "probability": 0.982
-        },
-        {
-          "word": " video",
-          "start": 5.56,
-          "end": 5.82,
-          "probability": 0.999
-        },
-        {
-          "word": " on",
-          "start": 5.82,
-          "end": 6.22,
-          "probability": 0.888
-        },
-        {
-          "word": " the",
-          "start": 6.22,
-          "end": 6.38,
-          "probability": 0.782
-        },
-        {
-          "word": " Emperor",
-          "start": 6.38,
-          "end": 6.76,
-          "probability": 0.643
-        },
-        {
-          "word": " who",
-          "start": 6.76,
-          "end": 7.04,
-          "probability": 0.97
-        },
-        {
-          "word": " tried",
-          "start": 7.04,
-          "end": 7.32,
-          "probability": 0.992
-        },
-        {
-          "word": " to",
-          "start": 7.32,
-          "end": 7.52,
-          "probability": 0.999
-        },
-        {
-          "word": " make",
-          "start": 7.52,
-          "end": 7.7,
-          "probability": 0.998
-        },
-        {
-          "word": " his",
-          "start": 7.7,
-          "end": 7.92,
-          "probability": 0.998
-        }
-      ]
+     "word": " covering",
+     "start": 0.18,
+     "end": 0.48,
+     "probability": 0.996
     },
     {
-      "id": 3,
-      "start": 7.92,
-      "end": 8.74,
-      "text": "horse a politician.",
-      "words": [
-        {
-          "word": " horse",
-          "start": 7.92,
-          "end": 8.2,
-          "probability": 0.987
-        },
-        {
-          "word": " a",
-          "start": 8.2,
-          "end": 8.34,
-          "probability": 0.998
-        },
-        {
-          "word": " politician.",
-          "start": 8.34,
-          "end": 8.74,
-          "probability": 0.309
-        }
-      ]
+     "word": " history's",
+     "start": 0.48,
+     "end": 1.06,
+     "probability": 0.978
+    },
+    {
+     "word": " most",
+     "start": 1.06,
+     "end": 1.2,
+     "probability": 0.992
+    },
+    {
+     "word": " chaotic",
+     "start": 1.2,
+     "end": 1.6,
+     "probability": 0.995
+    },
+    {
+     "word": " rulers",
+     "start": 1.6,
+     "end": 2.02,
+     "probability": 0.997
+    },
+    {
+     "word": " all",
+     "start": 2.02,
+     "end": 2.28,
+     "probability": 0.986
+    },
+    {
+     "word": " week.",
+     "start": 2.28,
+     "end": 2.56,
+     "probability": 0.989
     }
-  ],
-  "word_timestamps": [
+   ]
+  },
+  {
+   "id": 2,
+   "start": 3.02,
+   "end": 7.6,
+   "text": "Hit subscribe so you don't miss tomorrow's video on the Emperor who tried to make his",
+   "words": [
     {
-      "word": " I'm",
-      "start": 0.0,
-      "end": 0.18,
-      "probability": 0.968
+     "word": " Hit",
+     "start": 3.02,
+     "end": 3.12,
+     "probability": 0.975
     },
     {
-      "word": " covering",
-      "start": 0.18,
-      "end": 0.5,
-      "probability": 0.997
+     "word": " subscribe",
+     "start": 3.12,
+     "end": 3.56,
+     "probability": 0.904
     },
     {
-      "word": " history's",
-      "start": 0.5,
-      "end": 1.1,
-      "probability": 0.974
+     "word": " so",
+     "start": 3.56,
+     "end": 4.14,
+     "probability": 0.79
     },
     {
-      "word": " most",
-      "start": 1.1,
-      "end": 1.26,
-      "probability": 0.979
+     "word": " you",
+     "start": 4.14,
+     "end": 4.24,
+     "probability": 0.992
     },
     {
-      "word": " chaotic",
-      "start": 1.26,
-      "end": 1.68,
-      "probability": 0.999
+     "word": " don't",
+     "start": 4.24,
+     "end": 4.48,
+     "probability": 0.998
     },
     {
-      "word": " rulers",
-      "start": 1.68,
-      "end": 2.18,
-      "probability": 0.997
+     "word": " miss",
+     "start": 4.48,
+     "end": 4.66,
+     "probability": 0.999
     },
     {
-      "word": " all",
-      "start": 2.18,
-      "end": 2.56,
-      "probability": 0.94
+     "word": " tomorrow's",
+     "start": 4.66,
+     "end": 5.14,
+     "probability": 0.993
     },
     {
-      "word": " week.",
-      "start": 2.56,
-      "end": 2.86,
-      "probability": 0.992
+     "word": " video",
+     "start": 5.14,
+     "end": 5.42,
+     "probability": 0.996
     },
     {
-      "word": " Hit",
-      "start": 3.24,
-      "end": 3.38,
-      "probability": 0.976
+     "word": " on",
+     "start": 5.42,
+     "end": 6.0,
+     "probability": 0.91
     },
     {
-      "word": " subscribe",
-      "start": 3.38,
-      "end": 3.92,
-      "probability": 0.865
+     "word": " the",
+     "start": 6.0,
+     "end": 6.12,
+     "probability": 0.708
     },
     {
-      "word": " so",
-      "start": 3.92,
-      "end": 4.38,
-      "probability": 0.929
+     "word": " Emperor",
+     "start": 6.12,
+     "end": 6.38,
+     "probability": 0.515
     },
     {
-      "word": " you",
-      "start": 4.38,
-      "end": 4.56,
-      "probability": 0.998
+     "word": " who",
+     "start": 6.38,
+     "end": 6.88,
+     "probability": 0.804
     },
     {
-      "word": " don't",
-      "start": 4.56,
-      "end": 4.82,
-      "probability": 0.999
+     "word": " tried",
+     "start": 6.88,
+     "end": 7.1,
+     "probability": 0.995
     },
     {
-      "word": " miss",
-      "start": 4.82,
-      "end": 5.0,
-      "probability": 0.999
+     "word": " to",
+     "start": 7.1,
+     "end": 7.26,
+     "probability": 0.997
     },
     {
-      "word": " tomorrow's",
-      "start": 5.0,
-      "end": 5.56,
-      "probability": 0.982
+     "word": " make",
+     "start": 7.26,
+     "end": 7.42,
+     "probability": 0.997
     },
     {
-      "word": " video",
-      "start": 5.56,
-      "end": 5.82,
-      "probability": 0.999
-    },
-    {
-      "word": " on",
-      "start": 5.82,
-      "end": 6.22,
-      "probability": 0.888
-    },
-    {
-      "word": " the",
-      "start": 6.22,
-      "end": 6.38,
-      "probability": 0.782
-    },
-    {
-      "word": " Emperor",
-      "start": 6.38,
-      "end": 6.76,
-      "probability": 0.643
-    },
-    {
-      "word": " who",
-      "start": 6.76,
-      "end": 7.04,
-      "probability": 0.97
-    },
-    {
-      "word": " tried",
-      "start": 7.04,
-      "end": 7.32,
-      "probability": 0.992
-    },
-    {
-      "word": " to",
-      "start": 7.32,
-      "end": 7.52,
-      "probability": 0.999
-    },
-    {
-      "word": " make",
-      "start": 7.52,
-      "end": 7.7,
-      "probability": 0.998
-    },
-    {
-      "word": " his",
-      "start": 7.7,
-      "end": 7.92,
-      "probability": 0.998
-    },
-    {
-      "word": " horse",
-      "start": 7.92,
-      "end": 8.2,
-      "probability": 0.987
-    },
-    {
-      "word": " a",
-      "start": 8.2,
-      "end": 8.34,
-      "probability": 0.998
-    },
-    {
-      "word": " politician.",
-      "start": 8.34,
-      "end": 8.74,
-      "probability": 0.309
+     "word": " his",
+     "start": 7.42,
+     "end": 7.6,
+     "probability": 0.995
     }
-  ],
-  "language": "en",
-  "duration_seconds": 9.042,
-  "model_size": "small",
-  "device": "cpu",
-  "compute_type": "int8",
-  "gpu_fallback_reason": null
+   ]
+  },
+  {
+   "id": 3,
+   "start": 7.6,
+   "end": 8.5,
+   "text": "horse a politician.",
+   "words": [
+    {
+     "word": " horse",
+     "start": 7.6,
+     "end": 7.9,
+     "probability": 0.993
+    },
+    {
+     "word": " a",
+     "start": 7.9,
+     "end": 8.22,
+     "probability": 0.983
+    },
+    {
+     "word": " politician.",
+     "start": 8.22,
+     "end": 8.5,
+     "probability": 0.983
+    }
+   ]
+  }
+ ],
+ "word_timestamps": [
+  {
+   "word": " I'm",
+   "start": 0.0,
+   "end": 0.18,
+   "probability": 0.951
+  },
+  {
+   "word": " covering",
+   "start": 0.18,
+   "end": 0.48,
+   "probability": 0.996
+  },
+  {
+   "word": " history's",
+   "start": 0.48,
+   "end": 1.06,
+   "probability": 0.978
+  },
+  {
+   "word": " most",
+   "start": 1.06,
+   "end": 1.2,
+   "probability": 0.992
+  },
+  {
+   "word": " chaotic",
+   "start": 1.2,
+   "end": 1.6,
+   "probability": 0.995
+  },
+  {
+   "word": " rulers",
+   "start": 1.6,
+   "end": 2.02,
+   "probability": 0.997
+  },
+  {
+   "word": " all",
+   "start": 2.02,
+   "end": 2.28,
+   "probability": 0.986
+  },
+  {
+   "word": " week.",
+   "start": 2.28,
+   "end": 2.56,
+   "probability": 0.989
+  },
+  {
+   "word": " Hit",
+   "start": 3.02,
+   "end": 3.12,
+   "probability": 0.975
+  },
+  {
+   "word": " subscribe",
+   "start": 3.12,
+   "end": 3.56,
+   "probability": 0.904
+  },
+  {
+   "word": " so",
+   "start": 3.56,
+   "end": 4.14,
+   "probability": 0.79
+  },
+  {
+   "word": " you",
+   "start": 4.14,
+   "end": 4.24,
+   "probability": 0.992
+  },
+  {
+   "word": " don't",
+   "start": 4.24,
+   "end": 4.48,
+   "probability": 0.998
+  },
+  {
+   "word": " miss",
+   "start": 4.48,
+   "end": 4.66,
+   "probability": 0.999
+  },
+  {
+   "word": " tomorrow's",
+   "start": 4.66,
+   "end": 5.14,
+   "probability": 0.993
+  },
+  {
+   "word": " video",
+   "start": 5.14,
+   "end": 5.42,
+   "probability": 0.996
+  },
+  {
+   "word": " on",
+   "start": 5.42,
+   "end": 6.0,
+   "probability": 0.91
+  },
+  {
+   "word": " the",
+   "start": 6.0,
+   "end": 6.12,
+   "probability": 0.708
+  },
+  {
+   "word": " Emperor",
+   "start": 6.12,
+   "end": 6.38,
+   "probability": 0.515
+  },
+  {
+   "word": " who",
+   "start": 6.38,
+   "end": 6.88,
+   "probability": 0.804
+  },
+  {
+   "word": " tried",
+   "start": 6.88,
+   "end": 7.1,
+   "probability": 0.995
+  },
+  {
+   "word": " to",
+   "start": 7.1,
+   "end": 7.26,
+   "probability": 0.997
+  },
+  {
+   "word": " make",
+   "start": 7.26,
+   "end": 7.42,
+   "probability": 0.997
+  },
+  {
+   "word": " his",
+   "start": 7.42,
+   "end": 7.6,
+   "probability": 0.995
+  },
+  {
+   "word": " horse",
+   "start": 7.6,
+   "end": 7.9,
+   "probability": 0.993
+  },
+  {
+   "word": " a",
+   "start": 7.9,
+   "end": 8.22,
+   "probability": 0.983
+  },
+  {
+   "word": " politician.",
+   "start": 8.22,
+   "end": 8.5,
+   "probability": 0.983
+  }
+ ],
+ "language": "en",
+ "duration_seconds": 9.16,
+ "model_size": "small",
+ "device": "cpu",
+ "compute_type": "int8",
+ "gpu_fallback_reason": null
 }
