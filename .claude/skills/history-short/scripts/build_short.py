@@ -39,7 +39,7 @@ def ensure_runtime_files(hf):
             continue
         tmp.mkdir(exist_ok=True)
         tgz = subprocess.check_output(["npm", "pack", pkg, "-q"], cwd=tmp, text=True).strip().splitlines()[-1]
-        sh("tar", "xzf", tgz, "-C", tmp)
+        sh("tar", "xzf", tmp / tgz, "-C", tmp)
         shutil.copy(tmp / "package" / inner, dest)
         shutil.rmtree(tmp / "package")
     if tmp.exists():
