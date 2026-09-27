@@ -15,16 +15,19 @@ from pathlib import Path
 UA = {"User-Agent": "OpenMontageBot/1.0 (https://github.com/smshareef026/video-toolkit) python-urllib"}
 
 
-def get(url):
-    for _ in range(10):
+def get(*urls):
+    """Fetch the first URL that isn't rate limited. The thumb and original servers throttle
+    separately and retry-after can say 600 s, so alternate between them with short waits."""
+    for attempt in range(40):
+        url = urls[attempt % len(urls)]
         try:
             return urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=60).read()
         except urllib.error.HTTPError as e:
             if e.code == 429:
-                time.sleep(int(e.headers.get("retry-after") or 15) + 2)
+                time.sleep(min(int(e.headers.get("retry-after") or 15), 30) + 2)
                 continue
             raise
-    raise SystemExit("still rate limited: " + url)
+    raise SystemExit("still rate limited: " + urls[0])
 
 
 def api(**p):
@@ -58,7 +61,7 @@ def download(project, mapping_file, width=2400):
         ii = list(d["query"]["pages"].values())[0]["imageinfo"][0]
         m = ii["extmetadata"]
         time.sleep(2)
-        dest.write_bytes(get(ii.get("thumburl") or ii["url"]))
+        dest.write_bytes(get(*[u for u in (ii.get("thumburl"), ii["url"]) if u]))
         credits[key] = {
             "title": title, "page": ii["descriptionurl"],
             "license": m.get("LicenseShortName", {}).get("value"),
