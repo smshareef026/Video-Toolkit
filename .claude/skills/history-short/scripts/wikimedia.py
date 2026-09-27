@@ -62,6 +62,7 @@ def download(project, mapping_file, width=2400):
         m = ii["extmetadata"]
         time.sleep(2)
         dest.write_bytes(get(*[u for u in (ii.get("thumburl"), ii["url"]) if u]))
+        credits = json.loads(cred_path.read_text()) if cred_path.exists() else {}  # re-read: another run may have written
         credits[key] = {
             "title": title, "page": ii["descriptionurl"],
             "license": m.get("LicenseShortName", {}).get("value"),

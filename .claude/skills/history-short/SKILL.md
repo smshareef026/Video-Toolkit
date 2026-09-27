@@ -90,6 +90,11 @@ Project workspace: `projects/<kebab-id>/` (gitignored). Initialize it:
          {"file": "assets/audio/sfx_chaos.mp3", "at": 41.5, "volume": 0.55, "fade_out": [3.5, 1.2]}]
 }
 ```
+Optional extras: a 6th shot value sets that shot's end zoom (e.g. `1.3` for an aggressive push-in);
+`"labels": [{"start", "duration", "text"}]` adds small top-left corner tags ("Authentic 16th-Century Portrait");
+`music.duck: [[start, end, gain]]` lowers the music (0.3 = −70%) with 0.3 s ramps; SFX take `fade_in` seconds.
+The second video was "The Real Dracula" (Sept 2026, 41.8 s at the brief's 1.15× voice speed).
+
 The shot's `h` is the crop height in preview pixels; the width is h×9/16. A small `h` means a tight crop, which upscales and gets soft.
 Keep the source crop at roughly 600 px tall or more.
 
