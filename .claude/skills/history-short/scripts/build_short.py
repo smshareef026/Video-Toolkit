@@ -54,6 +54,8 @@ def mix_audio(proj, cfg, out):
     fl = ["[0:a]loudnorm=I=-16:TP=-2:LRA=11,aresample=44100,aformat=channel_layouts=stereo,apad=pad_dur=0.5[v]"]
     gap = music.get("gap")
     gap_expr = f",volume='if(between(t,{gap[0]},{gap[1]}),0,1)':eval=frame" if gap else ""
+    for d0, d1, g in music.get("duck", []):  # [start, end, gain 0-1], 0.3 s ramps in and out
+        gap_expr += f",volume='1-{1 - g}*clip(min((t-{d0})/0.3,({d1}-t)/0.3),0,1)':eval=frame"
     fl.append(f"[1:a]atrim=0:{total + 0.1},loudnorm=I=-24:TP=-2,aresample=44100,aformat=channel_layouts=stereo,"
               f"volume={music.get('gain_db', -14)}dB{gap_expr},afade=t=in:st=0:d=0.5[m]")
     labels = ["[v]", "[m]"]
@@ -61,6 +63,7 @@ def mix_audio(proj, cfg, out):
         inputs.append(proj / s["file"])
         ms = int(s["at"] * 1000)
         fade = f",afade=t=out:st={s['fade_out'][0]}:d={s['fade_out'][1]}" if s.get("fade_out") else ""
+        fade += f",afade=t=in:st=0:d={s['fade_in']}" if s.get("fade_in") else ""
         fl.append(f"[{i + 2}:a]volume={s.get('volume', 0.8)}{fade},aformat=channel_layouts=stereo,adelay={ms}|{ms}[s{i}]")
         labels.append(f"[s{i}]")
     fl.append(f"{''.join(labels)}amix=inputs={len(labels)}:normalize=0:duration=first,alimiter=limit=0.9[out]")
@@ -137,15 +140,16 @@ def main(proj, do_mix=True):
     shots, tl = cfg["shots"], []
     chaos = cfg.get("chaos_window")
     shot_html = []
-    for idx, (start, name, cx, cy, h) in enumerate(shots):
+    for idx, (start, name, cx, cy, h, *opt) in enumerate(shots):
         end = shots[idx + 1][0] if idx + 1 < len(shots) else total
         dur = round(end - start, 3)
         fn = crop(proj / "assets" / "images", shots_dir, name, cx, cy, h, idx)
         sid = f"shot{idx:02d}"
         shot_html.append(f'<img id="{sid}" class="clip shot" src="shots/{fn}" '
                          f'data-start="{start}" data-duration="{dur}" data-track-index="1" />')
-        drift = 18 if idx % 2 else -18  # 100% -> 108% zoom with a slight alternating drift
-        tl.append(f'tl.fromTo("#{sid}",{{scale:1,x:0}},{{scale:1.08,x:{drift},duration:{dur},ease:"none"}},{start});')
+        drift = 18 if idx % 2 else -18  # 100% -> 108% zoom (or opt[0]) with a slight alternating drift
+        zoom, ease = (opt[0], '"power2.out"') if opt else (1.08, '"none"')
+        tl.append(f'tl.fromTo("#{sid}",{{scale:1,x:0}},{{scale:{zoom},x:{drift},duration:{dur},ease:{ease}}},{start});')
         if chaos and chaos[0] <= start < chaos[1]:
             tl.append(f'tl.fromTo("#{sid}",{{filter:"brightness(1.9)"}},'
                       f'{{filter:"brightness(1)",duration:0.18,ease:"power2.out",immediateRender:false}},{start});')
@@ -167,6 +171,11 @@ def main(proj, do_mix=True):
                    f'data-track-index="4">\n        <div class="nt-line">{nt["title"]}</div><div class="nt-sub">{nt["sub"]}</div>\n      </div>')
         tl.append(f'tl.from("#nametag .nt-line",{{y:30,opacity:0,duration:0.4,ease:"power3.out"}},{nt["start"]});')
         tl.append(f'tl.from("#nametag .nt-sub",{{y:20,opacity:0,duration:0.4,ease:"power3.out"}},{nt["start"] + 0.15});')
+    for k, lb in enumerate(cfg.get("labels", [])):  # small corner tags, e.g. "Authentic 16th-Century Portrait"
+        lid = f"label{k}"
+        extras += (f'\n      <div id="{lid}" class="clip corner" data-start="{lb["start"]}" data-duration="{lb["duration"]}" '
+                   f'data-track-index="6"><span>{lb["text"]}</span></div>')
+        tl.append(f'tl.from("#{lid} span",{{x:-40,opacity:0,duration:0.35,ease:"power3.out"}},{lb["start"]});')
     bn = cfg.get("banner")
     if bn:
         b0 = bn["start"]
@@ -209,6 +218,10 @@ TEMPLATE = """<!doctype html>
         letter-spacing: 10px; text-shadow: 0 4px 18px #000; }}
       .nt-sub {{ font-family: "Cinzel", serif; font-weight: 700; font-size: 34px; color: #f1e6d0;
         letter-spacing: 6px; margin-top: 8px; text-shadow: 0 3px 12px #000; }}
+      .corner {{ position: absolute; left: 48px; top: 230px; }}
+      .corner span {{ display: inline-block; font-family: "Cinzel", serif; font-weight: 700; font-size: 34px;
+        color: #f4e9d2; letter-spacing: 2px; padding: 10px 20px; background: rgba(8,6,4,0.72);
+        border-left: 6px solid #e9c46a; border-radius: 6px; }}
       .subbanner {{ position: absolute; left: 0; right: 0; top: 1380px; height: 330px; }}
       .sb-inner {{ margin: 0 70px; padding: 34px 30px 38px; background: rgba(8,6,4,0.78);
         border: 3px solid #e9c46a; border-radius: 26px; text-align: center; }}
