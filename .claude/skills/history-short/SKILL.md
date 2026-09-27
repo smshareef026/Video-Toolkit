@@ -48,6 +48,8 @@ Project workspace: `projects/<kebab-id>/` (gitignored). Initialize it:
    - Make 800px-wide previews (`ffmpeg -vf scale=800:-1`) and look at them with Read before choosing crops.
 5. **Music + SFX.**
    - Music: `pixabay_music` tool (free, no attribution), e.g. `query="dark epic cinematic suspense", min_duration=70`.
+     Pixabay can return 403 from cloud IPs. Fallback: Kevin MacLeod tracks from
+     `https://incompetech.com/music/royalty-free/mp3-royaltyfree/<Title>.mp3` (CC BY 4.0, so credit them in the description).
    - SFX: ElevenLabs `POST /v1/sound-generation` with `duration_seconds` 2-5 and `prompt_influence` 0.5.
      Typical set: door slam, low lion growl, crash-and-screams chaos, deep boom.
    - Place SFX on the exact spoken word (from `words_raw.json`), not on the brief's nominal timestamps.
@@ -85,9 +87,12 @@ Project workspace: `projects/<kebab-id>/` (gitignored). Initialize it:
  "highlights": {"lock you inside": "#ffd21f", "unhinged": "#ff2a2a"},
  "nametag": {"start": 15.2, "duration": 2.1, "title": "ELAGABALUS", "sub": "EMPEROR OF ROME · 218–222 AD"},
  "banner": {"start": 62.0, "text": "Subscribe for more such interesting videos"},
- "music": {"file": "assets/music/bg.mp3", "gain_db": -14, "gap": [43.0, 45.3]},
+ "labels": [{"start": 0.0, "duration": 4.4, "text": "Authentic 16th-Century Portrait"}],   // optional corner text
+ "music": {"file": "assets/music/bg.mp3", "gain_db": -14, "gap": [43.0, 45.3],
+           "duck": [[19.3, 28.0, 0.3]]},   // optional: music at 30% between 19.3 s and 28 s, 0.3 s ramps
  "sfx": [{"file": "assets/audio/sfx_door.mp3", "at": 4.4, "volume": 0.9},
-         {"file": "assets/audio/sfx_chaos.mp3", "at": 41.5, "volume": 0.55, "fade_out": [3.5, 1.2]}]
+         {"file": "assets/audio/sfx_chaos.mp3", "at": 41.5, "volume": 0.55, "fade_out": [3.5, 1.2]},
+         {"file": "assets/audio/sfx_drums.mp3", "at": 11.3, "volume": 0.6, "fade_in": 2.0}]
 }
 ```
 The shot's `h` is the crop height in preview pixels; the width is h×9/16. A small `h` means a tight crop, which upscales and gets soft.
