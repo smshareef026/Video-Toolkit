@@ -63,6 +63,8 @@ Project workspace: `projects/<kebab-id>/` (gitignored). Initialize it:
 8. **Render and deliver.**
    - `npx hyperframes render --quality delivery --output ../renders/final.mp4` takes about 4 min for 70 s on CPU.
    - Re-encode the upload file: `-c:v libx264 -preset slow -crf 19 -pix_fmt yuv420p -movflags +faststart -c:a aac -b:a 192k` (about 55 MB).
+   - HyperFrames can render the audio about 10 dB quieter than `final_mix.wav`. Check with `ffmpeg -af ebur128`.
+     If it comes out low, remux the mix: `-i out.mp4 -i hyperframes/audio/final_mix.wav -map 0:v -map 1:a -c:v copy -c:a aac`.
    - SendUserFile caps at 30 MB, so also send a 2-pass `-b:v 2800k` preview (about 25 MB).
    - Write `renders/UPLOAD.md` with the title, a description (source note plus all image credits, CC BY-SA ones by name and URL), tags,
      the AI-voice disclosure note and the free-plan licence warning.
