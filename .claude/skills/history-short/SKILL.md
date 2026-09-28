@@ -28,7 +28,7 @@ Project workspace: `projects/<kebab-id>/` (gitignored). Initialize it:
    - `apt-get install -y ffmpeg`
    - `pip install -r requirements.txt`
    - `npx -y hyperframes@latest browser ensure`
-   - Only `ELEVENLABS_API_KEY`, `PEXELS_API_KEY` and `UNSPLASH_ACCESS_KEY` have real values.
+   - Only `ELEVENLABS_API_KEY`, `PEXELS_API_KEY` and `UNSPLASH_ACCESS_KEY` have real values (plus `WIKIMEDIA_CONTACT` if the user has added it).
      The other provider keys are set but empty, so check lengths before trusting the registry.
 2. **Script → `artifacts/script.txt`, then voice.**
    - Use the registry tool `elevenlabs_tts` (`registry._tools['elevenlabs_tts'].execute({...})`).
@@ -40,7 +40,10 @@ Project workspace: `projects/<kebab-id>/` (gitignored). Initialize it:
    `POST /v1/speech-to-text` with `model_id=scribe_v1`, `timestamps_granularity=word` → `artifacts/words_raw.json`
 4. **Artwork.** Run `scripts/wikimedia.py search "<painting> <artist>" ...`, then
    `scripts/wikimedia.py download projects/<id> images.json`. This writes the files plus `artifacts/image_credits.json`.
-   - Commons **rate-limits hard (429)** from cloud IPs. Run downloads with `run_in_background` and expect 10-20 min for ~15 files.
+   - Commons [rate limits by client identity](https://www.mediawiki.org/wiki/Wikimedia_APIs/Rate_limits).
+     Without a contact in the User-Agent, a request counts as "IP only": 10 req/min, shared by everyone on a cloud IP.
+     Set `WIKIMEDIA_CONTACT` (an email) for the 200/min tier. An optional `WIKIMEDIA_ACCESS_TOKEN` (an OAuth 2.0 owner-only token) goes higher still.
+     If neither is set, the script warns you. Expect 10-20 min for ~15 files then, so run downloads with `run_in_background`.
      The script is resumable. When the API keeps answering 429, it falls back to fetching straight from `upload.wikimedia.org`.
      Those entries get `license: null`, so fill them in from the `search` output.
      Don't run your own curl probes against Commons while a download is running. They use up the same rate limit.
