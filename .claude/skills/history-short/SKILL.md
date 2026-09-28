@@ -41,7 +41,10 @@ Project workspace: `projects/<kebab-id>/` (gitignored). Initialize it:
 4. **Artwork.** Run `scripts/wikimedia.py search "<painting> <artist>" ...`, then
    `scripts/wikimedia.py download projects/<id> images.json`. This writes the files plus `artifacts/image_credits.json`.
    - Commons **rate-limits hard (429)** from cloud IPs. Run downloads with `run_in_background` and expect 10-20 min for ~15 files.
-     The script is resumable.
+     The script is resumable. When the API keeps answering 429, it falls back to fetching straight from `upload.wikimedia.org`.
+     Those entries get `license: null`, so fill them in from the `search` output.
+     Don't run your own curl probes against Commons while a download is running. They use up the same rate limit.
+     About 12 good images are enough for a 45 s Short, so don't block on the last few.
    - Never `pkill -f` a pattern that matches your own shell command. It kills the shell.
    - Go-to sources: 19th-century academic/Romantic painters (Alma-Tadema, Gérôme, Couture, Rivière, Delacroix, Siemiradzki, Rubens).
      Also museum photos of busts and coins, which are often CC BY-SA and need credit in the description.
@@ -61,7 +64,9 @@ Project workspace: `projects/<kebab-id>/` (gitignored). Initialize it:
 8. **Render and deliver.**
    - `npx hyperframes render --quality delivery --output ../renders/final.mp4` takes about 4 min for 70 s on CPU.
    - Re-encode the upload file: `-c:v libx264 -preset slow -crf 19 -pix_fmt yuv420p -movflags +faststart -c:a aac -b:a 192k` (about 55 MB).
-   - SendUserFile caps at 30 MB, so also send a 2-pass `-b:v 2800k` preview (about 25 MB).
+   - Measure loudness (`-af ebur128=peak=true`). The Caligula mix came out at −20 LUFS.
+     If it's under about −15, remux with `volume=+NdB,alimiter=limit=0.8:level=false` (not single-pass loudnorm, which overshot to +3 dBTP).
+   - SendUserFile caps at 30 MB. A 45 s Short at `-crf 21` fits (about 28 MB). Longer ones also need a 2-pass `-b:v 2800k` preview (about 25 MB).
    - Write `renders/UPLOAD.md` with the title, a description (source note plus all image credits, CC BY-SA ones by name and URL), tags,
      the AI-voice disclosure note and the free-plan licence warning.
    - `projects/` is gitignored and the cloud container is ephemeral. Tell the user to download the files.
@@ -85,6 +90,7 @@ Project workspace: `projects/<kebab-id>/` (gitignored). Initialize it:
  "highlights": {"lock you inside": "#ffd21f", "unhinged": "#ff2a2a"},
  "nametag": {"start": 15.2, "duration": 2.1, "title": "ELAGABALUS", "sub": "EMPEROR OF ROME · 218–222 AD"},
  "banner": {"start": 62.0, "text": "Subscribe for more such interesting videos"},
+ "labels": [{"start": 0.0, "duration": 4.0, "text": "AUTHENTIC ROMAN BUST"}],  // optional small top-left Cinzel tags
  "music": {"file": "assets/music/bg.mp3", "gain_db": -14, "gap": [43.0, 45.3]},
  "sfx": [{"file": "assets/audio/sfx_door.mp3", "at": 4.4, "volume": 0.9},
          {"file": "assets/audio/sfx_chaos.mp3", "at": 41.5, "volume": 0.55, "fade_out": [3.5, 1.2]}]
