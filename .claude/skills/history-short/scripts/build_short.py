@@ -39,7 +39,7 @@ def ensure_runtime_files(hf):
             continue
         tmp.mkdir(exist_ok=True)
         tgz = subprocess.check_output(["npm", "pack", pkg, "-q"], cwd=tmp, text=True).strip().splitlines()[-1]
-        sh("tar", "xzf", tgz, "-C", tmp)
+        sh("tar", "xzf", tmp / tgz, "-C", tmp)
         shutil.copy(tmp / "package" / inner, dest)
         shutil.rmtree(tmp / "package")
     if tmp.exists():
@@ -167,6 +167,11 @@ def main(proj, do_mix=True):
                    f'data-track-index="4">\n        <div class="nt-line">{nt["title"]}</div><div class="nt-sub">{nt["sub"]}</div>\n      </div>')
         tl.append(f'tl.from("#nametag .nt-line",{{y:30,opacity:0,duration:0.4,ease:"power3.out"}},{nt["start"]});')
         tl.append(f'tl.from("#nametag .nt-sub",{{y:20,opacity:0,duration:0.4,ease:"power3.out"}},{nt["start"] + 0.15});')
+    for k, lb in enumerate(cfg.get("labels", [])):  # small top-left "museum" tags, e.g. AUTHENTIC ROMAN BUST
+        lid = f"label{k}"
+        extras += (f'\n      <div id="{lid}" class="clip label" data-start="{lb["start"]}" data-duration="{lb["duration"]}" '
+                   f'data-track-index="6">{lb["text"]}</div>')
+        tl.append(f'tl.from("#{lid}",{{x:-30,opacity:0,duration:0.35,ease:"power2.out"}},{lb["start"]});')
     bn = cfg.get("banner")
     if bn:
         b0 = bn["start"]
@@ -209,6 +214,9 @@ TEMPLATE = """<!doctype html>
         letter-spacing: 10px; text-shadow: 0 4px 18px #000; }}
       .nt-sub {{ font-family: "Cinzel", serif; font-weight: 700; font-size: 34px; color: #f1e6d0;
         letter-spacing: 6px; margin-top: 8px; text-shadow: 0 3px 12px #000; }}
+      .label {{ position: absolute; left: 54px; top: 150px; font-family: "Cinzel", serif; font-weight: 700;
+        font-size: 34px; letter-spacing: 5px; color: rgba(255,255,255,0.8); text-shadow: 0 2px 10px #000;
+        padding-left: 16px; border-left: 4px solid #e9c46a; }}
       .subbanner {{ position: absolute; left: 0; right: 0; top: 1380px; height: 330px; }}
       .sb-inner {{ margin: 0 70px; padding: 34px 30px 38px; background: rgba(8,6,4,0.78);
         border: 3px solid #e9c46a; border-radius: 26px; text-align: center; }}
