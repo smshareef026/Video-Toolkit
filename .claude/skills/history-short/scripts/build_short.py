@@ -13,12 +13,30 @@ A shot key with assets/video/<key>.mp4 (archival film from the corpus) is cut as
 video clip; an optional 6th shot field is its in-point in seconds.
 """
 import json
+import random
 import shutil
 import subprocess
 import sys
 from pathlib import Path
 
 W, H = 1080, 1920
+
+# Camera moves on each shot: (from, to) GSAP props. Pans/tilts hold a 1.1 scale so the
+# frame never shows an edge (1.1 x 1080 leaves 54 px spare each side, 96 px top/bottom).
+MOVES = {
+    "push_in":   ({"scale": 1.0, "x": 0}, {"scale": 1.08, "x": 18}),
+    "pull_out":  ({"scale": 1.1, "x": 0}, {"scale": 1.0, "x": 0}),
+    "pan_left":  ({"scale": 1.1, "x": 40}, {"scale": 1.1, "x": -40}),
+    "pan_right": ({"scale": 1.1, "x": -40}, {"scale": 1.1, "x": 40}),
+    "tilt_up":   ({"scale": 1.1, "y": 70}, {"scale": 1.1, "y": -70}),
+    "tilt_down": ({"scale": 1.1, "y": -70}, {"scale": 1.1, "y": 70}),
+}
+# Default rotation: no move repeats back to back, and push-ins dominate.
+MOVE_CYCLE = ["push_in", "pan_left", "pull_out", "tilt_up", "push_in", "pan_right", "pull_out", "tilt_down"]
+PARTICLES = {  # color, size px, rise px over one loop, loop seconds, peak opacity
+    "dust":   {"color": "255,236,200", "size": (2, 5), "rise": (60, 160), "loop": (8, 14), "alpha": 0.45},
+    "embers": {"color": "255,140,60", "size": (2, 6), "rise": (400, 900), "loop": (4, 8), "alpha": 0.8},
+}
 SKILL = Path(__file__).resolve().parent
 
 
@@ -107,6 +125,41 @@ def crop_video(src, out_dir, name, cx, cy, h, idx, t_in, dur):
     return out.name
 
 
+def move_tween(sid, move, dur, start, intensity):
+    a, b = MOVES[move]
+    scale = lambda d: {k: (1 + (v - 1) * intensity if k == "scale" else round(v * intensity, 1)) for k, v in d.items()}
+    js = lambda d: "{" + ",".join(f"{k}:{v}" for k, v in d.items())
+    return f'tl.fromTo("#{sid}",{js(scale(a))}}},{js(scale(b))},duration:{dur},ease:"sine.inOut"}},{start});'
+
+
+def particle_layer(spec, total):
+    """Seeded (so every render is identical) drifting dust or embers over the whole Short.
+
+    Plain solid dots on purpose: HyperFrames captures black frames once ~40 elements carry
+    blur / gradient CSS, so particles must not use either."""
+    spec = {"style": spec} if isinstance(spec, str) else dict(spec)
+    style = PARTICLES[spec.get("style", "dust")]
+    rng = random.Random(spec.get("seed", 7))
+    html, tl = [], []
+    for i in range(int(spec.get("count", 36))):
+        size = rng.uniform(*style["size"])
+        loop = rng.uniform(*style["loop"])
+        rise = rng.uniform(*style["rise"])
+        x, y = rng.uniform(0, W), rng.uniform(0, H)
+        pid = f"pt{i:02d}"
+        # Drift moves the <i>; the twinkle fades the inner <b>, so each element has one tween.
+        html.append(f'<i id="{pid}" style="left:{x:.0f}px;top:{y:.0f}px;width:{size:.1f}px;height:{size:.1f}px">'
+                    f'<b style="background:rgb({style["color"]})"></b></i>')
+        reps = int(total / loop) + 1
+        tl.append(f'tl.fromTo("#{pid}",{{x:0,y:0}},{{x:{rng.uniform(-40, 40):.0f},y:{-rise:.0f},duration:{loop:.2f},'
+                  f'ease:"none",repeat:{reps}}},{rng.uniform(0, 1.5):.2f});')
+        tl.append(f'tl.fromTo("#{pid} b",{{opacity:0}},{{opacity:{style["alpha"] * spec.get("opacity", 1):.2f},'
+                  f'duration:{loop / 2:.2f},ease:"sine.inOut",yoyo:true,repeat:{reps * 2}}},{rng.uniform(0, 1.5):.2f});')
+    div = (f'<div id="particles" class="clip particles" data-start="0" data-duration="{total}" data-track-index="7">'
+           + "".join(html) + "</div>")
+    return div, tl
+
+
 def caption_chunks(words_file, highlights, total):
     raw = json.loads(Path(words_file).read_text())
     toks = [(w["text"], w["start"], w["end"]) for w in raw["words"] if w["type"] == "word"]
@@ -153,6 +206,9 @@ def main(proj, do_mix=True):
 
     shots, tl = cfg["shots"], []
     chaos = cfg.get("chaos_window")
+    motion = cfg.get("motion", {})
+    overrides = {int(k): v for k, v in motion.get("moves", {}).items()}
+    intensity = motion.get("intensity", 1.0)
     shot_html = []
     for idx, (start, name, cx, cy, h, *rest) in enumerate(shots):
         end = shots[idx + 1][0] if idx + 1 < len(shots) else total
@@ -167,8 +223,10 @@ def main(proj, do_mix=True):
             fn = crop(proj / "assets" / "images", shots_dir, name, cx, cy, h, idx)
             shot_html.append(f'<img id="{sid}" class="clip shot" src="shots/{fn}" '
                              f'data-start="{start}" data-duration="{dur}" data-track-index="1" />')
-        drift = 18 if idx % 2 else -18  # 100% -> 108% zoom with a slight alternating drift
-        tl.append(f'tl.fromTo("#{sid}",{{scale:1,x:0}},{{scale:1.08,x:{drift},duration:{dur},ease:"none"}},{start});')
+        move = overrides.get(idx) or MOVE_CYCLE[idx % len(MOVE_CYCLE)]
+        if chaos and chaos[0] <= start < chaos[1]:
+            move = "push_in"  # the chaos cuts are too short for a pan to read
+        tl.append(move_tween(sid, move, dur, start, intensity))
         if chaos and chaos[0] <= start < chaos[1]:
             tl.append(f'tl.fromTo("#{sid}",{{filter:"brightness(1.9)"}},'
                       f'{{filter:"brightness(1)",duration:0.18,ease:"power2.out",immediateRender:false}},{start});')
@@ -182,6 +240,11 @@ def main(proj, do_mix=True):
                         f'data-track-index="3"><span{style}>{txt.upper()}</span></div>')
         tl.append(f'tl.fromTo("#{cid} span",{{scale:0.72,opacity:0}},'
                   f'{{scale:1,opacity:1,duration:0.12,ease:"back.out(2.5)"}},{s});')
+
+    particles = ""
+    if cfg.get("particles", "dust"):
+        particles, ptl = particle_layer(cfg.get("particles", "dust"), total)
+        tl.extend(ptl)
 
     extras = ""
     nt = cfg.get("nametag")
@@ -206,6 +269,7 @@ def main(proj, do_mix=True):
         tl.append(f'tl.fromTo("#subbanner .sb-btn",{{scale:1}},{{scale:1.08,duration:0.45,yoyo:true,repeat:{pulses},ease:"sine.inOut"}},{b0 + 0.6});')
 
     html = TEMPLATE.format(total=total, shots="\n      ".join(shot_html), caps="\n      ".join(cap_html),
+                           particles=particles,
                            extras=extras, timeline="\n      ".join(tl))
     (hf / "index.html").write_text(html)
     print(f"{len(shots)} shots, {len(cap_html)} captions -> {hf / 'index.html'}")
@@ -227,6 +291,9 @@ TEMPLATE = """<!doctype html>
       .shot {{ position: absolute; inset: 0; width: 1080px; height: 1920px; object-fit: cover; display: block; }}
       .vignette {{ position: absolute; inset: 0; pointer-events: none;
         background: radial-gradient(ellipse 75% 60% at 50% 48%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.78) 100%); }}
+      .particles {{ position: absolute; inset: 0; pointer-events: none; overflow: hidden; }}
+      .particles i {{ position: absolute; display: block; }}
+      .particles b {{ position: absolute; inset: 0; display: block; border-radius: 50%; opacity: 0; }}
       .cap {{ position: absolute; left: 60px; right: 60px; top: 860px; height: 200px;
         display: flex; align-items: center; justify-content: center; text-align: center; }}
       .cap span {{ display: block; font-family: "Anton", sans-serif; font-size: 118px; line-height: 1.02;
@@ -254,6 +321,7 @@ TEMPLATE = """<!doctype html>
       <div id="bgfill" class="clip bg" data-start="0" data-duration="{total}" data-track-index="0"></div>
       {shots}
       <div id="vig" class="clip vignette" data-start="0" data-duration="{total}" data-track-index="2"></div>
+      {particles}
       {caps}
       {extras}
       <audio id="mix" src="audio/final_mix.wav" data-start="0" data-duration="{total}" data-track-index="10" data-volume="1"></audio>

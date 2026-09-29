@@ -160,7 +160,13 @@ one cut per shot (clip_id, in/out and a one-line reason), the music config, and 
    - `projects/` is gitignored and the cloud container is ephemeral. Tell the user to download the files.
 
 ## Editing rules baked into build_short.py
-- Every shot scales 100%→108% with a slight alternating x-drift. Shots last 1-2.5 s and change on phrase boundaries.
+- Every shot gets a camera move, rotating through push-in, pan left, pull-out, tilt up, push-in, pan right, pull-out
+  and tilt down, so no move repeats back to back. Pans and tilts hold a 1.1 scale so no frame edge shows.
+  Override a shot with `motion.moves` (e.g. a slow push-in on the nametag bust) and scale everything with `motion.intensity`.
+  Shots last 1-2.5 s and change on phrase boundaries.
+- A seeded particle layer (`dust` by default, `embers` for fire/battle stories, `"particles": false` to turn it off)
+  drifts over every shot. The particles are plain solid dots: blur or gradient CSS on ~40 elements makes HyperFrames
+  capture black frames.
 - `chaos_window` gives hard cuts every ~0.5 s with a white flash. Alternate two or three chaos paintings.
 - Captions: Anton 118px, white with a black stroke, centered, 1-3 words.
   They break on punctuation or a gap longer than 0.25 s. `highlights` phrases show as one chunk in yellow `#ffd21f` or red `#ff2a2a`.
@@ -176,6 +182,8 @@ one cut per shot (clip_id, in/out and a one-line reason), the music config, and 
  "shots": [[0.0, "roses", 470, 246, 470], ...],   // [start_s, key, cx, cy, h] in 800px-preview coords
                                           // film shot: [start_s, key, cx, cy, h, in_s] (key in assets/video/)
  "chaos_window": [41.0, 43.5],
+ "motion": {"moves": {"4": "push_in"}, "intensity": 1.0},   // optional; shot index -> push_in|pull_out|pan_left|pan_right|tilt_up|tilt_down
+ "particles": {"style": "dust", "count": 36, "opacity": 1.0},  // optional; or "embers", or false
  "highlights": {"lock you inside": "#ffd21f", "unhinged": "#ff2a2a"},
  "nametag": {"start": 15.2, "duration": 2.1, "title": "ELAGABALUS", "sub": "EMPEROR OF ROME · 218–222 AD"},
  "banner": {"start": 62.0, "text": "Subscribe for more such interesting videos"},
@@ -189,6 +197,9 @@ The shot's `h` is the crop height in preview pixels; the width is h×9/16. A sma
 Keep the source crop at roughly 600 px tall or more.
 
 ## Honesty notes to pass on each time
+- Motion and particles make the Short look better. They don't make it exempt from YouTube's "reused/repetitive content"
+  policy, which is a review of whether a video adds original value. What qualifies these Shorts is their original
+  script, narration and editing. Don't tell the user the effects get around YouTube's review.
 - The narration is an AI voice. YouTube's disclosure toggle targets *realistic* synthetic content, so a narrator over paintings usually doesn't need it.
   It's the user's call.
 - Monetized channel → a paid ElevenLabs plan is needed for commercial use.
