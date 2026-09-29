@@ -39,6 +39,16 @@ then `python -m backlot open <id>`.
 At each one, write the checkpoint with `status="awaiting_human"`, give a short summary and end the turn.
 Keep the summaries brief: the standing preferences above are already approved, so don't re-ask them.
 
+**What to check at each stop** (the user's channel strategy):
+- **Script (`idea`).** The hook in the first line must grab: historical irony, a bizarre death or an ancient scandal.
+  Target runtime is **~47 s**. Brian runs about 2.3 words/s (160 words ≈ 69 s), so 47 s ≈ 110 words.
+  When you write or rework a script, aim for that. A pasted script stays word for word per the preferences above.
+  If it runs well past 47 s, state the estimated length at the stop and let the user decide whether to cut.
+- **Shot list (`scene_plan`).** A visual change (a new image, a new crop or a new camera move) at least every 2-2.5 s.
+  Nothing holds longer than 2.5 s.
+- **Assets and crops (`assets`, `edit`).** Prefer high-contrast portraits, busts and battle or crowd scenes.
+  Avoid text-heavy maps, documents and low-contrast images, which read badly on a phone.
+
 ### Setup (cloud container)
 - `apt-get install -y ffmpeg`
 - `pip install -r requirements.txt`. `corpus_builder` also needs `torch` + `transformers` for CLIP (CPU is fine).
@@ -69,7 +79,7 @@ Treat the brief's `[scene]` prompts as the shot list. Each becomes one slot in `
   "Roses of Heliogabalus Alma-Tadema", "Gerome lion colosseum", "Elagabalus bust Capitoline".
 - `preferred_sources`: `["wikimedia"]` for paintings, busts and coins.
   Add `archive_org` only for subjects that were **filmed** (roughly 1900 onward: wars, expeditions, disasters).
-- Slots last 1-2.5 s, so a ~70 s script needs ~25-35 slots. Several slots can reuse one artwork with different crops.
+- Slots last 1-2.5 s, so a ~47 s script needs ~20-25 slots (~70 s needs ~25-35). Several slots can reuse one artwork with different crops.
   Mark the bust close-up (nametag shot) and the twist image as `hero`.
 
 ### 3. `assets` → corpus, voice, music, SFX, `artifacts/asset_manifest.json`
@@ -140,19 +150,24 @@ and SFX land on the exact spoken word, not on the brief's nominal timestamps.
 Also write `edit_decisions.json` per `edit-director.md`, with `renderer_family: "documentary-montage"`,
 one cut per shot (clip_id, in/out and a one-line reason), the music config, and `end_tag: null` with the opt-out note.
 
-### 5. `compose` → `renders/final.mp4` + `artifacts/render_report.json`
-1. `python .claude/skills/history-short/scripts/build_short.py projects/<id>`.
-   That one command crops and grades every shot (film shots too), mixes the audio and writes `hyperframes/index.html`.
-2. **Check.** From `projects/<id>/hyperframes`:
-   - `npx hyperframes lint` should show 0 errors. The "track too dense" and "nested structure" warnings are fine.
-   - Run `npx hyperframes snapshot --at <~12 times> --no-end`, stack the snapshots into a contact sheet and Read it.
-   - Look for bad crops, unreadable dark shots and nudity.
-3. **Render and deliver.**
-   - `npx hyperframes render --quality delivery --output ../renders/final.mp4` takes about 4 min for 70 s on CPU.
-   - Re-encode the upload file: `-c:v libx264 -preset slow -crf 19 -pix_fmt yuv420p -movflags +faststart -c:a aac -b:a 192k` (about 55 MB).
-   - Measure loudness (`-af ebur128=peak=true`). The Caligula mix came out at −20 LUFS.
-     If it's under about −15, remux with `volume=+NdB,alimiter=limit=0.8:level=false` (not single-pass loudnorm, which overshot to +3 dBTP).
-   - SendUserFile caps at 30 MB. A 45 s Short at `-crf 21` fits (about 28 MB). Longer ones also need a 2-pass `-b:v 2800k` preview (about 25 MB).
+### 5. `compose` → `renders/upload.mp4` + `artifacts/render_report.json`
+Everything after the edit is one command, `scripts/compile.py`:
+```bash
+python .claude/skills/history-short/scripts/compile.py <id> --check-only   # ingest + build + lint + snapshots
+python .claude/skills/history-short/scripts/compile.py <id> --skip-ingest --preview   # render + encode
+```
+1. **Check first.** `--check-only` runs `from_corpus.py` (when `picks.json` exists), `build_short.py` and `hyperframes lint`.
+   It stops on any lint error; the "track too dense" and "nested structure" warnings are fine.
+   Then it takes 12 evenly spaced snapshots and prints the contact-sheet paths.
+   Read the sheets and look for bad crops, unreadable dark shots and nudity. Fix `short.json` or `picks.json`, then re-run.
+   This review can't be automated, so never skip it.
+2. **Render.** The full run renders at delivery quality (about 4 min for 70 s on CPU) → `renders/final.mp4`.
+   It re-encodes `renders/upload.mp4` (`crf 19`, `+faststart`, AAC 192k) and measures loudness.
+   Under −15 LUFS it remuxes with `volume=+NdB,alimiter=limit=0.8:level=false` to about −14 LUFS
+   (not single-pass loudnorm, which overshot to +3 dBTP).
+   `--preview` also writes a 2-pass `renders/preview.mp4` under 30 MB for SendUserFile, or skips it when the upload already fits.
+   `--draft` does a quick draft render only. `--no-mix` keeps the existing audio mix.
+3. **Deliver.**
    - Write `render_report.json` with `music_mixed: true`, `end_tag_rendered: false` plus the banner opt-out note,
      and `render_runtime: "hyperframes"`.
    - Write `renders/UPLOAD.md` with the title, a description (source note plus all credits from `image_credits.json`,
