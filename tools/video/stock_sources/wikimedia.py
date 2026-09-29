@@ -27,9 +27,14 @@ _USER_AGENT = "OpenMontageBot/0.2 (https://github.com/calesthio/OpenMontage)"
 # an optional WIKIMEDIA_ACCESS_TOKEN (OAuth 2.0 owner-only) goes higher.
 _MIN_INTERVAL = 0.35  # seconds between requests, under the identified tier
 _MAX_429_RETRIES = 4
-# Standard Commons thumbnail step used for image downloads. Originals of
-# museum scans are often 100+ MB TIFFs; 1920 px is plenty for a 1080p crop.
+# Images are always fetched as a standard-step Commons thumbnail, never the
+# original: originals of museum scans are often 100+ MB TIFFs, and
+# upload.wikimedia.org rate-limits original downloads hard (429 with a
+# 10-minute Retry-After) while serving thumbnails freely. 1920 px is plenty
+# for a 1080p crop.
 _IMAGE_DOWNLOAD_WIDTH = 1920
+_THUMB_STEPS = (1920, 1280, 960, 500, 330, 250)
+_MAX_RETRY_AFTER = 60  # a longer Retry-After fails fast instead of stalling the corpus
 _THUMB_WIDTH_RE = re.compile(r"(/(?:[a-z]+-)?(?:page\d+-)?)\d+px-(?=[^/]*$)")
 _last_request = [0.0]
 _token_rejected = [False]
@@ -94,9 +99,11 @@ def _get(url: str, **kwargs):
             wait = float(resp_headers.get("retry-after") or 15)
         except (TypeError, ValueError):
             wait = 15.0
+        if wait > _MAX_RETRY_AFTER:
+            return resp  # caller's raise_for_status() fails this item; move on
         if kwargs.get("stream"):
             resp.close()
-        time.sleep(min(wait, 60.0) + 1)
+        time.sleep(wait + 1)
     return resp
 
 
@@ -303,8 +310,12 @@ def _page_to_candidate(page: dict[str, Any], filters: SearchFilters) -> Candidat
     source_url = info.get("descriptionurl") or page.get("canonicalurl") or ""
     original_url = info.get("url", "") or ""
     download_url = original_url
-    if kind == "image" and width > _IMAGE_DOWNLOAD_WIDTH:
-        download_url = _large_thumb_url(info.get("thumburl", ""), _IMAGE_DOWNLOAD_WIDTH) or original_url
+    if kind == "image":
+        # Largest standard step strictly narrower than the original (Commons
+        # won't upscale a thumb); tiny images fall back to the original.
+        step = next((w for w in _THUMB_STEPS if w < width), None) if width else _IMAGE_DOWNLOAD_WIDTH
+        if step:
+            download_url = _large_thumb_url(info.get("thumburl", ""), min(step, _IMAGE_DOWNLOAD_WIDTH)) or original_url
 
     return Candidate(
         source=WikimediaSource.name,

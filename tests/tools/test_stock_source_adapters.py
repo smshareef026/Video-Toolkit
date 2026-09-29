@@ -128,7 +128,10 @@ def test_wikimedia_large_images_download_a_standard_thumb():
     assert big.download_url.endswith("lossy-page1-1920px-X.tif.jpg")
     assert big.extra["original_url"] == f"{base}/a/ab/X.tif"
     small = _page_to_candidate(page(1200), SearchFilters(kind="image"))
-    assert small.download_url == f"{base}/a/ab/X.tif"
+    assert small.download_url.endswith("lossy-page1-960px-X.tif.jpg")  # thumbs dodge the originals' rate limit
+    assert _page_to_candidate(page(1920), SearchFilters(kind="image")).download_url.endswith("-1280px-X.tif.jpg")
+    tiny = _page_to_candidate(page(200), SearchFilters(kind="image"))
+    assert tiny.download_url == f"{base}/a/ab/X.tif"
 
 
 def test_unsplash_helpers_preserve_query_params():
