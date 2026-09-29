@@ -15,6 +15,7 @@ This is the house recipe for the user's recurring history Shorts channel. The fi
 - Keep the narration script **word for word**, including the "infinite loop" ending that cuts mid-sentence.
   Only fix clear factual errors, and tell the user what you changed.
   Example: Elagabalus was 14 at accession, not in 221 AD, so "In 221 AD" became "According to ancient Roman writers".
+- **Captions are always plain white** (black stroke), never coloured highlight words. The user asked for this.
 - Always add an on-screen closing banner: **"Subscribe for more such interesting videos"** with a pulsing red SUBSCRIBE button, over the last ~7 s.
   It is **on screen only, never spoken**, so the loop ending still flows back into the first line.
 - Runtime: **HyperFrames** (the user chose it). Output 1080×1920, 30 fps.
@@ -184,7 +185,7 @@ python .claude/skills/history-short/scripts/compile.py <id> --skip-ingest --prev
   capture black frames.
 - `chaos_window` gives hard cuts every ~0.5 s with a white flash. Alternate two or three chaos paintings.
 - Captions: Anton 118px, white with a black stroke, centered, 1-3 words.
-  They break on punctuation or a gap longer than 0.25 s. `highlights` phrases show as one chunk in yellow `#ffd21f` or red `#ff2a2a`.
+  They break on punctuation or a gap longer than 0.25 s. `highlights` phrases show as one chunk, still in white.
 - The grade: contrast 1.12, saturation 0.82, slightly dark and warm, plus a vignette overlay.
 - Audio: voice at −16 LUFS, music at −24 LUFS then −14 dB (about 22 dB under the voice).
   The music `gap` gives a dramatic silence at the twist, and the final mix comes out around −14 LUFS.
@@ -199,7 +200,7 @@ python .claude/skills/history-short/scripts/compile.py <id> --skip-ingest --prev
  "chaos_window": [41.0, 43.5],
  "motion": {"moves": {"4": "push_in"}, "intensity": 1.0},   // optional; shot index -> push_in|pull_out|pan_left|pan_right|tilt_up|tilt_down
  "particles": {"style": "dust", "count": 36, "opacity": 1.0},  // optional; or "embers", or false
- "highlights": {"lock you inside": "#ffd21f", "unhinged": "#ff2a2a"},
+ "highlights": {"lock you inside": "", "unhinged": ""},   // phrases kept as one caption chunk; the value is ignored
  "nametag": {"start": 15.2, "duration": 2.1, "title": "ELAGABALUS", "sub": "EMPEROR OF ROME · 218–222 AD"},
  "banner": {"start": 62.0, "text": "Subscribe for more such interesting videos"},
  "labels": [{"start": 0.0, "duration": 4.0, "text": "AUTHENTIC ROMAN BUST"}],  // optional small top-left Cinzel tags

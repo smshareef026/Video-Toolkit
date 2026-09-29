@@ -235,7 +235,7 @@ def main(proj, do_mix=True):
     words = proj / cfg.get("words", "artifacts/words_raw.json")
     for j, (txt, s, e, col) in enumerate(caption_chunks(words, cfg.get("highlights", {}), total)):
         cid = f"cap{j:03d}"
-        style = f' style="color:{col}"' if col else ""
+        style = ""  # captions are always white (channel rule); highlights only keep a phrase together
         cap_html.append(f'<div id="{cid}" class="clip cap" data-start="{s}" data-duration="{round(e - s, 3)}" '
                         f'data-track-index="3"><span{style}>{txt.upper()}</span></div>')
         tl.append(f'tl.fromTo("#{cid} span",{{scale:0.72,opacity:0}},'
