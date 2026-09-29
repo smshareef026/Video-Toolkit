@@ -175,6 +175,23 @@ python .claude/skills/history-short/scripts/compile.py <id> --skip-ingest --prev
      CC BY-SA ones by name and URL), tags, the AI-voice disclosure note and the free-plan licence warning.
    - `projects/` is gitignored and the cloud container is ephemeral. Tell the user to download the files.
 
+### Optional: 16:9 long-form version
+YouTube treats any vertical video up to 3 minutes as a Short. For long-form treatment (regular pre-roll ads),
+render the same edit at 1920×1080. It reuses `short.json`, the audio mix and the captions:
+```bash
+python .claude/skills/history-short/scripts/compile.py <id> --landscape --check-only --skip-ingest
+python .claude/skills/history-short/scripts/compile.py <id> --landscape --skip-ingest --no-mix --preview
+```
+- Output goes to `hyperframes-16x9/` and `renders/{final,upload,preview}_16x9.mp4`.
+- Each crop keeps its vertical framing and widens to 16:9 around the same centre. Upright images (busts, statues)
+  that can't fill the width sit centred over a blurred, darkened copy of themselves.
+- **Widening can bring back what a 9:16 crop left out** (a nude figure beside the subject, say).
+  Review every wide crop, not just the 12-frame contact sheet: `hyperframes-16x9/shots/*.jpg`.
+  Fix problems with `"crops_16x9": {"<image or shot index>": [cx, cy, h]}` in `short.json`.
+- Captions sit in the lower third, labels top-left, and the subscribe card top-right.
+- Long-form needs a custom 1280×720 thumbnail: public-domain art plus a short headline, never show stills.
+  Build it as a one-frame HyperFrames page and `npx hyperframes snapshot` it.
+
 ## Editing rules baked into build_short.py
 - Every shot gets a camera move, rotating through push-in, pan left, pull-out, tilt up, push-in, pan right, pull-out
   and tilt down, so no move repeats back to back. Pans and tilts hold a 1.1 scale so no frame edge shows.

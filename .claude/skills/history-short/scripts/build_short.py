@@ -1,7 +1,8 @@
 """Build a 9:16 history Short (HyperFrames workspace) from <project>/short.json.
 
-  python build_short.py projects/<id>            # crops, mixes audio, writes index.html
-  python build_short.py projects/<id> --no-mix   # skip the audio re-mix
+  python build_short.py projects/<id>              # crops, mixes audio, writes hyperframes/index.html
+  python build_short.py projects/<id> --no-mix     # skip the audio re-mix
+  python build_short.py projects/<id> --landscape  # 1920x1080 long-form cut -> hyperframes-16x9/
 
 Then: cd projects/<id>/hyperframes && npx hyperframes lint && \
       npx hyperframes snapshot --at 1,10,20 --no-end && \
@@ -11,6 +12,13 @@ See ../SKILL.md for the short.json format. Crop coords (cx, cy, h) are in the
 image's 800px-wide preview space: centre x, centre y, crop height.
 A shot key with assets/video/<key>.mp4 (archival film from the corpus) is cut as a
 video clip; an optional 6th shot field is its in-point in seconds.
+
+--landscape reuses the same short.json. Each crop keeps its vertical extent and widens to
+16:9 around the same centre; when the image is too narrow for that (busts, statues),
+the crop sits centred over a blurred, darkened copy of itself instead of being cut.
+"crops_16x9" in short.json overrides the 16:9 crop per image name or shot index:
+{"camuccini": [cx, cy, h], "12": [cx, cy, h]} (h = crop height, width = h*16/9).
+Widening can bring back what a 9:16 crop excluded, so re-check the contact sheet for nudity.
 """
 import json
 import random
@@ -95,39 +103,56 @@ GRADE = ("eq=contrast=1.12:saturation=0.82:brightness=-0.05:gamma=0.92,"
 
 
 def crop_box(src, cx, cy, h):
-    """Crop filter for a 9:16 window centred on (cx, cy) in 800px-preview coords."""
+    """Filter graph ([0:v] -> [out]) for a W:H window centred on (cx, cy) in 800px-preview coords.
+
+    h is the crop height; the width follows the canvas aspect. On a landscape canvas a crop
+    too wide for the image keeps the image's full width and is fitted over a blurred copy."""
     dims = subprocess.check_output(["ffprobe", "-v", "error", "-select_streams", "v", "-show_entries",
                                     "stream=width,height", "-of", "csv=p=0", str(src)], text=True).strip()
     sw, shh = map(int, dims.split(",")[:2])
     k = sw / 800
     ch = min(h * k, shh)
-    cw = ch * 9 / 16
+    cw = ch * W / H
+    fit = False
     if cw > sw:
-        cw, ch = sw, sw * 16 / 9
+        if W > H:  # landscape: keep the approved vertical framing, pillarbox the rest
+            cw, fit = sw, True
+        else:
+            cw, ch = sw, sw * H / W
     x = min(max(cx * k - cw / 2, 0), sw - cw)
     y = min(max(cy * k - ch / 2, 0), shh - ch)
-    return f"crop={int(cw)}:{int(ch)}:{int(x)}:{int(y)},scale={W}:{H}:flags=lanczos,{GRADE}"
+    box = f"crop={int(cw)}:{int(ch)}:{int(x)}:{int(y)}"
+    if not fit:
+        return f"[0:v]{box},scale={W}:{H}:flags=lanczos,{GRADE}[out]"
+    return (f"[0:v]{box},{GRADE},split[a][b];"
+            f"[b]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},gblur=sigma=40,"
+            f"eq=brightness=-0.22:saturation=0.7[bg];"
+            f"[a]scale=-2:{H}:flags=lanczos[fg];[bg][fg]overlay=(W-w)/2:0[out]")
 
 
 def crop(img_dir, out_dir, name, cx, cy, h, idx):
     src = img_dir / f"{name}.jpg"
     out = out_dir / f"s{idx:02d}_{name}.jpg"
-    sh("ffmpeg", "-v", "error", "-y", "-i", src, "-vf", crop_box(src, cx, cy, h), "-q:v", 2, out)
+    sh("ffmpeg", "-v", "error", "-y", "-i", src, "-filter_complex", crop_box(src, cx, cy, h),
+       "-map", "[out]", "-q:v", 2, out)
     return out.name
 
 
 def crop_video(src, out_dir, name, cx, cy, h, idx, t_in, dur):
     """Cut `dur` seconds of archival film from `t_in`, cropped, graded, 30 fps, silent."""
     out = out_dir / f"s{idx:02d}_{name}.mp4"
+    graph = crop_box(src, cx, cy, h).replace("[out]", "[c];[c]fps=30[out]")
     sh("ffmpeg", "-v", "error", "-y", "-ss", t_in, "-i", src, "-t", dur, "-an",
-       "-vf", crop_box(src, cx, cy, h) + ",fps=30", "-c:v", "libx264", "-crf", 17,
+       "-filter_complex", graph, "-map", "[out]", "-c:v", "libx264", "-crf", 17,
        "-preset", "fast", "-pix_fmt", "yuv420p", out)
     return out.name
 
 
 def move_tween(sid, move, dur, start, intensity):
     a, b = MOVES[move]
-    scale = lambda d: {k: (1 + (v - 1) * intensity if k == "scale" else round(v * intensity, 1)) for k, v in d.items()}
+    # Offsets are tuned for 1080x1920; scale them to the canvas so 1.1 zoom still hides the edges.
+    px = {"x": W / 1080, "y": H / 1920}
+    scale = lambda d: {k: (1 + (v - 1) * intensity if k == "scale" else round(v * intensity * px[k], 1)) for k, v in d.items()}
     js = lambda d: "{" + ",".join(f"{k}:{v}" for k, v in d.items())
     return f'tl.fromTo("#{sid}",{js(scale(a))}}},{js(scale(b))},duration:{dur},ease:"sine.inOut"}},{start});'
 
@@ -192,11 +217,15 @@ def caption_chunks(words_file, highlights, total):
     return out
 
 
-def main(proj, do_mix=True):
+def main(proj, do_mix=True, landscape=False):
+    global W, H
+    if landscape:
+        W, H = 1920, 1080
     proj = Path(proj).resolve()
     cfg = json.loads((proj / "short.json").read_text())
     total = cfg["total"]
-    hf = proj / "hyperframes"
+    hf = proj / ("hyperframes-16x9" if landscape else "hyperframes")
+    wide = cfg.get("crops_16x9", {}) if landscape else {}
     shots_dir = hf / "shots"
     shots_dir.mkdir(parents=True, exist_ok=True)
     (hf / "audio").mkdir(exist_ok=True)
@@ -211,6 +240,7 @@ def main(proj, do_mix=True):
     intensity = motion.get("intensity", 1.0)
     shot_html = []
     for idx, (start, name, cx, cy, h, *rest) in enumerate(shots):
+        cx, cy, h = wide.get(str(idx)) or wide.get(name) or (cx, cy, h)
         end = shots[idx + 1][0] if idx + 1 < len(shots) else total
         dur = round(end - start, 3)
         sid = f"shot{idx:02d}"
@@ -268,7 +298,7 @@ def main(proj, do_mix=True):
         pulses = max(1, int((total - b0 - 0.6) / 0.9) * 2 - 1)
         tl.append(f'tl.fromTo("#subbanner .sb-btn",{{scale:1}},{{scale:1.08,duration:0.45,yoyo:true,repeat:{pulses},ease:"sine.inOut"}},{b0 + 0.6});')
 
-    html = TEMPLATE.format(total=total, shots="\n      ".join(shot_html), caps="\n      ".join(cap_html),
+    html = TEMPLATE.format(w=W, h=H, canvas_css=LANDSCAPE_CSS if landscape else "", total=total, shots="\n      ".join(shot_html), caps="\n      ".join(cap_html),
                            particles=particles,
                            extras=extras, timeline="\n      ".join(tl))
     (hf / "index.html").write_text(html)
@@ -279,16 +309,16 @@ TEMPLATE = """<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=1080, height=1920" />
+    <meta name="viewport" content="width={w}, height={h}" />
     <title>History Short</title>
     <script src="lib/gsap.min.js"></script>
     <style>
       @font-face {{ font-family: "Anton"; src: url("fonts/anton-latin-400-normal.woff2") format("woff2"); }}
       @font-face {{ font-family: "Cinzel"; font-weight: 700; src: url("fonts/cinzel-latin-700-normal.woff2") format("woff2"); }}
       html, body {{ margin: 0; background: #000; }}
-      #root {{ position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #000; }}
+      #root {{ position: relative; width: {w}px; height: {h}px; overflow: hidden; background: #000; }}
       .bg {{ position: absolute; inset: 0; background: #000; }}
-      .shot {{ position: absolute; inset: 0; width: 1080px; height: 1920px; object-fit: cover; display: block; }}
+      .shot {{ position: absolute; inset: 0; width: {w}px; height: {h}px; object-fit: cover; display: block; }}
       .vignette {{ position: absolute; inset: 0; pointer-events: none;
         background: radial-gradient(ellipse 75% 60% at 50% 48%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.78) 100%); }}
       .particles {{ position: absolute; inset: 0; pointer-events: none; overflow: hidden; }}
@@ -313,11 +343,11 @@ TEMPLATE = """<!doctype html>
       .sb-btn {{ display: inline-block; background: #e3171d; color: #fff; font-family: "Anton", sans-serif;
         font-size: 64px; letter-spacing: 3px; padding: 10px 46px; border-radius: 16px; }}
       .sb-text {{ font-family: "Cinzel", serif; font-weight: 700; font-size: 54px; color: #f4e9d2;
-        margin-top: 22px; line-height: 1.2; }}
+        margin-top: 22px; line-height: 1.2; }}{canvas_css}
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-width="1080" data-height="1920" data-duration="{total}" data-fps="30">
+    <div id="root" data-composition-id="main" data-width="{w}" data-height="{h}" data-duration="{total}" data-fps="30">
       <div id="bgfill" class="clip bg" data-start="0" data-duration="{total}" data-track-index="0"></div>
       {shots}
       <div id="vig" class="clip vignette" data-start="0" data-duration="{total}" data-track-index="2"></div>
@@ -337,5 +367,18 @@ TEMPLATE = """<!doctype html>
 """
 
 
+# 16:9 overrides: captions in the lower third, labels top-left, subscribe card top-right.
+LANDSCAPE_CSS = """
+      .cap {{ left: 200px; right: 200px; top: 790px; height: 190px; }}
+      .cap span {{ font-size: 92px; -webkit-text-stroke: 6px #000; }}
+      .nametag {{ top: 560px; height: 200px; }}
+      .nt-line {{ font-size: 76px; }}
+      .label {{ left: 64px; top: 60px; font-size: 28px; }}
+      .subbanner {{ left: auto; right: 60px; top: 56px; width: 640px; height: auto; }}
+      .sb-inner {{ margin: 0; padding: 22px 24px 26px; border-radius: 22px; }}
+      .sb-btn {{ font-size: 48px; padding: 6px 34px; border-radius: 12px; }}
+      .sb-text {{ font-size: 36px; margin-top: 14px; }}""".replace("{{", "{").replace("}}", "}")
+
+
 if __name__ == "__main__":
-    main(sys.argv[1], do_mix="--no-mix" not in sys.argv)
+    main(sys.argv[1], do_mix="--no-mix" not in sys.argv, landscape="--landscape" in sys.argv)

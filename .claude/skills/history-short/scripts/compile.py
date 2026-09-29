@@ -5,6 +5,7 @@ snapshots -> render -> upload encode (+ loudness fix, optional <30 MB preview).
   python compile.py <id> --check-only   # stop after lint + snapshots (review the contact sheet first)
   python compile.py <id> --draft        # quick draft render, no upload encode
   python compile.py <id> --preview      # also write renders/preview.mp4 under 30 MB
+  python compile.py <id> --landscape    # 1920x1080 long-form cut: hyperframes-16x9/, renders/*_16x9.mp4
 
 Other flags: --skip-ingest (don't re-run from_corpus.py), --no-mix (keep the existing audio mix).
 <id> can also be a path to the project directory.
@@ -59,6 +60,7 @@ def main():
     ap.add_argument("--preview", action="store_true")
     ap.add_argument("--skip-ingest", action="store_true")
     ap.add_argument("--no-mix", action="store_true")
+    ap.add_argument("--landscape", action="store_true")
     a = ap.parse_args()
 
     proj = Path(a.project)
@@ -67,7 +69,8 @@ def main():
     proj = proj.resolve()
     if not (proj / "short.json").exists():
         sys.exit(f"no short.json in {proj}")
-    hf, renders = proj / "hyperframes", proj / "renders"
+    tag = "_16x9" if a.landscape else ""
+    hf, renders = proj / ("hyperframes-16x9" if a.landscape else "hyperframes"), proj / "renders"
     renders.mkdir(exist_ok=True)
     total = json.loads((proj / "short.json").read_text())["total"]
 
@@ -79,7 +82,8 @@ def main():
         run(sys.executable, SCRIPTS / "from_corpus.py", proj, picks)
 
     step("build the HyperFrames composition")
-    run(sys.executable, SCRIPTS / "build_short.py", proj, *(["--no-mix"] if a.no_mix else []))
+    run(sys.executable, SCRIPTS / "build_short.py", proj, *(["--no-mix"] if a.no_mix else []),
+        *(["--landscape"] if a.landscape else []))
 
     step("lint")
     out = run("npx", "hyperframes", "lint", cwd=hf, capture=True)
@@ -99,14 +103,14 @@ def main():
         print("check-only: review the contact sheet (crops, dark shots, nudity), then re-run without --check-only")
         return
 
-    final = renders / ("draft.mp4" if a.draft else "final.mp4")
+    final = renders / (f"draft{tag}.mp4" if a.draft else f"final{tag}.mp4")
     step(f"render ({'draft' if a.draft else 'delivery'}) -> {final.name}")
     run("npx", "hyperframes", "render", "--quality", "draft" if a.draft else "delivery", "--output", final, cwd=hf)
     if a.draft:
         print(f"\ndone: {final}")
         return
 
-    upload = renders / "upload.mp4"
+    upload = renders / f"upload{tag}.mp4"
     step("upload encode")
     run("ffmpeg", "-v", "error", "-y", "-i", final, "-c:v", "libx264", "-preset", "slow", "-crf", 19,
         "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-c:a", "aac", "-b:a", "192k", upload)
@@ -115,7 +119,7 @@ def main():
     if lufs < MIN_LUFS:
         gain = TARGET_LUFS - lufs
         step(f"loudness fix: +{gain:.1f} dB with a limiter")
-        tmp = renders / "upload.tmp.mp4"
+        tmp = renders / f"upload{tag}.tmp.mp4"
         run("ffmpeg", "-v", "error", "-y", "-i", upload, "-c:v", "copy", "-af",
             f"volume={gain:.1f}dB,alimiter=limit=0.8:level=false", "-c:a", "aac", "-b:a", "192k",
             "-movflags", "+faststart", tmp)
@@ -128,7 +132,7 @@ def main():
         step("preview under 30 MB (2-pass)")
         dur = duration(upload)
         kbps = int(PREVIEW_MB * 8192 / dur - 160)
-        preview = renders / "preview.mp4"
+        preview = renders / f"preview{tag}.mp4"
         common = ["-c:v", "libx264", "-preset", "slow", "-b:v", f"{kbps}k", "-pix_fmt", "yuv420p"]
         run("ffmpeg", "-v", "error", "-y", "-i", upload, *common, "-pass", 1, "-passlogfile", renders / "ff2pass",
             "-an", "-f", "mp4", "/dev/null")
