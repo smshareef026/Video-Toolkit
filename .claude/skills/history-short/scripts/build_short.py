@@ -9,6 +9,8 @@ Then: cd projects/<id>/hyperframes && npx hyperframes lint && \
 
 See ../SKILL.md for the short.json format. Crop coords (cx, cy, h) are in the
 image's 800px-wide preview space: centre x, centre y, crop height.
+A shot key with assets/video/<key>.mp4 (archival film from the corpus) is cut as a
+video clip; an optional 6th shot field is its in-point in seconds.
 """
 import json
 import shutil
@@ -70,8 +72,12 @@ def mix_audio(proj, cfg, out):
     sh(*args, "-filter_complex", ";".join(fl), "-map", "[out]", "-t", total, "-ar", 44100, "-c:a", "pcm_s16le", out)
 
 
-def crop(img_dir, out_dir, name, cx, cy, h, idx):
-    src = img_dir / f"{name}.jpg"
+GRADE = ("eq=contrast=1.12:saturation=0.82:brightness=-0.05:gamma=0.92,"
+         "colorbalance=rs=0.04:gs=0.0:bs=-0.05:rm=0.03:bm=-0.03")
+
+
+def crop_box(src, cx, cy, h):
+    """Crop filter for a 9:16 window centred on (cx, cy) in 800px-preview coords."""
     dims = subprocess.check_output(["ffprobe", "-v", "error", "-select_streams", "v", "-show_entries",
                                     "stream=width,height", "-of", "csv=p=0", str(src)], text=True).strip()
     sw, shh = map(int, dims.split(",")[:2])
@@ -82,11 +88,22 @@ def crop(img_dir, out_dir, name, cx, cy, h, idx):
         cw, ch = sw, sw * 16 / 9
     x = min(max(cx * k - cw / 2, 0), sw - cw)
     y = min(max(cy * k - ch / 2, 0), shh - ch)
+    return f"crop={int(cw)}:{int(ch)}:{int(x)}:{int(y)},scale={W}:{H}:flags=lanczos,{GRADE}"
+
+
+def crop(img_dir, out_dir, name, cx, cy, h, idx):
+    src = img_dir / f"{name}.jpg"
     out = out_dir / f"s{idx:02d}_{name}.jpg"
-    vf = (f"crop={int(cw)}:{int(ch)}:{int(x)}:{int(y)},scale={W}:{H}:flags=lanczos,"
-          "eq=contrast=1.12:saturation=0.82:brightness=-0.05:gamma=0.92,"
-          "colorbalance=rs=0.04:gs=0.0:bs=-0.05:rm=0.03:bm=-0.03")
-    sh("ffmpeg", "-v", "error", "-y", "-i", src, "-vf", vf, "-q:v", 2, out)
+    sh("ffmpeg", "-v", "error", "-y", "-i", src, "-vf", crop_box(src, cx, cy, h), "-q:v", 2, out)
+    return out.name
+
+
+def crop_video(src, out_dir, name, cx, cy, h, idx, t_in, dur):
+    """Cut `dur` seconds of archival film from `t_in`, cropped, graded, 30 fps, silent."""
+    out = out_dir / f"s{idx:02d}_{name}.mp4"
+    sh("ffmpeg", "-v", "error", "-y", "-ss", t_in, "-i", src, "-t", dur, "-an",
+       "-vf", crop_box(src, cx, cy, h) + ",fps=30", "-c:v", "libx264", "-crf", 17,
+       "-preset", "fast", "-pix_fmt", "yuv420p", out)
     return out.name
 
 
@@ -137,13 +154,19 @@ def main(proj, do_mix=True):
     shots, tl = cfg["shots"], []
     chaos = cfg.get("chaos_window")
     shot_html = []
-    for idx, (start, name, cx, cy, h) in enumerate(shots):
+    for idx, (start, name, cx, cy, h, *rest) in enumerate(shots):
         end = shots[idx + 1][0] if idx + 1 < len(shots) else total
         dur = round(end - start, 3)
-        fn = crop(proj / "assets" / "images", shots_dir, name, cx, cy, h, idx)
         sid = f"shot{idx:02d}"
-        shot_html.append(f'<img id="{sid}" class="clip shot" src="shots/{fn}" '
-                         f'data-start="{start}" data-duration="{dur}" data-track-index="1" />')
+        video = proj / "assets" / "video" / f"{name}.mp4"
+        if video.exists():
+            fn = crop_video(video, shots_dir, name, cx, cy, h, idx, rest[0] if rest else 0, dur)
+            shot_html.append(f'<video id="{sid}" class="clip shot" src="shots/{fn}" muted playsinline '
+                             f'data-start="{start}" data-duration="{dur}" data-track-index="1"></video>')
+        else:
+            fn = crop(proj / "assets" / "images", shots_dir, name, cx, cy, h, idx)
+            shot_html.append(f'<img id="{sid}" class="clip shot" src="shots/{fn}" '
+                             f'data-start="{start}" data-duration="{dur}" data-track-index="1" />')
         drift = 18 if idx % 2 else -18  # 100% -> 108% zoom with a slight alternating drift
         tl.append(f'tl.fromTo("#{sid}",{{scale:1,x:0}},{{scale:1.08,x:{drift},duration:{dur},ease:"none"}},{start});')
         if chaos and chaos[0] <= start < chaos[1]:

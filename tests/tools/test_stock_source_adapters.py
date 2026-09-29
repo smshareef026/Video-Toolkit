@@ -7,8 +7,11 @@ from tools.video.stock_sources import SearchFilters, all_sources, get_source
 from tools.video.stock_sources.unsplash import _build_download_url, _orientation_for_unsplash
 from tools.video.stock_sources.wikimedia import (
     _build_search_queries,
+    _headers,
     _kind_from_mime,
+    _large_thumb_url,
     _meta_value,
+    _page_to_candidate,
 )
 
 
@@ -67,6 +70,65 @@ def test_wikimedia_kind_and_metadata_helpers():
     assert _kind_from_mime("video/webm", "File:foo.webm") == "video"
     assert _kind_from_mime("image/jpeg", "File:foo.jpg") == "image"
     assert _meta_value({"Artist": {"value": "<a href='/wiki/User:Test'>Test User</a>"}}, "Artist") == "Test User"
+
+
+def test_wikimedia_user_agent_carries_contact_and_token_only_on_api(monkeypatch):
+    monkeypatch.delenv("WIKIMEDIA_CONTACT", raising=False)
+    monkeypatch.delenv("WIKIMEDIA_ACCESS_TOKEN", raising=False)
+    assert "@" not in _headers("https://commons.wikimedia.org/w/api.php")["User-Agent"]
+
+    monkeypatch.setenv("WIKIMEDIA_CONTACT", "me@example.com")
+    monkeypatch.setenv("WIKIMEDIA_ACCESS_TOKEN", "tok")
+    api = _headers("https://commons.wikimedia.org/w/api.php")
+    assert api["User-Agent"].endswith("; me@example.com)")
+    assert api["Authorization"] == "Bearer tok"
+    assert "Authorization" not in _headers("https://upload.wikimedia.org/wikipedia/commons/a/ab/X.jpg")
+
+
+def test_wikimedia_drops_a_rejected_token_and_retries(monkeypatch):
+    from tools.video.stock_sources import wikimedia
+
+    class Resp:
+        def __init__(self, status):
+            self.status_code = status
+
+    sent = []
+
+    def fake_get(url, headers=None, **_kw):
+        sent.append("Authorization" in headers)
+        return Resp(401 if "Authorization" in headers else 200)
+
+    requests_stub = types.ModuleType("requests")
+    requests_stub.get = fake_get
+    monkeypatch.setitem(sys.modules, "requests", requests_stub)
+    monkeypatch.setattr(wikimedia, "_token_rejected", [False])
+    monkeypatch.setattr(wikimedia, "_MIN_INTERVAL", 0.0)
+    monkeypatch.setenv("WIKIMEDIA_ACCESS_TOKEN", "not-a-jwt")
+
+    with pytest.warns(UserWarning, match="rejected"):
+        assert wikimedia._get(wikimedia._API_URL).status_code == 200
+    assert sent == [True, False]
+
+
+def test_wikimedia_large_images_download_a_standard_thumb():
+    base = "https://upload.wikimedia.org/wikipedia/commons"
+    assert _large_thumb_url(f"{base}/thumb/a/ab/X.jpg/640px-X.jpg", 1920) == f"{base}/thumb/a/ab/X.jpg/1920px-X.jpg"
+    assert (_large_thumb_url(f"{base}/thumb/a/ab/X.tif/lossy-page1-640px-X.tif.jpg", 1920)
+            == f"{base}/thumb/a/ab/X.tif/lossy-page1-1920px-X.tif.jpg")
+    assert _large_thumb_url(f"{base}/a/ab/X.jpg", 1920) == ""
+
+    def page(width):
+        return {"title": "File:X.tif", "pageid": 7, "imageinfo": [{
+            "mime": "image/tiff", "width": width, "height": 3000,
+            "url": f"{base}/a/ab/X.tif",
+            "thumburl": f"{base}/thumb/a/ab/X.tif/lossy-page1-640px-X.tif.jpg",
+        }]}
+
+    big = _page_to_candidate(page(6000), SearchFilters(kind="image"))
+    assert big.download_url.endswith("lossy-page1-1920px-X.tif.jpg")
+    assert big.extra["original_url"] == f"{base}/a/ab/X.tif"
+    small = _page_to_candidate(page(1200), SearchFilters(kind="image"))
+    assert small.download_url == f"{base}/a/ab/X.tif"
 
 
 def test_unsplash_helpers_preserve_query_params():

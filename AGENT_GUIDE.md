@@ -648,7 +648,7 @@ For any brief that wants a **hand-drawn ink doodle** look — "a sketch that com
 
 ### History Shorts from real artwork → `/history-short`
 
-For the recurring vertical history Shorts (a pasted brief with scene prompts, a loop narration script, editing rules and title/tags), read **`.claude/skills/history-short/SKILL.md`** first. The channel owner wants **real public-domain artwork (Wikimedia Commons), never AI-generated images**. The skill covers their standing preferences, the full pipeline (ElevenLabs voice, Scribe word timings, Commons download, Pixabay music, SFX, HyperFrames render) and `scripts/build_short.py`, which builds the whole composition from one `short.json`.
+For the recurring vertical history Shorts (a pasted brief with scene prompts, a loop narration script, editing rules and title/tags), read **`.claude/skills/history-short/SKILL.md`** first. It runs on the **`documentary-montage`** pipeline: artwork and archival film are retrieved from a CLIP-searchable corpus (`corpus_builder` over Wikimedia Commons + Archive.org, ranked per shot with `clip_search`). The channel owner wants **real public-domain artwork, never AI-generated images**. The skill lists the channel's overrides to the documentary-montage directors (narration on, subscribe banner in place of the end tag, HyperFrames compose via `scripts/build_short.py`), plus the ElevenLabs voice, Scribe word timings, Pixabay music and SFX steps.
 
 ## Layer Map
 

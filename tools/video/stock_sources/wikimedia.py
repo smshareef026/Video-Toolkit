@@ -8,7 +8,10 @@ and educational media under one searchable catalogue.
 from __future__ import annotations
 
 import html
+import os
 import re
+import time
+import warnings
 from pathlib import Path
 from typing import Any
 
@@ -16,7 +19,20 @@ from .base import Candidate, SearchFilters
 
 
 _API_URL = "https://commons.wikimedia.org/w/api.php"
-_USER_AGENT = "OpenMontageBot/0.1 (https://github.com/calesthio/OpenMontage)"
+_USER_AGENT = "OpenMontageBot/0.2 (https://github.com/calesthio/OpenMontage)"
+# Commons rate-limits by client identity
+# (https://www.mediawiki.org/wiki/Wikimedia_APIs/Rate_limits). A User-Agent
+# without a contact counts as "IP only" (10 req/min, shared by everyone on
+# a cloud IP); adding WIKIMEDIA_CONTACT moves us to the identified tier, and
+# an optional WIKIMEDIA_ACCESS_TOKEN (OAuth 2.0 owner-only) goes higher.
+_MIN_INTERVAL = 0.35  # seconds between requests, under the identified tier
+_MAX_429_RETRIES = 4
+# Standard Commons thumbnail step used for image downloads. Originals of
+# museum scans are often 100+ MB TIFFs; 1920 px is plenty for a 1080p crop.
+_IMAGE_DOWNLOAD_WIDTH = 1920
+_THUMB_WIDTH_RE = re.compile(r"(/(?:[a-z]+-)?(?:page\d+-)?)\d+px-(?=[^/]*$)")
+_last_request = [0.0]
+_token_rejected = [False]
 _COMMONS_LICENSE = "Wikimedia Commons (verify per-file license)"
 _HTML_TAG_RE = re.compile(r"<[^>]+>")
 
@@ -38,6 +54,60 @@ _SOURCE_HINT_TOKENS = frozenset({
 })
 
 
+def _user_agent() -> str:
+    contact = os.environ.get("WIKIMEDIA_CONTACT", "").strip()
+    if not contact:
+        return _USER_AGENT
+    return _USER_AGENT.replace(")", f"; {contact})", 1)
+
+
+def _headers(url: str) -> dict[str, str]:
+    headers = {"User-Agent": _user_agent()}
+    token = os.environ.get("WIKIMEDIA_ACCESS_TOKEN", "").strip()
+    if token and not _token_rejected[0] and url.startswith(_API_URL):
+        headers["Authorization"] = f"Bearer {token}"  # API only, never the upload CDN
+    return headers
+
+
+def _get(url: str, **kwargs):
+    """Paced GET that honours Retry-After on 429. Other errors propagate."""
+    import requests  # lazy
+
+    resp = None
+    for _ in range(_MAX_429_RETRIES + 1):
+        time.sleep(max(0.0, _last_request[0] + _MIN_INTERVAL - time.time()))
+        _last_request[0] = time.time()
+        headers = _headers(url)
+        resp = requests.get(url, headers=headers, **kwargs)
+        status = getattr(resp, "status_code", 200)
+        if status == 401 and "Authorization" in headers:
+            # A client secret pasted in place of the owner-only access token
+            # (a JWT) makes every API call fail. Drop it and stay identified.
+            _token_rejected[0] = True
+            warnings.warn("WIKIMEDIA_ACCESS_TOKEN was rejected by Commons (401); "
+                          "continuing without it. It must be an OAuth 2.0 owner-only access token.")
+            continue
+        if status != 429:
+            return resp
+        resp_headers = getattr(resp, "headers", None) or {}
+        try:
+            wait = float(resp_headers.get("retry-after") or 15)
+        except (TypeError, ValueError):
+            wait = 15.0
+        if kwargs.get("stream"):
+            resp.close()
+        time.sleep(min(wait, 60.0) + 1)
+    return resp
+
+
+def _large_thumb_url(thumb_url: str, width: int) -> str:
+    """Rewrite a Commons thumb URL (``.../640px-Name.jpg``) to another width."""
+    if not thumb_url or "/thumb/" not in thumb_url:
+        return ""
+    new, n = _THUMB_WIDTH_RE.subn(lambda m: f"{m.group(1)}{width}px-", thumb_url, count=1)
+    return new if n else ""
+
+
 class WikimediaSource:
     """Adapter for Wikimedia Commons media search."""
 
@@ -46,7 +116,9 @@ class WikimediaSource:
     provider = "wikimedia"
     priority = 25
     install_instructions = (
-        "No setup required. Wikimedia Commons media search works without API keys."
+        "No setup required. Wikimedia Commons media search works without API keys. "
+        "Set WIKIMEDIA_CONTACT (an email or user page) to leave the shared "
+        "10 req/min IP-only rate-limit tier."
     )
     supports = {"video": True, "image": True}
 
@@ -65,8 +137,6 @@ class WikimediaSource:
         then narrows to 2 distinctive tokens, then to 1 — returning the
         first non-empty video result set.
         """
-        import requests  # lazy
-
         for _label, search_text in _build_search_queries(query, filters.kind):
             params = {
                 "action": "query",
@@ -83,12 +153,7 @@ class WikimediaSource:
             }
 
             try:
-                r = requests.get(
-                    _API_URL,
-                    params=params,
-                    headers={"User-Agent": _USER_AGENT},
-                    timeout=30,
-                )
+                r = _get(_API_URL, params=params, timeout=30)
                 r.raise_for_status()
                 data = r.json()
             except Exception:
@@ -109,25 +174,28 @@ class WikimediaSource:
         return []
 
     def download(self, candidate: Candidate, out_path: Path) -> Path:
-        import requests  # lazy
-
         if not candidate.download_url:
             raise ValueError(f"Candidate {candidate.clip_id} has no download_url")
 
         out_path = Path(out_path)
         out_path.parent.mkdir(parents=True, exist_ok=True)
 
-        with requests.get(
-            candidate.download_url,
-            stream=True,
-            timeout=300,
-            headers={"User-Agent": _USER_AGENT},
-        ) as r:
-            r.raise_for_status()
-            with open(out_path, "wb") as f:
-                for chunk in r.iter_content(chunk_size=1 << 16):
-                    if chunk:
-                        f.write(chunk)
+        urls = [candidate.download_url]
+        original = (candidate.extra or {}).get("original_url")
+        if original and original != candidate.download_url:
+            urls.append(original)  # the large thumb 404s on some odd formats
+        for i, url in enumerate(urls):
+            try:
+                with _get(url, stream=True, timeout=300) as r:
+                    r.raise_for_status()
+                    with open(out_path, "wb") as f:
+                        for chunk in r.iter_content(chunk_size=1 << 16):
+                            if chunk:
+                                f.write(chunk)
+                return out_path
+            except Exception:
+                if i == len(urls) - 1:
+                    raise
         return out_path
 
 
@@ -233,12 +301,16 @@ def _page_to_candidate(page: dict[str, Any], filters: SearchFilters) -> Candidat
     title = page.get("title", "")
     page_id = str(page.get("pageid") or title.replace("File:", "", 1))
     source_url = info.get("descriptionurl") or page.get("canonicalurl") or ""
+    original_url = info.get("url", "") or ""
+    download_url = original_url
+    if kind == "image" and width > _IMAGE_DOWNLOAD_WIDTH:
+        download_url = _large_thumb_url(info.get("thumburl", ""), _IMAGE_DOWNLOAD_WIDTH) or original_url
 
     return Candidate(
         source=WikimediaSource.name,
         source_id=page_id,
         source_url=source_url,
-        download_url=info.get("url", "") or "",
+        download_url=download_url,
         kind=kind,
         width=width,
         height=height,
@@ -250,6 +322,7 @@ def _page_to_candidate(page: dict[str, Any], filters: SearchFilters) -> Candidat
         extra={
             "mime": mime,
             "title": title,
+            "original_url": original_url,
             "mediatype": info.get("mediatype"),
             "descriptionshorturl": info.get("descriptionshorturl"),
         },
