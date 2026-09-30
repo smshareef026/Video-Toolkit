@@ -298,7 +298,7 @@ def main(proj, do_mix=True, landscape=False):
         b0 = bn["start"]
         extras += (f'\n      <div id="subbanner" class="clip subbanner" data-start="{b0}" data-duration="{round(total - b0, 2)}" '
                    f'data-track-index="5">\n        <div class="sb-inner"><div class="sb-btn">{bn.get("button", "SUBSCRIBE")}</div>\n'
-                   f'        <div class="sb-text">{bn["text"]}</div></div>\n      </div>')
+                   f'        <div class="sb-text">{bn.get("text", "For More History Uncovered With Real&nbsp;Images&nbsp;🚨")}</div></div>\n      </div>')
         tl.append(f'tl.from("#subbanner .sb-inner",{{y:80,opacity:0,duration:0.5,ease:"back.out(1.6)"}},{b0});')
         pulses = max(1, int((total - b0 - 0.6) / 0.9) * 2 - 1)
         tl.append(f'tl.fromTo("#subbanner .sb-btn",{{scale:1}},{{scale:1.08,duration:0.45,yoyo:true,repeat:{pulses},ease:"sine.inOut"}},{b0 + 0.6});')
