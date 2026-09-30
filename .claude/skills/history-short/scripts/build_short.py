@@ -268,7 +268,11 @@ def main(proj, do_mix=True, landscape=False):
 
     cap_html = []
     words = proj / cfg.get("words", "artifacts/words_raw.json")
-    for j, (txt, s, e, col) in enumerate(caption_chunks(words, cfg.get("highlights", {}), total)):
+    chunks = caption_chunks(words, cfg.get("highlights", {}), total)
+    extra = [(x[0], x[1], x[2], None) for x in cfg.get("extra_captions", [])]  # [text, start, end]: subtitles after the narration
+    if extra:  # narration captions must not run into them
+        chunks = [(tx, s, min(e, extra[0][1]), c) for tx, s, e, c in chunks] + extra
+    for j, (txt, s, e, col) in enumerate(chunks):
         cid = f"cap{j:03d}"
         style = ""  # captions are always white (channel rule); highlights only keep a phrase together
         cap_html.append(f'<div id="{cid}" class="clip cap" data-start="{s}" data-duration="{round(e - s, 3)}" '

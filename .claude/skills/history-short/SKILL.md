@@ -228,6 +228,7 @@ python .claude/skills/history-short/scripts/compile.py <id> --landscape --skip-i
  "particles": {"style": "dust", "count": 36, "opacity": 1.0},  // optional; or "embers", or false
  "highlights": {"lock you inside": "", "unhinged": ""},   // phrases kept as one caption chunk; the value is ignored
  "nametag": {"start": 15.2, "duration": 2.1, "title": "ELAGABALUS", "sub": "EMPEROR OF ROME · 218–222 AD"},
+ "extra_captions": [["For More History Uncovered", 39.55, 41.0]],   // optional: white subtitle chunks [text, start, end] after the narration ends (extend "total" to fit)
  "banner": {"start": 62.0, "end": 66.4, "style": "footnote", "button": "🚨 [ SUBSCRIBE ]"},   // text optional; end optional (defaults to the video end)
  "labels": [{"start": 0.0, "duration": 4.0, "text": "AUTHENTIC ROMAN BUST"}],  // optional small top-left Cinzel tags
  "music": {"file": "assets/music/bg.mp3", "gain_db": -14, "gap": [43.0, 45.3]},
