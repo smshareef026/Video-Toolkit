@@ -296,11 +296,14 @@ def main(proj, do_mix=True, landscape=False):
     bn = cfg.get("banner")
     if bn:
         b0 = bn["start"]
-        extras += (f'\n      <div id="subbanner" class="clip subbanner" data-start="{b0}" data-duration="{round(total - b0, 2)}" '
+        b1 = bn.get("end", total)  # optional end (s), e.g. so the banner is gone when the loop frame returns
+        fn = bn.get("style") == "footnote"  # quiet documentary-footnote look: text line above a crimson button, fade-in
+        extras += (f'\n      <div id="subbanner" class="clip subbanner{" footnote" if fn else ""}" data-start="{b0}" data-duration="{round(b1 - b0, 2)}" '
                    f'data-track-index="5">\n        <div class="sb-inner"><div class="sb-btn">{bn.get("button", "SUBSCRIBE")}</div>\n'
-                   f'        <div class="sb-text">{bn.get("text", "For More History Uncovered With Real&nbsp;Images&nbsp;🚨")}</div></div>\n      </div>')
-        tl.append(f'tl.from("#subbanner .sb-inner",{{y:80,opacity:0,duration:0.5,ease:"back.out(1.6)"}},{b0});')
-        pulses = max(1, int((total - b0 - 0.6) / 0.9) * 2 - 1)
+                   f'        <div class="sb-text">{bn.get("text", "For More History Uncovered With Real Images")}</div></div>\n      </div>')
+        anim = '{opacity:0,duration:0.6,ease:"power1.out"}' if fn else '{y:80,opacity:0,duration:0.5,ease:"back.out(1.6)"}'
+        tl.append(f'tl.from("#subbanner .sb-inner",{anim},{b0});')
+        pulses = max(1, int((b1 - b0 - 0.6) / 0.9) * 2 - 1)
         tl.append(f'tl.fromTo("#subbanner .sb-btn",{{scale:1}},{{scale:1.08,duration:0.45,yoyo:true,repeat:{pulses},ease:"sine.inOut"}},{b0 + 0.6});')
 
     html = TEMPLATE.format(w=W, h=H, canvas_css=(LANDSCAPE_CSS if landscape else "") + (cfg.get("extra_css", "") if not landscape else ""), total=total, shots="\n      ".join(shot_html), caps="\n      ".join(cap_html),
@@ -348,7 +351,12 @@ TEMPLATE = """<!doctype html>
       .sb-btn {{ display: inline-block; background: #e3171d; color: #fff; font-family: "Anton", sans-serif;
         font-size: 64px; letter-spacing: 3px; padding: 10px 46px; border-radius: 16px; }}
       .sb-text {{ font-family: "Cinzel", serif; font-weight: 700; font-size: 54px; color: #f4e9d2;
-        margin-top: 22px; line-height: 1.2; }}{canvas_css}
+        margin-top: 22px; line-height: 1.2; }}
+      .subbanner.footnote {{ top: 1474px; height: 200px; }}
+      .footnote .sb-inner {{ background: none; border: none; padding: 0; margin: 0 60px; display: flex;
+        flex-direction: column-reverse; align-items: center; }}
+      .footnote .sb-text {{ font-size: 35px; white-space: nowrap; color: #ffffff; margin: 0 0 20px; letter-spacing: 1px; text-shadow: 0 3px 14px #000; }}
+      .footnote .sb-btn {{ background: #ff0000; font-size: 56px; box-shadow: 0 4px 18px rgba(0,0,0,0.6); }}{canvas_css}
     </style>
   </head>
   <body>
