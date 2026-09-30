@@ -81,7 +81,7 @@ def mix_audio(proj, cfg, out):
     total = cfg["total"]
     music = cfg["music"]
     inputs = [proj / cfg.get("narration", "assets/audio/narration.mp3"), proj / music["file"]]
-    fl = ["[0:a]loudnorm=I=-16:TP=-2:LRA=11,aresample=44100,aformat=channel_layouts=stereo,apad=pad_dur=0.5[v]"]
+    fl = [f"[0:a]loudnorm=I=-16:TP=-2:LRA=11,aresample=44100,aformat=channel_layouts=stereo,apad=whole_dur={total}[v]"]  # pad to the full video so SFX/voice after the narration aren't cut off
     gap = music.get("gap")
     gap_expr = f",volume='if(between(t,{gap[0]},{gap[1]}),0,1)':eval=frame" if gap else ""
     fo = music.get("fade_out")
