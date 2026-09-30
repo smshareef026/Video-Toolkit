@@ -16,10 +16,10 @@ This is the house recipe for the user's recurring history Shorts channel. The fi
   Only fix clear factual errors, and tell the user what you changed.
   Example: Elagabalus was 14 at accession, not in 221 AD, so "In 221 AD" became "According to ancient Roman writers".
 - **Captions are always plain white** (black stroke), never coloured highlight words. The user asked for this.
-- Every **Short** (not long-form) ends with a quiet on-screen "footnote" CTA, never spoken:
-  line 1 in pure white **"For More History Uncovered With Real Images"**, line 2 a crimson (#FF0000) **"🚨 [ SUBSCRIBE ]"** button, centred at about y 0.82 (captions sit at y 0.68 just above).
-  It fades in about 5 s before the end and is **gone at the loop point** (`banner.end` = the time the opening frame returns), so the reset is invisible.
-  Set `"banner": {"start": .., "end": .., "style": "footnote", "button": "🚨 [ SUBSCRIBE ]"}`; the text defaults to the line above. Put a sword-swipe SFX on `banner.start`.
+- Every **Short** (not long-form) ends with the closing CTA **"For More History Uncovered With Real Images"** (the default `banner.text`):
+  the original boxed card (pulsing red SUBSCRIBE button on top, pop-in), from about 7 s before the end to the end (`"banner": {"start": ..}`), plus a sword-swipe SFX on `banner.start`.
+  The user later asked for the closing line to be **spoken and subtitled after the narration's last word**: generate "For more history uncovered with real images. Subscribe." with `elevenlabs_tts` (Brian, same settings, ~55 chars), run Scribe on it for word timings, add it to `sfx` (`volume` ≈ 2.7 to match the voice), and add white `extra_captions` chunks synced to it; extend `total` to fit. This means the Short no longer loops seamlessly. Note the free-plan credit cost.
+  (A quieter `"style": "footnote"` banner with `banner.end` also exists if the user asks for it.)
   Put the same line at the end of the upload description. Long-form videos don't get this banner.
   It is **on screen only, never spoken**, so the loop ending still flows back into the first line.
 - Runtime: **HyperFrames** (the user chose it). Output 1080×1920, 30 fps.
