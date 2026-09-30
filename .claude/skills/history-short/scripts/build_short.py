@@ -16,6 +16,8 @@ video clip; an optional 6th shot field is its in-point in seconds.
 --landscape reuses the same short.json. Each crop keeps its vertical extent and widens to
 16:9 around the same centre; when the image is too narrow for that (busts, statues),
 the crop sits centred over a blurred, darkened copy of itself instead of being cut.
+If projects/<id>/short_16x9.json exists, --landscape uses it instead of short.json (e.g. a long-form
+ending with a spoken call to action while the Short keeps its loop).
 "crops_16x9" in short.json overrides the 16:9 crop per image name or shot index:
 {"camuccini": [cx, cy, h], "12": [cx, cy, h]} (h = crop height, width = h*16/9).
 Widening can bring back what a 9:16 crop excluded, so re-check the contact sheet for nudity.
@@ -82,8 +84,10 @@ def mix_audio(proj, cfg, out):
     fl = ["[0:a]loudnorm=I=-16:TP=-2:LRA=11,aresample=44100,aformat=channel_layouts=stereo,apad=pad_dur=0.5[v]"]
     gap = music.get("gap")
     gap_expr = f",volume='if(between(t,{gap[0]},{gap[1]}),0,1)':eval=frame" if gap else ""
+    fo = music.get("fade_out")
+    fade_out = f",afade=t=out:st={total - fo}:d={fo}" if fo else ""
     fl.append(f"[1:a]atrim=0:{total + 0.1},loudnorm=I=-24:TP=-2,aresample=44100,aformat=channel_layouts=stereo,"
-              f"volume={music.get('gain_db', -14)}dB{gap_expr},afade=t=in:st=0:d=0.5[m]")
+              f"volume={music.get('gain_db', -14)}dB{gap_expr},afade=t=in:st=0:d=0.5{fade_out}[m]")
     labels = ["[v]", "[m]"]
     for i, s in enumerate(cfg.get("sfx", [])):
         inputs.append(proj / s["file"])
@@ -222,7 +226,8 @@ def main(proj, do_mix=True, landscape=False):
     if landscape:
         W, H = 1920, 1080
     proj = Path(proj).resolve()
-    cfg = json.loads((proj / "short.json").read_text())
+    cfg_file = proj / "short_16x9.json" if landscape and (proj / "short_16x9.json").exists() else proj / "short.json"
+    cfg = json.loads(cfg_file.read_text())
     total = cfg["total"]
     hf = proj / ("hyperframes-16x9" if landscape else "hyperframes")
     wide = cfg.get("crops_16x9", {}) if landscape else {}

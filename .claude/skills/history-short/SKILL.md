@@ -189,6 +189,11 @@ python .claude/skills/history-short/scripts/compile.py <id> --landscape --skip-i
   Review every wide crop, not just the 12-frame contact sheet: `hyperframes-16x9/shots/*.jpg`.
   Fix problems with `"crops_16x9": {"<image or shot index>": [cx, cy, h]}` in `short.json`.
 - Captions sit in the lower third, labels top-left, and the subscribe card top-right.
+- Long-form doesn't loop, so the Short's loop ending sounds cut off there. For a proper ending, voice only the new tail
+  (ElevenLabs `previous_text` = the script before it, same voice settings) and splice it after the last full sentence
+  in a natural pause. Re-run Scribe on the spliced file, then write `short_16x9.json` with its own `narration`,
+  `words`, `total`, closing shots, banner start and `music.fade_out`. `--landscape` uses `short_16x9.json` when it
+  exists; the Short keeps `short.json` and its loop.
 - Long-form needs a custom 1280×720 thumbnail: public-domain art plus a short headline, never show stills.
   Build it as a one-frame HyperFrames page and `npx hyperframes snapshot` it.
 

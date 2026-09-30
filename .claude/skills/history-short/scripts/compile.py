@@ -72,7 +72,8 @@ def main():
     tag = "_16x9" if a.landscape else ""
     hf, renders = proj / ("hyperframes-16x9" if a.landscape else "hyperframes"), proj / "renders"
     renders.mkdir(exist_ok=True)
-    total = json.loads((proj / "short.json").read_text())["total"]
+    cfg_file = proj / "short_16x9.json" if a.landscape and (proj / "short_16x9.json").exists() else proj / "short.json"
+    total = json.loads(cfg_file.read_text())["total"]
 
     picks = proj / "picks.json"
     if a.skip_ingest or not picks.exists():
