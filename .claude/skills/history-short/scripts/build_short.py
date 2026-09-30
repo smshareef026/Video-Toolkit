@@ -303,7 +303,7 @@ def main(proj, do_mix=True, landscape=False):
         pulses = max(1, int((total - b0 - 0.6) / 0.9) * 2 - 1)
         tl.append(f'tl.fromTo("#subbanner .sb-btn",{{scale:1}},{{scale:1.08,duration:0.45,yoyo:true,repeat:{pulses},ease:"sine.inOut"}},{b0 + 0.6});')
 
-    html = TEMPLATE.format(w=W, h=H, canvas_css=LANDSCAPE_CSS if landscape else "", total=total, shots="\n      ".join(shot_html), caps="\n      ".join(cap_html),
+    html = TEMPLATE.format(w=W, h=H, canvas_css=(LANDSCAPE_CSS if landscape else "") + (cfg.get("extra_css", "") if not landscape else ""), total=total, shots="\n      ".join(shot_html), caps="\n      ".join(cap_html),
                            particles=particles,
                            extras=extras, timeline="\n      ".join(tl))
     (hf / "index.html").write_text(html)
