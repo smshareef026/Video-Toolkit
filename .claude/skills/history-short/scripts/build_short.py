@@ -303,7 +303,16 @@ def main(proj, do_mix=True, landscape=False):
         pulses = max(1, int((total - b0 - 0.6) / 0.9) * 2 - 1)
         tl.append(f'tl.fromTo("#subbanner .sb-btn",{{scale:1}},{{scale:1.08,duration:0.45,yoyo:true,repeat:{pulses},ease:"sine.inOut"}},{b0 + 0.6});')
 
-    html = TEMPLATE.format(w=W, h=H, canvas_css=LANDSCAPE_CSS if landscape else "", total=total, shots="\n      ".join(shot_html), caps="\n      ".join(cap_html),
+    # Optional portrait layout overrides (fractions of canvas height = centre line of the element).
+    extra_css = ""
+    if not landscape:
+        if cfg.get("caption_y"):
+            extra_css += f"\n      .cap {{ top: {round(cfg['caption_y'] * H - 100)}px; }}"
+        if bn and bn.get("y"):
+            extra_css += f"\n      .subbanner {{ top: {round(bn['y'] * H - bn.get('h_px', 330) / 2)}px; }}"
+        if bn and bn.get("font_px"):
+            extra_css += f"\n      .sb-text {{ font-size: {bn['font_px']}px; }}"
+    html = TEMPLATE.format(w=W, h=H, canvas_css=(LANDSCAPE_CSS if landscape else "") + extra_css, total=total, shots="\n      ".join(shot_html), caps="\n      ".join(cap_html),
                            particles=particles,
                            extras=extras, timeline="\n      ".join(tl))
     (hf / "index.html").write_text(html)
