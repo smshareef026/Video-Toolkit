@@ -93,6 +93,14 @@ class FreesoundMusic(BaseTool):
                 "type": "string",
                 "description": "File path to save the downloaded MP3",
             },
+            "license": {
+                "type": "string",
+                "enum": ["any", "cc0", "cc0_or_by"],
+                "default": "any",
+                "description": "Restrict results by licence: 'cc0' needs no credit; "
+                               "'cc0_or_by' also allows CC BY (credit required). "
+                               "'any' includes CC BY-NC, which is not for monetized use.",
+            },
         },
     }
 
@@ -100,7 +108,7 @@ class FreesoundMusic(BaseTool):
         cpu_cores=1, ram_mb=256, vram_mb=0, disk_mb=50, network_required=True
     )
     retry_policy = RetryPolicy(max_retries=2, retryable_errors=["rate_limit", "timeout"])
-    idempotency_key_fields = ["query", "min_duration", "max_duration"]
+    idempotency_key_fields = ["query", "min_duration", "max_duration", "license"]
     side_effects = ["writes audio file to output_path", "calls Freesound API"]
     user_visible_verification = [
         "Listen to downloaded track for mood and quality",
@@ -108,6 +116,11 @@ class FreesoundMusic(BaseTool):
     ]
 
     _BASE_URL = "https://freesound.org/apiv2"
+    _LICENSE_FILTERS = {
+        "any": "",
+        "cc0": 'license:"Creative Commons 0"',
+        "cc0_or_by": 'license:("Creative Commons 0" OR "Attribution")',
+    }
 
     def get_status(self) -> ToolStatus:
         if os.environ.get("FREESOUND_API_KEY"):
@@ -163,7 +176,7 @@ class FreesoundMusic(BaseTool):
                 "query": inputs["query"],
                 "output": str(output_path),
                 "format": "mp3",
-                "license": "Creative Commons (check individual sound license)",
+                "license": sound.get("license") or "Creative Commons (check individual sound license)",
                 "freesound_url": f"https://freesound.org/people/{sound.get('username', '')}/sounds/{sound.get('id', '')}/",
                 "results_found": len(search_result),
             },
@@ -178,11 +191,16 @@ class FreesoundMusic(BaseTool):
         min_dur = inputs.get("min_duration", 30)
         max_dur = inputs.get("max_duration", 120)
 
+        search_filter = f"duration:[{min_dur} TO {max_dur}]"
+        licence_filter = self._LICENSE_FILTERS.get(inputs.get("license", "any"), "")
+        if licence_filter:
+            search_filter += f" {licence_filter}"
+
         params = urllib.parse.urlencode({
             "query": query,
-            "filter": f"duration:[{min_dur} TO {max_dur}]",
+            "filter": search_filter,
             "sort": "rating_desc",
-            "fields": "id,name,duration,previews,tags,avg_rating,username",
+            "fields": "id,name,duration,previews,tags,avg_rating,username,license",
             "token": api_key,
             "page_size": 15,
         })

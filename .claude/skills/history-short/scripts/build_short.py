@@ -194,7 +194,8 @@ def caption_chunks(words_file, highlights, total):
     toks = [(w["text"], w["start"], w["end"]) for w in raw["words"] if w["type"] == "word"]
     norm = lambda s: s.lower().strip(".,:;!?'\"")
     starts_phrase = lambda i: next(((p, c) for p, c in highlights.items()
-                                    if " ".join(norm(t[0]) for t in toks[i:i + len(p.split())]) == p), None)
+                                    if " ".join(norm(t[0]) for t in toks[i:i + len(p.split())])
+                                    == " ".join(norm(w) for w in p.split())), None)
     chunks, i = [], 0
     while i < len(toks):
         hit = starts_phrase(i)

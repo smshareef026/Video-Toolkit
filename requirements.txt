@@ -5,6 +5,7 @@ jsonschema>=4.20
 python-dotenv>=1.0
 Pillow>=10.0
 numpy>=1.24
+opencv-python-headless>=4.8  # image/video decoding in corpus_builder (stock montage corpus)
 requests>=2.31
 google-auth>=2.0       # service-account auth for Google TTS + Imagen (Vertex AI)
 google-genai>=1.0.0    # Gemini Developer API clients for Lyria, Veo, and Gemini Omni
