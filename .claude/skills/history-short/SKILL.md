@@ -360,6 +360,10 @@ Keep the source crop at roughly 600 px tall or more.
 The Derinkuyu Short (46 s cut, spoken CTA, 2 hours, 1,770 views): 56.4% stayed vs swiped away, average view duration 35 s (77.3%),
 59 likes, +7 subscribers, 1 comment. Retention once people stay is strong; the first-seconds swipe-away is the problem, and
 comments are low. The follow-ups: a brighter first frame with a caption from frame 1, a 25 s loop cut, and a pinned theory question.
+Later reading (same 46 s cut, more views): 3,067 views, 59.3% stayed, average view duration 39 s (84.9%), 85 likes, 1 share, few comments.
+It out-pulled the channel's other recent Shorts in views (about 1.6k each), and the stayed rate improved (56.4% to 59.3%) as it reached more people.
+Stayed ratios the user's best Shorts reach are ~65-70%, which is the target to beat. A 46 s Short already holds ~85% of viewers, so length wasn't the problem:
+the opening second is. The 25-30 s loop format is a test of whether the loop pushes average viewed past 100%; don't claim it's better until the numbers say so.
 Two hours is a small sample, so say so. When the user pastes analytics (or another tool's feedback), first check it is about this video:
 one pasted note mentioned a "Mesopotamian script" and "receding river" that belong to a different Short.
 Don't copy a suggested hook that is longer than the 2 s rule. Log new results here so the recipe keeps improving.
