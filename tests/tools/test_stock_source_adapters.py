@@ -72,6 +72,14 @@ def test_wikimedia_kind_and_metadata_helpers():
     assert _meta_value({"Artist": {"value": "<a href='/wiki/User:Test'>Test User</a>"}}, "Artist") == "Test User"
 
 
+def test_wikimedia_meta_value_drops_embedded_style_blocks():
+    raw = ('<style data-mw-deduplicate="x">.mw-parser-output table.commons-file-information-table'
+           '{border:1px solid #a2a9b1}</style><p>Amarna letter from Tushratta</p>')
+    assert _meta_value({"ImageDescription": {"value": raw}}, "ImageDescription") == "Amarna letter from Tushratta"
+    escaped = "&lt;style&gt;.mw-parser-output{color:red}&lt;/style&gt;Mosul Dam"
+    assert _meta_value({"ImageDescription": {"value": escaped}}, "ImageDescription") == "Mosul Dam"
+
+
 def test_wikimedia_user_agent_carries_contact_and_token_only_on_api(monkeypatch):
     monkeypatch.delenv("WIKIMEDIA_CONTACT", raising=False)
     monkeypatch.delenv("WIKIMEDIA_ACCESS_TOKEN", raising=False)

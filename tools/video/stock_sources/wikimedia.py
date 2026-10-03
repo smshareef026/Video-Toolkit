@@ -40,6 +40,9 @@ _last_request = [0.0]
 _token_rejected = [False]
 _COMMONS_LICENSE = "Wikimedia Commons (verify per-file license)"
 _HTML_TAG_RE = re.compile(r"<[^>]+>")
+# Commons extmetadata can embed <style>/<script> blocks (e.g. the file-information
+# table CSS); drop them whole so their contents never reach source_tags.
+_HTML_BLOCK_RE = re.compile(r"<(style|script)\b[^>]*>.*?</\1\s*>", re.IGNORECASE | re.DOTALL)
 
 # Stop words stripped from multi-term queries before the cascade runs.
 # Commons' CirrusSearch defaults to AND semantics across multi-word
@@ -362,7 +365,9 @@ def _meta_value(meta: dict[str, Any], key: str) -> str:
     raw = ((meta.get(key) or {}).get("value")) or ""
     if not raw:
         return ""
-    text = html.unescape(str(raw))
+    text = _HTML_BLOCK_RE.sub(" ", str(raw))
+    text = html.unescape(text)
+    text = _HTML_BLOCK_RE.sub(" ", text)
     text = _HTML_TAG_RE.sub(" ", text)
     text = re.sub(r"\s+", " ", text).strip()
     return text

@@ -86,7 +86,8 @@ Keep the summaries brief: the standing preferences above are already approved, s
 Follow `idea-director.md`, with these fixed choices from the channel:
 - **Narration: yes.** The loop script, word for word, is an explicit user request.
   This overrides the pipeline's "no narration by default" rule, so record it as user-approved.
-- `music_plan`: `generated` via the `pixabay_music` tool (free, no attribution).
+- `music_plan`: Freesound CC0 via the `freesound_music` tool with `license: "cc0"` (free, no credit needed).
+  In the cloud container Pixabay returns HTTP 403 to every request (Cloudflare blocks the IP), so don't plan on `pixabay_music` there.
 - `end_tag_plan: null`, with `end_tag_opt_out_reason`: "replaced by the channel's on-screen subscribe banner".
 - **Runtime: HyperFrames.** The user chose it, and this Short is built by `build_short.py`.
   It doesn't use the Remotion `CinematicRenderer` or its end-tag overlay, which are why the manifest defaults to Remotion.
@@ -164,7 +165,9 @@ or `{"clip": id, "in": 12.5, "slot": "slot_07"}` for a film clip), then:
   `asset_manifest.json` entry per pick. Entries already there, such as narration, music and SFX, are kept.
 
 **Music + SFX** (add them to `asset_manifest.json` as `music` / `sfx` entries):
-- Music: `pixabay_music` tool, e.g. `query="dark epic cinematic suspense", min_duration=70` → `assets/music/bg.mp3`.
+- Music: `freesound_music` tool with `license: "cc0"`, e.g. `query="dark ambient drone cinematic", min_duration=65, max_duration=300` → `assets/music/bg.mp3`.
+  Check the returned `license` and `name`: skip horror tracks with jump scares, which fight the narration.
+  `pixabay_music` works only off-cloud. Freesound previews are 128 kbps MP3, which is fine under a voice.
 - SFX: ElevenLabs `POST /v1/sound-generation` with `duration_seconds` 2-5 and `prompt_influence` 0.5.
   A typical set is door slam, low lion growl, crash-and-screams chaos and deep boom.
 
@@ -218,7 +221,9 @@ python .claude/skills/history-short/scripts/compile.py <id> --landscape --skip-i
   `words`, `total`, closing shots, banner start and `music.fade_out`. `--landscape` uses `short_16x9.json` when it
   exists; the Short keeps `short.json` and its loop.
 - Long-form needs a custom 1280×720 thumbnail: public-domain art plus a short headline, never show stills.
-  Build it as a one-frame HyperFrames page and `npx hyperframes snapshot` it.
+  Build it as a one-frame HyperFrames page and `npx hyperframes snapshot --describe false` it.
+- Any manual `npx hyperframes snapshot` call needs `--describe false`. Without it, the CLI sends the frames to Gemini
+  whenever `GEMINI_API_KEY` is set. `compile.py` already passes it.
 
 ## Editing rules baked into build_short.py
 - Every shot gets a camera move, rotating through push-in, pan left, pull-out, tilt up, push-in, pan right, pull-out
