@@ -303,7 +303,7 @@ def main(proj, do_mix=True, landscape=False):
         pulses = max(1, int((total - b0 - 0.6) / 0.9) * 2 - 1)
         tl.append(f'tl.fromTo("#subbanner .sb-btn",{{scale:1}},{{scale:1.08,duration:0.45,yoyo:true,repeat:{pulses},ease:"sine.inOut"}},{b0 + 0.6});')
 
-    html = TEMPLATE.format(w=W, h=H, canvas_css=LANDSCAPE_CSS if landscape else "", total=total, shots="\n      ".join(shot_html), caps="\n      ".join(cap_html),
+    html = TEMPLATE.format(w=W, h=H, canvas_css=LANDSCAPE_CSS if landscape else layout_css(cfg.get("layout"), H), total=total, shots="\n      ".join(shot_html), caps="\n      ".join(cap_html),
                            particles=particles,
                            extras=extras, timeline="\n      ".join(tl))
     (hf / "index.html").write_text(html)
@@ -370,6 +370,17 @@ TEMPLATE = """<!doctype html>
   </body>
 </html>
 """
+
+
+def layout_css(layout, H):
+    """Optional 9:16 placement overrides from short.json "layout": the vertical centre of the
+    captions, nametag and subscribe banner as a fraction of the canvas height, e.g.
+    {"caption_y": 0.68, "nametag_y": 0.56, "banner_y": 0.82}."""
+    if not layout:
+        return ""
+    boxes = {"caption_y": (".cap", 200), "nametag_y": (".nametag", 220), "banner_y": (".subbanner", 330)}
+    css = [f"\n      {sel} {{ top: {round(layout[k] * H - box / 2)}px; }}" for k, (sel, box) in boxes.items() if k in layout]
+    return "".join(css)
 
 
 # 16:9 overrides: captions in the lower third, labels top-left, subscribe card top-right.

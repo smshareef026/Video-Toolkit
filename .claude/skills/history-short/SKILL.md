@@ -16,7 +16,8 @@ This is the house recipe for the user's recurring history Shorts channel. The fi
   Only fix clear factual errors, and tell the user what you changed.
   Example: Elagabalus was 14 at accession, not in 221 AD, so "In 221 AD" became "According to ancient Roman writers".
 - **Captions are always plain white** (black stroke), never coloured highlight words. The user asked for this.
-- Always add an on-screen closing banner: **"Subscribe for more such interesting videos"** with a pulsing red SUBSCRIBE button, over the last ~7 s.
+- Always add an on-screen closing banner: **"Subscribe for more History Uncovered Videos With Real Images."** with a pulsing red SUBSCRIBE button, over the last ~7 s.
+  Use this exact text in every video (the user set it in Oct 2026), even if a brief proposes different banner wording.
   It is **on screen only, never spoken**, so the loop ending still flows back into the first line.
 - Runtime: **HyperFrames** (the user chose it). Output 1080×1920, 30 fps.
 - The script usually runs longer than the brief's scene timings (~160 words ≈ 69 s).
@@ -45,6 +46,16 @@ Keep the summaries brief: the standing preferences above are already approved, s
   Target runtime is **~47 s**. Brian runs about 2.3 words/s (160 words ≈ 69 s), so 47 s ≈ 110 words.
   When you write or rework a script, aim for that. A pasted script stays word for word per the preferences above.
   If it runs well past 47 s, state the estimated length at the stop and let the user decide whether to cut.
+- **First 2 seconds (`idea`, user rule, Oct 2026).** Open on the most startling mystery or statement, never on
+  environmental context or scene-setting.
+  - Weak: "An unprecedented drought just forced the river to recede..." (context first, payoff later).
+  - Strong: "A 3,400-year-old lost empire just emerged from underwater..." (the shock is the first thing heard).
+  - Lead with the subject plus the strangest fact, put the cause (drought, excavation, discovery) second, and keep the first sentence ≤ ~5 s.
+  - When you write a script, open this way. When a pasted script opens with context, keep it word for word but
+    propose a front-loaded rewrite of the first line at the `idea` stop and let the user pick.
+    Check that the loop tail still flows into the new first line.
+  - The first shot is the most visually startling hero image (ruins breaking the water, the bust, the twist painting), not an establishing shot.
+    The first caption chunk carries the shock words.
 - **Shot list (`scene_plan`).** A visual change (a new image, a new crop or a new camera move) at least every 2-2.5 s.
   Nothing holds longer than 2.5 s.
 - **Assets and crops (`assets`, `edit`).** Prefer high-contrast portraits, busts and battle or crowd scenes.
@@ -224,7 +235,7 @@ python .claude/skills/history-short/scripts/compile.py <id> --landscape --skip-i
  "particles": {"style": "dust", "count": 36, "opacity": 1.0},  // optional; or "embers", or false
  "highlights": {"lock you inside": "", "unhinged": ""},   // phrases kept as one caption chunk; the value is ignored
  "nametag": {"start": 15.2, "duration": 2.1, "title": "ELAGABALUS", "sub": "EMPEROR OF ROME · 218–222 AD"},
- "banner": {"start": 62.0, "text": "Subscribe for more such interesting videos"},
+ "banner": {"start": 62.0, "text": "Subscribe for more History Uncovered Videos With Real Images."},
  "labels": [{"start": 0.0, "duration": 4.0, "text": "AUTHENTIC ROMAN BUST"}],  // optional small top-left Cinzel tags
  "music": {"file": "assets/music/bg.mp3", "gain_db": -14, "gap": [43.0, 45.3]},
  "sfx": [{"file": "assets/audio/sfx_door.mp3", "at": 4.4, "volume": 0.9},
