@@ -1,12 +1,15 @@
 ---
 name: history-short
-description: Make a 9:16 YouTube Short / Reel about a history story using REAL public-domain artwork and archival film (no AI images), found through OpenMontage's documentary-montage pipeline (CLIP-searchable corpus over Wikimedia Commons + Archive.org), with an ElevenLabs narrator, SFX, music, 1-3 word pop captions and a subscribe end banner, rendered with HyperFrames. Use when the user pastes a history-shorts brief (scene prompts, loop script, editing rules, title/tags) or asks for a "history short", "dark history reel", "ancient Rome short", etc.
+description: Make a 9:16 YouTube Short / Reel about a history story using REAL public-domain artwork and archival film (no AI images), found through OpenMontage's documentary-montage pipeline (CLIP-searchable corpus over Wikimedia Commons + Archive.org), with an ElevenLabs narrator, SFX, music, 1-3 word pop captions and a subscribe end banner, rendered with HyperFrames. Use when the user pastes a history-shorts brief (scene prompts, loop script, editing rules, title/tags), gives just a topic ("write the script for this short: <title>"), or asks for a "history short", "dark history reel", "ancient Rome short", "hidden city short", etc. Works for places and sites (photos) as well as artwork.
 ---
 
 # History Short (real artwork, not AI images)
 
-This is the house recipe for the user's recurring history Shorts channel. The first one was "Elagabalus lion dinner" (Sept 2026).
-`example_short.json` and `example_UPLOAD.md` in this folder are that video's real config and upload kit.
+This is the house recipe for the user's recurring history Shorts channel. The first one was "Elagabalus lion dinner" (Sept 2026),
+the second "They Found a Hidden City Under Their Living Room" (Derinkuyu, Oct 2026; photos of a place, not artwork).
+`example_short.json` and `example_UPLOAD.md` in this folder are the first video's real config and upload kit.
+The user often gives only a title ("write the script for this short: ..."). Then you write the script yourself to the
+30-second blueprint below, stop at the `idea` gate, and carry on stage by stage.
 
 ## User preferences (standing, don't re-ask)
 - **Real images only. Never use AI image generation**, even if the brief contains AI image prompts, so YouTube doesn't flag the video as AI.
@@ -19,9 +22,18 @@ This is the house recipe for the user's recurring history Shorts channel. The fi
 - Always add an on-screen closing banner: **"Subscribe for more History Uncovered Videos With Real Images."** with a pulsing red SUBSCRIBE button, over the last ~7 s.
   Use this exact text in every video (the user set it in Oct 2026), even if a brief proposes different banner wording.
   It is **on screen only, never spoken**, so the loop ending still flows back into the first line.
+  The user's 30-second blueprint (Oct 2026) says the same: no spoken "subscribe". (On the Derinkuyu Short the user first
+  asked for a spoken CTA near the end, then for an ending that doesn't cut off, then adopted the blueprint, so the latest
+  rule wins. If they ask for a spoken CTA again, do it, and keep the looping cut as a spare.)
+  The 7 s banner covers ~28% of a 25 s Short, including the payoff line. Offer a shorter banner (~3.5 s) if end drop-off shows up in analytics, but don't change it unasked.
 - Runtime: **HyperFrames** (the user chose it). Output 1080×1920, 30 fps.
-- The script usually runs longer than the brief's scene timings (~160 words ≈ 69 s).
-  Keep the full script and stretch the visuals to the voice length. Don't trim.
+- **Default format: the 30-second blueprint** (user, Oct 2026). Scripts are **75-85 words**, voiced by Brian at **speed 1.15**
+  (about 2.65 words/s, so 77 words ≈ 24 s and 85 words ≈ 29 s). The shot cadence is **a new image or crop every 1.5-2.0 s**
+  (about 15-20 changes), there is **no spoken CTA**, and the ending is the seamless-loop clause. The reason the user gives:
+  a viewer who is pulled into watching the start twice pushes average percentage viewed past 100%.
+  Treat that as the user's strategy, not a verified fact: the tier and view-count numbers in it are unconfirmed, so say so if asked.
+- Longer scripts: if the user pastes one (~160 words ≈ 69 s), keep it word for word and stretch the visuals to the voice length. Don't trim.
+  State the estimated length at the `idea` stop and offer the 30 s blueprint as an alternative.
 
 ## Pipeline: `documentary-montage`
 This skill runs on OpenMontage's **Documentary Montage** pipeline (`pipeline_defs/documentary-montage.yaml`).
@@ -43,19 +55,30 @@ Keep the summaries brief: the standing preferences above are already approved, s
 
 **What to check at each stop** (the user's channel strategy):
 - **Script (`idea`).** The hook in the first line must grab: historical irony, a bizarre death or an ancient scandal.
-  Target runtime is **~47 s**. Brian runs about 2.3 words/s (160 words ≈ 69 s), so 47 s ≈ 110 words.
-  When you write or rework a script, aim for that. A pasted script stays word for word per the preferences above.
-  If it runs well past 47 s, state the estimated length at the stop and let the user decide whether to cut.
+  Target runtime for scripts you write is **~25-30 s, 75-85 words** (see the 30-second blueprint above). Brian at speed 1.0 runs
+  about 2.3 words/s; at 1.15 about 2.65. Aim for 77-85 words and check the real length once the voice exists.
+  A pasted script stays word for word per the preferences above. If it runs well past 30 s, state the estimated
+  length at the stop and let the user decide whether to cut.
+  A script with a lot of facts tempts you to list them. Keep one twist (a detail that reverses what the viewer expects)
+  and a teaser line for it early ("But the strangest part is the doors."), then pay it off before the loop clause.
 - **First 2 seconds (`idea`, user rule, Oct 2026).** Open on the most startling mystery or statement, never on
   environmental context or scene-setting.
   - Weak: "An unprecedented drought just forced the river to recede..." (context first, payoff later).
   - Strong: "A 3,400-year-old lost empire just emerged from underwater..." (the shock is the first thing heard).
-  - Lead with the subject plus the strangest fact, put the cause (drought, excavation, discovery) second, and keep the first sentence ≤ ~5 s.
+  - Lead with the subject plus the strangest fact, put the cause (drought, excavation, discovery) second.
+    **The spoken hook must be finished within ~2 s** (user, Oct 2026: viewers decide to stay or swipe in the first 2 s).
+    Example: "A city was hiding under his living room." ends at 1.7 s. A 6-second hook sentence is too slow.
+  - Measured on the 46 s Derinkuyu Short: 56.4% stayed (43.6% swiped away) even with that 1.7 s hook, while average view
+    duration was 77%. So the swipe decision is made on what is **seen and heard in the first second**, not on the wording.
   - When you write a script, open this way. When a pasted script opens with context, keep it word for word but
     propose a front-loaded rewrite of the first line at the `idea` stop and let the user pick.
     Check that the loop tail still flows into the new first line.
   - The first shot is the most visually startling hero image (ruins breaking the water, the bust, the twist painting), not an establishing shot.
     The first caption chunk carries the shock words.
+  - **First frame: bright, high contrast, one clear subject.** The Derinkuyu Short opened on a dark green tunnel and lost
+    44% in the first seconds. Pick the first image by how it looks as a thumbnail on a phone, not by how well it matches the sentence.
+    Cut inside the first second (a second crop of the same image works) and use a loud sound hit on the first word.
+    Show the caption from frame 1, as a chunk of the hook ("A CITY", then "UNDER HIS LIVING ROOM").
 - **Seamless loop (`idea` → `compose`, user rule, Oct 2026).** No outro. The last line is an unfinished clause that
   completes *into* the opening sentence, so the replay sounds like one continuous thought and retention can pass 100%.
   - Pattern: "...which explains why" + [restart] "a 3,400-year-old lost empire just emerged from underwater...".
@@ -68,14 +91,19 @@ Keep the summaries brief: the standing preferences above are already approved, s
     No fade to black, no music fade at the cut (leave `music.fade_out` unset; it's for the long-form cut), and
     `total` ≈ narration length + ~0.3 s so there's no dead air.
     At compose, compare the first and last frames and confirm the voice stops mid-clause.
-- **Shot list (`scene_plan`).** A visual change (a new image, a new crop or a new camera move) at least every 2-2.5 s.
-  Nothing holds longer than 2.5 s.
+- **Shot list (`scene_plan`).** A visual change (a new image, a new crop or a new camera move) at least every 1.5-2.0 s on the
+  30 s format (2.5 s is the hard ceiling for longer scripts). Count about 15-20 changes for 25-30 s. The chaos burst
+  (0.5 s hard cuts) counts as 4-5 of them.
 - **Assets and crops (`assets`, `edit`).** Prefer high-contrast portraits, busts and battle or crowd scenes.
   Avoid text-heavy maps, documents and low-contrast images, which read badly on a phone.
 
 ### Setup (cloud container)
 - `apt-get install -y ffmpeg`
-- `pip install -r requirements.txt`. `corpus_builder` also needs `torch` + `transformers` for CLIP (CPU is fine).
+- `make setup` (creates `.venv`, installs requirements, Remotion, Piper and warms HyperFrames). Then run everything with `.venv/bin/python`
+  and `export PYTHONPATH=.` (so `lib` and `tools` import).
+- `corpus_builder` also needs `torch` + `transformers` for CLIP. Not in requirements.txt. Install the CPU build:
+  `.venv/bin/python -m pip install torch --index-url https://download.pytorch.org/whl/cpu && .venv/bin/python -m pip install transformers pillow`
+  (use `python -m pip`; the venv has no `bin/pip` shim).
 - `npx -y hyperframes@latest browser ensure`
 - Only `ELEVENLABS_API_KEY`, `PEXELS_API_KEY` and `UNSPLASH_ACCESS_KEY` have real values (plus `WIKIMEDIA_CONTACT` if the user has added it).
   The other provider keys are set but empty, so check lengths before trusting the registry.
@@ -95,6 +123,15 @@ Follow `idea-director.md`, with these fixed choices from the channel:
   "user's standing choice is HyperFrames; build_short.py composition has no Remotion dependency".
 - `era_mix`: `vintage`. `sources_allowed`: `["wikimedia", "archive_org"]`. Canvas 1080×1920, 30 fps.
 - Script → `artifacts/script.txt` (only clear factual fixes, reported to the user).
+- **Schema notes** (saves a failed write): `brief.schema.json` is generic and `additionalProperties: false`. Required:
+  `version "1.0"`, `title`, `hook`, `key_points[]`, `tone`, `style`, `target_platform` (enum: youtube...), `target_duration_seconds`.
+  Put everything documentary-specific (`thematic_question`, `music_plan`, `end_tag_plan`, `narration`, `render_runtime`, `era_mix`,
+  `sources_allowed`) in `metadata`. The `decision_log` goes in the checkpoint's `artifacts` as `{"decision_log": {...}}`;
+  its `category` must be from the schema enum (`render_runtime_selection`, `voice_selection`, `music_source`, ...).
+  Write checkpoints with `write_checkpoint(Path("projects"), id, stage, status, {"brief": brief, "decision_log": dl},
+  pipeline_type="documentary-montage", human_approval_required=True, human_approved=<bool>)`. Stage names are
+  `idea, scene_plan, assets, edit, compose`. A gated stage can only be `completed` with `human_approved=True`, so only set
+  that after the user has approved (their "start generating" or "approved" after you stopped counts for that stage only).
 
 ### 2. `scene_plan` → `artifacts/scene_plan.json`
 Treat the brief's `[scene]` prompts as the shot list. Each becomes one slot in `metadata.slots[]`:
@@ -104,17 +141,28 @@ Treat the brief's `[scene]` prompts as the shot list. Each becomes one slot in `
   "Roses of Heliogabalus Alma-Tadema", "Gerome lion colosseum", "Elagabalus bust Capitoline".
 - `preferred_sources`: `["wikimedia"]` for paintings, busts and coins.
   Add `archive_org` only for subjects that were **filmed** (roughly 1900 onward: wars, expeditions, disasters).
-- Slots last 1-2.5 s, so a ~47 s script needs ~20-25 slots (~70 s needs ~25-35). Several slots can reuse one artwork with different crops.
-  Mark the bust close-up (nametag shot) and the twist image as `hero`.
+- Slots last 1.5-2.0 s on the 30 s format, so a 25-30 s script needs ~15-20 slots (~70 s needs ~30). Several slots can reuse one
+  image with different crops, and the last slot reuses slot 1 (loop). Mark the bust close-up (nametag shot) and the twist image as `hero`.
+- **Places and sites** (a ruin, a city, a cave): the corpus will be modern photographs, not paintings. Write descriptions as photos
+  ("narrow carved stone tunnel, arched ceiling, warm lamp light"), query by the site name plus part ("Derinkuyu tunnel",
+  "Derinkuyu stone door"), and add 2-3 context slots for the wider story (the region, a related period's fresco or manuscript).
+  Wikimedia has few photos of specific interior parts (stables, kitchens, wine cellars): plan to reuse related-site images
+  and say so in `metadata.rejected_picks` and to the user.
 
 ### 3. `assets` → corpus, voice, music, SFX, `artifacts/asset_manifest.json`
 Use the asset director's **standard path** (corpus + CLIP retrieval).
 
 **Voice first, in parallel with the corpus build:**
 - Voice: registry tool `elevenlabs_tts` (`registry._tools['elevenlabs_tts'].execute({...})`).
-  Use voice **Brian** `nPczCjzI2devNBz1zQrb`, `eleven_multilingual_v2`, stability 0.45, speed 1.0 → `assets/audio/narration.mp3`.
+  Use voice **Brian** `nPczCjzI2devNBz1zQrb`, `eleven_multilingual_v2`, stability 0.45, **speed 1.15** for the 30 s format
+  (1.0 only for long pasted scripts; the tool accepts 0.7-1.2) → `assets/audio/narration.mp3`.
   The user's ElevenLabs is on the **free plan** (10k chars/month, no commercial licence), so check credits first with
-  `GET /v1/user/subscription`.
+  `GET /v1/user/subscription` (`character_count` / `character_limit`). One 80-word script is ~500-700 characters, and
+  sound effects also draw on the allowance.
+- **Don't re-voice to drop or change the last words.** Cut the existing file with ffmpeg at the end of the last wanted word plus
+  ~0.3 s and a short fade (`-t <end> -af afade=t=out:st=<end-0.3>:d=0.3`), remove the dropped words from `words_raw.json`
+  (keep the whole `words` list, filter on `start`), and reduce `short.json` `total`. Save the originals first.
+  Re-voice only when the wording itself changes (and keep the old file as `narration_<tag>.mp3`).
 - Word timings: ElevenLabs Scribe, `POST /v1/speech-to-text` with `model_id=scribe_v1`,
   `timestamps_granularity=word` → `artifacts/words_raw.json`. They drive captions, shot timing and SFX placement.
 
@@ -142,13 +190,26 @@ registry._tools["corpus_builder"].execute({
 - Never `pkill -f` a pattern that matches your own shell command. It kills the shell.
 
 **Pick per slot.** Run `clip_search` `stats` first (aim for 5-8× the unique-artwork count).
-Then, per slot, run `rank_for_slot` with the slot **description** plus `kind: "image"`.
+Then, per slot, run `rank_for_slot` with `query_text` = the slot **description** (the parameter is `query_text`, not `slot_description`) plus `kind: "image"`.
+**Scores don't discriminate**: for photos they sit around 0.3-0.45 for everything, and the top 5 are often near-duplicates of one
+image. So build labelled contact sheets of the whole corpus and choose by eye:
+`.venv/bin/python .claude/skills/history-short/scripts/corpus_sheets.py <id>` (20 tiles per sheet, each labelled with the clip id and
+Commons file title; open every sheet with Read). The corpus also contains junk the queries pulled in (subway stations, a London
+memorial): ignore it.
 Use `kind: "video"` with `motion_min: 1.5` for film slots.
 Use `tag_weight: 0.4`, since Commons titles and descriptions name the painting and artist, which helps.
 Choose from the top 3-5 by judgement, and open the thumbnails with Read:
-- Right subject and era. No modern reenactment photos or AI-looking art.
+- Right subject and era. No modern reenactment photos or AI-looking art. Avoid modern tourists in the frame.
 - **No nudity.** Many of these paintings have nudes. Crop around them or pick another.
 - Has a region that survives a 9:16 crop.
+- **Bright and readable on a phone.** Skip near-black shots (a shaft photo that is 90% black), blurry close-ups of featureless rock
+  and smooth stone surfaces (a close crop of a stone door face renders as a blank orange/grey wall: crop wide enough to show
+  the door's edge, its hole, the groove or the sign). Prefer a clear subject with an edge or light source.
+- **Check the licence text, not just the tag.** Run `.venv/bin/python .claude/skills/history-short/scripts/check_credits.py <id>` after
+  materializing the picks. It flags licences that aren't CC0 / public domain / CC BY(-SA) and long or restrictive author notes.
+  (One Commons author's note said their CC BY-SA photos must not be used in social media; both pictures were swapped out.
+  Same-author alternatives and other photos of the same thing are usually available.) Replace anything flagged and re-run
+  `from_corpus.py`.
 - Score under ~0.22 means grow the corpus with better queries (named works, artists, museum + object).
   Two growth passes, then tell the user the shot has no good open-licence match.
 - Log passes in `metadata.rejected_picks`.
@@ -165,17 +226,36 @@ or `{"clip": id, "in": 12.5, "slot": "slot_07"}` for a film clip), then:
   `asset_manifest.json` entry per pick. Entries already there, such as narration, music and SFX, are kept.
 
 **Music + SFX** (add them to `asset_manifest.json` as `music` / `sfx` entries):
-- Music: `freesound_music` tool with `license: "cc0"`, e.g. `query="dark ambient drone cinematic", min_duration=65, max_duration=300` → `assets/music/bg.mp3`.
-  Check the returned `license` and `name`: skip horror tracks with jump scares, which fight the narration.
+- Music: `freesound_music` tool with `license: "cc0"`, e.g. `query="dark ambient drone cinematic", min_duration=50, max_duration=300` → `assets/music/bg.mp3`.
+  The tool returns only the top hit per call, so try 3-4 queries into `cand_*.mp3` and choose. Check the returned `license`, `name` and `tags`:
+  skip horror tracks with jump scares, and anything with nature sounds (a "cave scape" track had birds and waves).
+  Measure candidates before choosing: `ffmpeg -i f.mp3 -af silencedetect=n=-40dB:d=2 -f null -` (no long silent intros) and
+  `ebur128` (steady loudness; LRA under ~4 LU is steady under a voice). Queries that worked: "suspense dark ambient pad",
+  "dark cinematic drone tension". Delete the unused candidates.
   `pixabay_music` works only off-cloud. Freesound previews are 128 kbps MP3, which is fine under a voice.
 - SFX: ElevenLabs `POST /v1/sound-generation` with `duration_seconds` 2-5 and `prompt_influence` 0.5.
-  A typical set is door slam, low lion growl, crash-and-screams chaos and deep boom.
+  A typical set is door slam, low lion growl, crash-and-screams chaos and deep boom. For a place story: low rumble, stone grinding,
+  deep boom, air whoosh (2-3 s each; four effects cost well under 300 characters of the allowance).
+  Place them on the exact spoken words from `words_raw.json`: rumble on word 1, the grind on the twist noun, the boom on the last
+  words of the payoff line, with a short music `gap` right before that line.
 
 ### 4. `edit` → `projects/<id>/short.json` + `artifacts/edit_decisions.json`
 `short.json` is this Short's timeline (format below). Shots change on phrase boundaries from `words_raw.json`,
 and SFX land on the exact spoken word, not on the brief's nominal timestamps.
 Also write `edit_decisions.json` per `edit-director.md`, with `renderer_family: "documentary-montage"`,
 one cut per shot (clip_id, in/out and a one-line reason), the music config, and `end_tag: null` with the opt-out note.
+Required keys are `version`, `cuts[]` (each `id`, `source`, `in_seconds`, `out_seconds`) and `render_runtime`; put the rest in `metadata`.
+
+**Timeline recipe for the 30 s format** (from the Derinkuyu Short, ~25 s, 20 shots):
+- 0.0 hero image wide, ~0.95 a tight crop of the same image, then a new image every 1.4-2.0 s on phrase boundaries from `words_raw.json`.
+- Crops: landscape previews (800×600) use `h` = 600 (full height) and a `cx` you choose; portrait previews can use `h` up to the
+  image height. Read the previews first and pick `cx, cy` from where the subject actually is.
+- Chaos burst (`chaos_window`, ~2 s) on the twist line, with 4-5 shots of 0.5 s each from 2-3 different door/twist images
+  (not the same blank crop).
+- `labels` (small top-left tags, ~2-2.8 s each) with 4-5 facts timed to the narration: year/place, depth, capacity, the twist.
+- `highlights`: 4-6 shock phrases that should stay on one caption chunk ("a city", "living room", "never got in").
+- `banner.start` = `total` - 7. `music.gap` is a ~0.5 s silence just before the payoff line. Leave `music.fade_out` unset.
+- Last shot = shot 1's image with a nearby crop (loop).
 
 ### 5. `compose` → `renders/upload.mp4` + `artifacts/render_report.json`
 Everything after the edit is one command, `scripts/compile.py`:
@@ -187,18 +267,32 @@ python .claude/skills/history-short/scripts/compile.py <id> --skip-ingest --prev
    It stops on any lint error; the "track too dense" and "nested structure" warnings are fine.
    Then it takes 12 evenly spaced snapshots and prints the contact-sheet paths.
    Read the sheets and look for bad crops, unreadable dark shots and nudity. Fix `short.json` or `picks.json`, then re-run.
-   This review can't be automated, so never skip it.
+   This review can't be automated, so never skip it. The 12-frame sheet samples only a few instants, so for the chaos burst and
+   the first 2 seconds also check the frames at the cut times (`ffmpeg -ss <t> -i renders/upload.mp4 -frames:v 1 f.jpg`).
+   Fix blank/dark crops by changing `[cx, cy, h]` or the image, then re-run `--check-only` (about 20 s) before the real render.
 2. **Render.** The full run renders at delivery quality (about 4 min for 70 s on CPU) → `renders/final.mp4`.
    It re-encodes `renders/upload.mp4` (`crf 19`, `+faststart`, AAC 192k) and measures loudness.
    Under −15 LUFS it remuxes with `volume=+NdB,alimiter=limit=0.8:level=false` to about −14 LUFS
    (not single-pass loudnorm, which overshot to +3 dBTP).
    `--preview` also writes a 2-pass `renders/preview.mp4` under 30 MB for SendUserFile, or skips it when the upload already fits.
    `--draft` does a quick draft render only. `--no-mix` keeps the existing audio mix.
+   Run the render with `nohup ... > render.log &` and wait with `until grep -qE "^done:|failed|Traceback" render.log; do sleep 15; done`
+   in a background command. Don't wait with `pgrep -f <script>`: the waiting shell's own command line matches the pattern, so it never exits.
+   A 25 s Short renders in ~2 min and a 46 s one in ~3-4 min on CPU. Narration changes need a full re-run without `--no-mix`.
+   Before delivering a loop cut, extract frame 0 and the frame near the end: they must be the same picture, and the voice must stop mid-clause.
 3. **Deliver.**
    - Write `render_report.json` with `music_mixed: true`, `end_tag_rendered: false` plus the banner opt-out note,
      and `render_runtime: "hyperframes"`.
    - Write `renders/UPLOAD.md` with the title, a description (source note plus all credits from `image_credits.json`,
      CC BY-SA ones by name and URL), tags, the AI-voice disclosure note and the free-plan licence warning.
+     Also give the user, in chat: **3 title options** (specific and story-like, e.g. "They Found a Hidden City Under Their Living Room #shorts"),
+     the description (hook line, 2-sentence story, an "accounts vary" line when sources disagree, the on-banner subscribe line, the
+     "images are real photographs, narration is an AI voice" line, 3-5 hashtags, music credit), a **pinned comment** (an either/or or
+     theory question such as "What do you think they were trying to lock out?"), and a comma-separated tag list (put the proper-noun
+     spelling people search for in the title and tags). Hidden tags matter little for Shorts; title and the first 2 seconds matter most.
+   - Keep earlier cuts as `renders/upload_<tag>.mp4` (e.g. `upload_46s.mp4`, `upload_25s_loop.mp4`) so the user can compare versions,
+     and update UPLOAD.md for the cut that is the current `upload.mp4`.
+   - Send the user `preview.mp4` (or `upload.mp4` when it's under 30 MB) with SendUserFile.
    - `projects/` is gitignored and the cloud container is ephemeral. Tell the user to download the files.
 
 ### Optional: 16:9 long-form version
@@ -262,6 +356,14 @@ python .claude/skills/history-short/scripts/compile.py <id> --landscape --skip-i
 The shot's `h` is the crop height in preview pixels; the width is h×9/16. A small `h` means a tight crop, which upscales and gets soft.
 Keep the source crop at roughly 600 px tall or more.
 
+## Reading the first analytics (what we have so far)
+The Derinkuyu Short (46 s cut, spoken CTA, 2 hours, 1,770 views): 56.4% stayed vs swiped away, average view duration 35 s (77.3%),
+59 likes, +7 subscribers, 1 comment. Retention once people stay is strong; the first-seconds swipe-away is the problem, and
+comments are low. The follow-ups: a brighter first frame with a caption from frame 1, a 25 s loop cut, and a pinned theory question.
+Two hours is a small sample, so say so. When the user pastes analytics (or another tool's feedback), first check it is about this video:
+one pasted note mentioned a "Mesopotamian script" and "receding river" that belong to a different Short.
+Don't copy a suggested hook that is longer than the 2 s rule. Log new results here so the recipe keeps improving.
+
 ## Honesty notes to pass on each time
 - Motion and particles make the Short look better. They don't make it exempt from YouTube's "reused/repetitive content"
   policy, which is a review of whether a video adds original value. What qualifies these Shorts is their original
@@ -270,3 +372,7 @@ Keep the source crop at roughly 600 px tall or more.
   It's the user's call.
 - Monetized channel → a paid ElevenLabs plan is needed for commercial use.
 - Many ancient anecdotes (e.g. the *Historia Augusta*) are unreliable. Suggest "ancient sources claim…" wording where it fits.
+- Discovery stories and figures for sites (who found it, depth, capacity, dates) vary between sources. Use "roughly", "up to", and
+  "historians still argue" in the script, and put an "accounts vary" line in the description.
+- The retention-tier / 100% / seed-pool numbers in the user's 30 s blueprint are unverified. Say so rather than promising reach or subscribers.
+- Don't count the images' "real photo" status as a licence: run `check_credits.py` and list CC BY-SA credits in the description.
