@@ -46,6 +46,16 @@ Keep the summaries brief: the standing preferences above are already approved, s
   Target runtime is **~47 s**. Brian runs about 2.3 words/s (160 words ≈ 69 s), so 47 s ≈ 110 words.
   When you write or rework a script, aim for that. A pasted script stays word for word per the preferences above.
   If it runs well past 47 s, state the estimated length at the stop and let the user decide whether to cut.
+- **First 2 seconds (`idea`, user rule, Oct 2026).** Open on the most startling mystery or statement, never on
+  environmental context or scene-setting.
+  - Weak: "An unprecedented drought just forced the river to recede..." (context first, payoff later).
+  - Strong: "A 3,400-year-old lost empire just emerged from underwater..." (the shock is the first thing heard).
+  - Lead with the subject plus the strangest fact, put the cause (drought, excavation, discovery) second, and keep the first sentence ≤ ~5 s.
+  - When you write a script, open this way. When a pasted script opens with context, keep it word for word but
+    propose a front-loaded rewrite of the first line at the `idea` stop and let the user pick.
+    Check that the loop tail still flows into the new first line.
+  - The first shot is the most visually startling hero image (ruins breaking the water, the bust, the twist painting), not an establishing shot.
+    The first caption chunk carries the shock words.
 - **Shot list (`scene_plan`).** A visual change (a new image, a new crop or a new camera move) at least every 2-2.5 s.
   Nothing holds longer than 2.5 s.
 - **Assets and crops (`assets`, `edit`).** Prefer high-contrast portraits, busts and battle or crowd scenes.
