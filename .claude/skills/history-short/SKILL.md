@@ -56,6 +56,18 @@ Keep the summaries brief: the standing preferences above are already approved, s
     Check that the loop tail still flows into the new first line.
   - The first shot is the most visually startling hero image (ruins breaking the water, the bust, the twist painting), not an establishing shot.
     The first caption chunk carries the shock words.
+- **Seamless loop (`idea` → `compose`, user rule, Oct 2026).** No outro. The last line is an unfinished clause that
+  completes *into* the opening sentence, so the replay sounds like one continuous thought and retention can pass 100%.
+  - Pattern: "...which explains why" + [restart] "a 3,400-year-old lost empire just emerged from underwater...".
+    Good bridges: "which explains why", "and that's exactly why", "because", "which is how".
+  - Test at the `idea` stop: read the tail followed by the first sentence aloud as one sentence. It must be grammatical
+    and make sense. If you change the opening (e.g. the hook-first rewrite), rewrite the tail to match.
+  - No spoken outro or call to subscribe before the tail. The banner does that job on screen. If a pasted script has
+    one, keep it word for word but point out at the `idea` stop that it breaks the loop and offer a version without it.
+  - Edit and compose: the last shot is the first shot's image (same picture, a nearby crop) so the cut back is invisible.
+    No fade to black, no music fade at the cut (leave `music.fade_out` unset; it's for the long-form cut), and
+    `total` ≈ narration length + ~0.3 s so there's no dead air.
+    At compose, compare the first and last frames and confirm the voice stops mid-clause.
 - **Shot list (`scene_plan`).** A visual change (a new image, a new crop or a new camera move) at least every 2-2.5 s.
   Nothing holds longer than 2.5 s.
 - **Assets and crops (`assets`, `edit`).** Prefer high-contrast portraits, busts and battle or crowd scenes.
